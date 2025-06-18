@@ -332,7 +332,7 @@ public static class ExcelHelper
 	}
 
 	// 智能类型转换方法
-	private static object ConvertValue(string value, string propertyName)
+	private static Godot.Variant ConvertValue(string value, string propertyName)
 	{
 		if (string.IsNullOrEmpty(value))
 			return "";

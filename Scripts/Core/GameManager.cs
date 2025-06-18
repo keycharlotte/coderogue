@@ -46,6 +46,7 @@ namespace CodeRogue.Core
             {
                 Instance = this;
                 InitializeGame();
+                InitializeCoreGameplay(); // 新增
             }
             else
             {
@@ -53,10 +54,26 @@ namespace CodeRogue.Core
             }
         }
         
+        private void InitializeCoreGameplay()
+        {
+            // 初始化单词管理器
+            var wordManager = new WordManager();
+            AddChild(wordManager);
+            
+            // 初始化输入管理器
+            var inputManager = new InputManager();
+            AddChild(inputManager);
+        }
+        
         private void InitializeGame()
         {
-            _uiManager = GetNode<UIManager>("UIManager");
-            _audioManager = GetNode<AudioManager>("AudioManager");
+            // 修改：使用相对于父节点的路径
+            _uiManager = GetNode<UIManager>("../UIManager");
+            _audioManager = GetNode<AudioManager>("../AudioManager");
+            
+            // 或者使用绝对路径（更安全）
+            // _uiManager = GetNode<UIManager>("/root/Main/UIManager");
+            // _audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
             
             // 初始化游戏数据
             if (GameData == null)
@@ -79,6 +96,7 @@ namespace CodeRogue.Core
             GetTree().Paused = true;
             _uiManager?.ShowPauseMenu();
         }
+        
         
         public void ResumeGame()
         {

@@ -4,12 +4,25 @@ public partial class EnemyView : Node2D
 {
     private Sprite2D _sprite;
     private Label _nameLabel;
+    private RichTextLabel _wordLabel;  // 改为RichTextLabel支持富文本
     private ProgressBar _healthBar;
     private EnemyModel _model;
+    private string _currentWord = "";
+    
+    public string CurrentWord 
+    { 
+        get => _currentWord;
+        set
+        {
+            _currentWord = value;
+            UpdateWordDisplay(""); // 初始化时没有高亮
+        }
+    }
     
     public override void _Ready()
     {
         SetupVisualComponents();
+        AssignRandomWord();
     }
     
     private void SetupVisualComponents()
@@ -18,6 +31,16 @@ public partial class EnemyView : Node2D
         _sprite = new Sprite2D();
         _sprite.Name = "Sprite";
         AddChild(_sprite);
+        
+        // 创建单词标签（改为RichTextLabel）
+        _wordLabel = new RichTextLabel();
+        _wordLabel.Name = "WordLabel";
+        _wordLabel.Position = new Vector2(-30, -60);
+        _wordLabel.Size = new Vector2(60, 20);
+        _wordLabel.FitContent = true;
+        _wordLabel.ScrollActive = false;
+        _wordLabel.BbcodeEnabled = true;
+        AddChild(_wordLabel);
         
         // 创建名称标签
         _nameLabel = new Label();
@@ -54,6 +77,61 @@ public partial class EnemyView : Node2D
         _healthBar.AddThemeStyleboxOverride("background", healthBarBg);
         
         AddChild(_healthBar);
+    }
+    
+    private void AssignRandomWord()
+    {
+        if (CodeRogue.Core.WordManager.Instance != null)
+        {
+            CurrentWord = CodeRogue.Core.WordManager.Instance.GetRandomWord();
+        }
+    }
+    
+    public void UpdateWordHighlight(string currentInput)
+    {
+        UpdateWordDisplay(currentInput);
+    }
+    
+    private void UpdateWordDisplay(string currentInput)
+    {
+        if (_wordLabel == null || string.IsNullOrEmpty(_currentWord)) return;
+        
+        if (string.IsNullOrEmpty(currentInput))
+        {
+            // 没有输入时显示普通文本
+            _wordLabel.Text = $"[center][color=yellow]{_currentWord}[/color][/center]";
+        }
+        else
+        {
+            // 检查是否匹配开头
+            if (_currentWord.ToLower().StartsWith(currentInput.ToLower()))
+            {
+                // 匹配时高亮已输入部分
+                string highlightedPart = _currentWord.Substring(0, currentInput.Length);
+                string remainingPart = _currentWord.Substring(currentInput.Length);
+                
+                _wordLabel.Text = $"[center][color=lime][b]{highlightedPart}[/b][/color][color=yellow]{remainingPart}[/color][/center]";
+            }
+            else
+            {
+                // 不匹配时显示普通文本
+                _wordLabel.Text = $"[center][color=yellow]{_currentWord}[/color][/center]";
+            }
+        }
+    }
+    
+    public void OnWordMatched()
+    {
+        // 单词匹配成功时的效果
+        AssignRandomWord(); // 重新分配新单词
+    }
+    
+    public void UpdateHealthBar(int currentHealth, int maxHealth)
+    {
+        if (_healthBar != null)
+        {
+            _healthBar.Value = (float)currentHealth / maxHealth * 100;
+        }
     }
     
     public void UpdateView(EnemyModel model)

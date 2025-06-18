@@ -1,0 +1,126 @@
+[gd_scene load_steps=11 format=3 uid="uid://2wqnskmv7yar"]
+
+[ext_resource type="Script" uid="uid://cqoyoa187wf77" path="res://Scripts/UI/GameOverScreen.cs" id="1_kjtn0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7ek6"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qdhg4"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dykx"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ssf1"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdc01"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udtwu"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0pwbq"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p3nuk"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwl6f"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="GameOverScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_kjtn0")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+color = Color(0, 0, 0, 0.8)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "游戏结束"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "得分: 0"
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "最高分: 0"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_p7ek6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qdhg4")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dykx")
+text = "重新开始"
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_4ssf1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gdc01")
+theme_override_styles/normal = SubResource("StyleBoxFlat_udtwu")
+text = "主菜单"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_0pwbq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p3nuk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qwl6f")
+text = "退出游戏"

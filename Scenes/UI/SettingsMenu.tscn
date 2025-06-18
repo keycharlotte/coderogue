@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6uyd4b7inm5o"]
+
+[ext_resource type="Script" uid="uid://d02b4wspfuqdu" path="res://Scripts/UI/SettingsMenu.cs" id="1_gne0f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4b8a"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mw62m"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owj4x"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3hh3s"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83xbh"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gh5"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_gne0f")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+color = Color(0.1, 0.1, 0.1, 0.9)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = -50.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "设置"
+horizontal_alignment = 1
+
+[node name="音频设置Section" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="@VBoxContainer@60862" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+layout_mode = 2
+
+[node name="@VBoxContainer@60864" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+layout_mode = 2
+
+[node name="@VBoxContainer@60866" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+layout_mode = 2
+
+[node name="显示设置Section" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="FullscreenCheckBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/显示设置Section"]
+layout_mode = 2
+
+[node name="ResolutionOptionContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/显示设置Section"]
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ResetButton" type="Button" parent="ScrollContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_q4b8a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mw62m")
+theme_override_styles/normal = SubResource("StyleBoxFlat_owj4x")
+text = "重置默认"
+
+[node name="BackButton" type="Button" parent="ScrollContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_3hh3s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_83xbh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_v1gh5")
+text = "返回"

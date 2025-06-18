@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Data;
 
 namespace CodeRogue.UI
 {
@@ -77,6 +78,9 @@ namespace CodeRogue.UI
                 AddChild(_settingsMenu);
                 _settingsMenu.Visible = false;
             }
+
+            GD.Print("UIManager initialized");
+            ShowMainMenu();
         }
         
         public void ShowMainMenu()
