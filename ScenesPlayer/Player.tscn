@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://q2phckifd822"]
+
+[ext_resource type="Script" uid="uid://chkt3k32b2y3e" path="res://Scripts/Player/PlayerController.cs" id="1_ihjht"]
+[ext_resource type="Script" uid="uid://bwbvgnpyiyous" path="res://Scripts/Player/PlayerView.cs" id="2_vyh6p"]
+[ext_resource type="Texture2D" uid="uid://cxq2dnv54jdti" path="res://Art/AssetsTextures/player.webp" id="3_s1165"]
+[ext_resource type="Script" uid="uid://dauyc5pgds3gm" path="res://Scripts/Components/HealthComponent.cs" id="4_5k4va"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_65nt2"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_ihjht")
+
+[node name="PlayerView" type="Node2D" parent="." node_paths=PackedStringArray("_sprite", "_healthBar", "_healthLabel", "_levelLabel", "_experienceBar")]
+script = ExtResource("2_vyh6p")
+_sprite = NodePath("Sprite2D")
+_healthBar = NodePath("HealthProgressBar")
+_healthLabel = NodePath("Health")
+_levelLabel = NodePath("Level")
+_experienceBar = NodePath("LevelProgressBar")
+
+[node name="Health" type="Label" parent="PlayerView"]
+offset_left = 1.0
+offset_top = 11.0
+offset_right = 41.0
+offset_bottom = 34.0
+text = "100"
+
+[node name="LevelProgressBar" type="ProgressBar" parent="PlayerView"]
+offset_left = -33.0
+offset_top = -68.0
+offset_right = 36.0
+offset_bottom = -41.0
+
+[node name="HealthProgressBar" type="ProgressBar" parent="PlayerView"]
+offset_left = -33.0
+offset_top = -40.0
+offset_right = 35.0
+offset_bottom = -13.0
+
+[node name="Level" type="Label" parent="PlayerView"]
+offset_left = -36.0
+offset_top = 12.0
+offset_right = 4.0
+offset_bottom = 35.0
+text = "Lv1"
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerView"]
+position = Vector2(-2.38419e-07, 0)
+scale = Vector2(0.114, 0.1)
+texture = ExtResource("3_s1165")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7.45058e-09, 0)
+rotation = -0.0990801
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_65nt2")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+position = Vector2(9, 26)
+script = ExtResource("4_5k4va")

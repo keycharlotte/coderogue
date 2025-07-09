@@ -1,114 +1,207 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6uyd4b7inm5o"]
+[gd_scene load_steps=10 format=3 uid="uid://c6uyd4b7inm5o"]
 
 [ext_resource type="Script" uid="uid://d02b4wspfuqdu" path="res://Scripts/UI/SettingsMenu.cs" id="1_gne0f"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_q4b8a"]
+
+[sub_resource type="Theme" id="Theme_mw62m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gne0f"]
+bg_color = Color(0.3, 0.3, 0.3, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4b8a"]
-bg_color = Color(0.3, 0.3, 0.3, 0.9)
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mw62m"]
-bg_color = Color(0.1, 0.1, 0.1, 0.9)
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owj4x"]
-bg_color = Color(0.2, 0.2, 0.2, 0.8)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3hh3s"]
 bg_color = Color(0.3, 0.3, 0.3, 0.9)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83xbh"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3hh3s"]
 bg_color = Color(0.1, 0.1, 0.1, 0.9)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gh5"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83xbh"]
 bg_color = Color(0.2, 0.2, 0.2, 0.8)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="SettingsMenu" type="Control"]
+[node name="SettingsMenu" type="Control" node_paths=PackedStringArray("MasterVolumeSlider", "MusicVolumeSlider", "SfxVolumeSlider", "FullscreenCheckBox", "ResolutionOption", "BackButton", "ResetButton")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_gne0f")
+MasterVolumeSlider = NodePath("VBoxContainer/音频设置Section/@VBoxContainer@41742/MasterVolumeSlider")
+MusicVolumeSlider = NodePath("VBoxContainer/音频设置Section/@VBoxContainer@41744/MusicVolumeSlider")
+SfxVolumeSlider = NodePath("VBoxContainer/音频设置Section/@VBoxContainer@41746/SfxVolumeSlider")
+FullscreenCheckBox = NodePath("VBoxContainer/显示设置Section/FullscreenCheckBoxContainer/FullscreenCheckBox")
+ResolutionOption = NodePath("VBoxContainer/显示设置Section/ResolutionOptionContainer/ResolutionOption")
+BackButton = NodePath("VBoxContainer/ButtonContainer/BackButton")
+ResetButton = NodePath("VBoxContainer/ButtonContainer/ResetButton")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-color = Color(0.1, 0.1, 0.1, 0.9)
+offset_right = 1151.0
+offset_bottom = 646.0
+theme = ExtResource("2_q4b8a")
+color = Color(0.937255, 0.937255, 0.890196, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
 offset_left = 50.0
 offset_top = 50.0
-offset_right = -50.0
-offset_bottom = -50.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
-layout_mode = 2
+offset_right = 374.0
+offset_bottom = 529.0
+theme = ExtResource("2_q4b8a")
 theme_override_constants/separation = 20
 
-[node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "设置"
 horizontal_alignment = 1
 
-[node name="音频设置Section" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="@VBoxContainer@60862" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+[node name="音频设置Section" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="@VBoxContainer@60864" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+[node name="@Label@41740" type="Label" parent="VBoxContainer/音频设置Section"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "音频设置"
+
+[node name="@VBoxContainer@41742" type="VBoxContainer" parent="VBoxContainer/音频设置Section"]
 layout_mode = 2
 
-[node name="@VBoxContainer@60866" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/音频设置Section"]
+[node name="@Label@41741" type="Label" parent="VBoxContainer/音频设置Section/@VBoxContainer@41742"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme = SubResource("Theme_mw62m")
+text = "主音量"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="VBoxContainer/音频设置Section/@VBoxContainer@41742"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="@VBoxContainer@41744" type="VBoxContainer" parent="VBoxContainer/音频设置Section"]
 layout_mode = 2
 
-[node name="显示设置Section" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="@Label@41743" type="Label" parent="VBoxContainer/音频设置Section/@VBoxContainer@41744"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_constants/separation = 10
+text = "音乐音量"
 
-[node name="FullscreenCheckBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/显示设置Section"]
+[node name="MusicVolumeSlider" type="HSlider" parent="VBoxContainer/音频设置Section/@VBoxContainer@41744"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="@VBoxContainer@41746" type="VBoxContainer" parent="VBoxContainer/音频设置Section"]
 layout_mode = 2
 
-[node name="ResolutionOptionContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/显示设置Section"]
+[node name="@Label@41745" type="Label" parent="VBoxContainer/音频设置Section/@VBoxContainer@41746"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "音效音量"
+
+[node name="SfxVolumeSlider" type="HSlider" parent="VBoxContainer/音频设置Section/@VBoxContainer@41746"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="显示设置Section" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="ButtonContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="@Label@41748" type="Label" parent="VBoxContainer/显示设置Section"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "显示设置"
 
-[node name="ResetButton" type="Button" parent="ScrollContainer/VBoxContainer/ButtonContainer"]
+[node name="FullscreenCheckBoxContainer" type="HBoxContainer" parent="VBoxContainer/显示设置Section"]
+layout_mode = 2
+
+[node name="@Label@41747" type="Label" parent="VBoxContainer/显示设置Section/FullscreenCheckBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "全屏"
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="VBoxContainer/显示设置Section/FullscreenCheckBoxContainer"]
+layout_mode = 2
+
+[node name="VsyncCheckBoxContainer" type="HBoxContainer" parent="VBoxContainer/显示设置Section"]
+layout_mode = 2
+
+[node name="@Label@41749" type="Label" parent="VBoxContainer/显示设置Section/VsyncCheckBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "垂直同步"
+
+[node name="VsyncCheckBox" type="CheckBox" parent="VBoxContainer/显示设置Section/VsyncCheckBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="ResolutionOptionContainer" type="HBoxContainer" parent="VBoxContainer/显示设置Section"]
+layout_mode = 2
+
+[node name="@Label@41750" type="Label" parent="VBoxContainer/显示设置Section/ResolutionOptionContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "分辨率"
+
+[node name="ResolutionOption" type="OptionButton" parent="VBoxContainer/显示设置Section/ResolutionOptionContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "1920x1080"
+popup/item_0/id = 0
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1366x768"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="VBoxContainer/ButtonContainer"]
 custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_q4b8a")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mw62m")
-theme_override_styles/normal = SubResource("StyleBoxFlat_owj4x")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gne0f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q4b8a")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mw62m")
 text = "重置默认"
 
-[node name="BackButton" type="Button" parent="ScrollContainer/VBoxContainer/ButtonContainer"]
+[node name="BackButton" type="Button" parent="VBoxContainer/ButtonContainer"]
 custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_3hh3s")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_83xbh")
-theme_override_styles/normal = SubResource("StyleBoxFlat_v1gh5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_owj4x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3hh3s")
+theme_override_styles/normal = SubResource("StyleBoxFlat_83xbh")
 text = "返回"

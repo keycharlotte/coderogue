@@ -4,6 +4,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_13cgw"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="Theme" id="Theme_71wt1"]
 Label/colors/font_color = Color(1, 1, 1, 1)
@@ -30,6 +31,7 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_tog36")
 
 [sub_resource type="SystemFont" id="SystemFont_npa51"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="Theme" id="Theme_intyv"]
 Label/colors/font_color = Color(1, 1, 1, 1)
@@ -38,6 +40,7 @@ Label/fonts/font = SubResource("SystemFont_npa51")
 
 [sub_resource type="SystemFont" id="SystemFont_4284l"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sinwf"]
 bg_color = Color(0.4, 0.4, 0.4, 0.9)
@@ -72,6 +75,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_13cgw")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

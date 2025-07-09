@@ -1,14 +1,18 @@
 using Godot;
 using CodeRogue.Components;
 using CodeRogue.Core;
-
+using CodeRogue.Utils;
+using CodeRogue.Player;
 public partial class EnemyController : CharacterBody2D
 {
 	[Export] public int EnemyId { get; set; } = 1;
 	
+	// 添加CurrentWord属性
+	public string CurrentWord { get; private set; } = "";
+	
 	private EnemyModel _model;
-	private EnemyView _view;
-	private Node2D _player;
+	[Export] public EnemyView _view;
+	private PlayerController _player;
 	private Timer _attackTimer;
 	private Timer _aiTimer;
 	
@@ -35,7 +39,12 @@ public partial class EnemyController : CharacterBody2D
 	
 	public override void _Ready()
 	{
+		// Enemy可以检测Player和环境
+		CollisionLayer = 2;      // Enemy层
+		CollisionMask = 5;       // 检测Player(1) + Environment(4) = 5
+		
 		InitializeEnemy();
+		AssignRandomWord(); // 添加随机单词分配
 		SetupTimers();
 		FindPlayer();
 		_spawnPosition = GlobalPosition;
@@ -118,8 +127,8 @@ public partial class EnemyController : CharacterBody2D
 		_model.Position = GlobalPosition;
 		
 		// 初始化视图
-		_view = new EnemyView();
-		AddChild(_view);
+		// _view = new EnemyView();
+		// AddChild(_view);
 		_view.UpdateView(_model);
 	}
 	
@@ -141,7 +150,7 @@ public partial class EnemyController : CharacterBody2D
 	
 	private void FindPlayer()
 	{
-		_player = GetTree().GetFirstNodeInGroup("player") as Node2D;
+		_player = GetTree().GetFirstNodeInGroup("player") as PlayerController;
 		if (_player == null)
 		{
 			GD.PrintErr("Player node not found or is not a Node2D!");
@@ -168,10 +177,6 @@ public partial class EnemyController : CharacterBody2D
 		{
 			case EnemyState.Patrol:
 				targetPosition = _patrolTarget;
-				if (GlobalPosition.DistanceTo(_patrolTarget) < 10.0f)
-				{
-					GenerateNewPatrolTarget();
-				}
 				break;
 				
 			case EnemyState.Chase:
@@ -190,7 +195,60 @@ public partial class EnemyController : CharacterBody2D
 		{
 			Vector2 direction = (targetPosition - GlobalPosition).Normalized();
 			Velocity = direction * _model.MoveSpeed;
-			MoveAndSlide();
+			Move();
+		}
+	}
+	
+	/// <summary>
+	/// 处理敌人的具体移动逻辑，包括碰撞检测和位置更新
+	/// </summary>
+	private void Move()
+	{
+		// 使用Godot的内置移动函数处理碰撞
+		MoveAndSlide();
+		
+		// 更新敌人的全局位置
+		GlobalPosition = GlobalPosition;
+		
+		// 可选：添加移动边界检查
+		ClampToMovementBounds();
+		
+		// 可选：更新朝向
+		UpdateFacing();
+	}
+	
+	/// <summary>
+	/// 限制敌人在指定区域内移动
+	/// </summary>
+	private void ClampToMovementBounds()
+	{
+		// 获取屏幕边界或关卡边界
+		var viewport = GetViewport();
+		if (viewport != null)
+		{
+			var screenSize = viewport.GetVisibleRect().Size;
+			var margin = 50.0f; // 边界边距
+			
+			// 限制在屏幕范围内
+			GlobalPosition = new Vector2(
+				Mathf.Clamp(GlobalPosition.X, margin, screenSize.X - margin),
+				Mathf.Clamp(GlobalPosition.Y, margin, screenSize.Y - margin)
+			);
+		}
+	}
+	
+	/// <summary>
+	/// 根据移动方向更新敌人朝向
+	/// </summary>
+	private void UpdateFacing()
+	{
+		if (Velocity.LengthSquared() > 0.01f)
+		{
+			// 根据移动方向翻转精灵
+			if (_view != null && _view._sprite != null)
+			{
+				_view._sprite.FlipH = Velocity.X < 0;
+			}
 		}
 	}
 	
@@ -205,7 +263,11 @@ public partial class EnemyController : CharacterBody2D
 		float distanceToPlayer = float.MaxValue;
 		if (_player != null)
 		{
-			distanceToPlayer = GlobalPosition.DistanceTo(_player.GlobalPosition);
+			// 使用通用方法计算距离
+			// distanceToPlayer = NodeUtils.GetWorldDistance(this, _player);
+			
+			// 如果需要屏幕坐标距离，可以使用：
+			distanceToPlayer = NodeUtils.GetScreenDistance(this, _player);
 		}
 		
 		switch (_currentState)
@@ -252,6 +314,8 @@ public partial class EnemyController : CharacterBody2D
 				}
 				break;
 		}
+		// GD.Print($"Enemy {Name} - Distance to player: {distanceToPlayer}");
+		// GD.Print($"Enemy {Name} - Current state: {_currentState}");
 	}
 	
 	private void GenerateNewPatrolTarget()
@@ -306,6 +370,7 @@ public partial class EnemyController : CharacterBody2D
 		}
 	}
 	
+	
 	// 在EnemyController类中添加信号
 	[Signal] public delegate void EnemyDiedEventHandler(EnemyController enemy);
 	
@@ -323,7 +388,7 @@ public partial class EnemyController : CharacterBody2D
 		EmitSignal(SignalName.EnemyDied, this);
 		
 		// 给予玩家经验
-		var gameManager = GetNode<GameManager>("/root/GameManager");
+		var gameManager = NodeUtils.GetGameManager(this);
 		if (gameManager != null)
 		{
 			// gameManager.AddExperience(_model.ExperienceReward);
@@ -340,5 +405,25 @@ public partial class EnemyController : CharacterBody2D
 	public EnemyState GetCurrentState()
 	{
 		return _currentState;
+	}
+	
+	/// <summary>
+	/// 为敌人分配随机单词
+	/// </summary>
+	private void AssignRandomWord()
+	{
+		if (WordManager.Instance != null)
+		{
+			CurrentWord = WordManager.Instance.GetRandomWord();
+			GD.Print($"Enemy {EnemyId} assigned word: {CurrentWord}");
+			
+			// 通知视图更新显示的单词
+			_view.CurrentWord = CurrentWord;
+		}
+		else
+		{
+			GD.PrintErr("WordManager instance not found!");
+			CurrentWord = "word"; // 默认单词
+		}
 	}
 }

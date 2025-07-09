@@ -5,7 +5,7 @@ namespace CodeRogue.Components
     /// <summary>
     /// 健康组件 - 处理生命值逻辑
     /// </summary>
-    public partial class HealthComponent : Node
+    public partial class HealthComponent : Node2D
     {
         [Signal]
         public delegate void HealthChangedEventHandler(int newHealth, int maxHealth);

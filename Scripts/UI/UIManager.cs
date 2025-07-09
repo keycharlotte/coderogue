@@ -1,6 +1,7 @@
 using Godot;
 using CodeRogue.Core;
 using CodeRogue.Data;
+using System.Collections.Generic;
 
 namespace CodeRogue.UI
 {
@@ -25,6 +26,7 @@ namespace CodeRogue.UI
         public PackedScene SettingsScene { get; set; }
         
         private Control _currentUI;
+        private Stack<Control> _uiStack = new Stack<Control>();  // 添加UI栈
         private MainMenu _mainMenu;
         private GameUI _gameUI;
         private PauseMenu _pauseMenu;
@@ -33,6 +35,9 @@ namespace CodeRogue.UI
         
         public override void _Ready()
         {
+            // 添加到组中以便其他脚本找到
+            AddToGroup("UIManager");
+            
             // 初始化UI界面
             InitializeUI();
         }
@@ -86,6 +91,7 @@ namespace CodeRogue.UI
         public void ShowMainMenu()
         {
             HideAllUI();
+            ClearUIStack();  // 清空栈
             if (_mainMenu != null)
             {
                 _mainMenu.Visible = true;
@@ -96,6 +102,7 @@ namespace CodeRogue.UI
         public void ShowGameUI()
         {
             HideAllUI();
+            ClearUIStack();  // 清空栈
             if (_gameUI != null)
             {
                 _gameUI.Visible = true;
@@ -107,7 +114,13 @@ namespace CodeRogue.UI
         {
             if (_pauseMenu != null)
             {
+                // 将当前UI压入栈中（通常是GameUI）
+                if (_currentUI != null && _currentUI.Visible)
+                {
+                    _uiStack.Push(_currentUI);
+                }
                 _pauseMenu.Visible = true;
+                _currentUI = _pauseMenu;
             }
         }
         
@@ -116,6 +129,17 @@ namespace CodeRogue.UI
             if (_pauseMenu != null)
             {
                 _pauseMenu.Visible = false;
+                
+                // 返回到上一级UI
+                if (_uiStack.Count > 0)
+                {
+                    var previousUI = _uiStack.Pop();
+                    if (previousUI != null)
+                    {
+                        previousUI.Visible = true;
+                        _currentUI = previousUI;
+                    }
+                }
             }
         }
         
@@ -131,7 +155,13 @@ namespace CodeRogue.UI
         {
             if (_settingsMenu != null)
             {
+                // 将当前UI压入栈中
+                if (_currentUI != null && _currentUI.Visible)
+                {
+                    _uiStack.Push(_currentUI);
+                }
                 _settingsMenu.Visible = true;
+                _currentUI = _settingsMenu;
             }
         }
         
@@ -140,7 +170,29 @@ namespace CodeRogue.UI
             if (_settingsMenu != null)
             {
                 _settingsMenu.Visible = false;
+                
+                // 返回到上一级UI
+                if (_uiStack.Count > 0)
+                {
+                    var previousUI = _uiStack.Pop();
+                    if (previousUI != null)
+                    {
+                        previousUI.Visible = true;
+                        _currentUI = previousUI;
+                    }
+                }
+                else
+                {
+                    // 如果栈为空，默认返回主菜单
+                    ShowMainMenu();
+                }
             }
+        }
+        
+        // 清空UI栈的方法（在切换到主要UI时调用）
+        public void ClearUIStack()
+        {
+            _uiStack.Clear();
         }
         
         private void HideAllUI()

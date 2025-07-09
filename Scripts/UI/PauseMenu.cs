@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 
 namespace CodeRogue.UI
 {
@@ -68,7 +69,7 @@ namespace CodeRogue.UI
         
         private void OnSettingsButtonPressed()
         {
-            var uiManager = GetNode<UIManager>("/root/UIManager");
+            var uiManager = NodeUtils.GetUIManager(this);
             uiManager?.ShowSettingsMenu();
         }
         

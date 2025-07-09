@@ -54,19 +54,7 @@ namespace CodeRogue.Core
 		private void HandleKeyInput(InputEventKey keyEvent)
 		{
 			switch (keyEvent.Keycode)
-			{
-				case Key.Backspace:
-					if (_currentInput.Length > 0)
-					{
-						_currentInput = _currentInput.Substring(0, _currentInput.Length - 1);
-						OnInputChanged();
-					}
-					break;
-					
-				case Key.Escape:
-					ClearInput();
-					break;
-					
+			{		
 				default:
 					// 处理字母输入
 					if (IsValidInputKey(keyEvent.Keycode))
@@ -97,7 +85,11 @@ namespace CodeRogue.Core
 			CheckForCompleteMatch();
 			
 			// 更新所有敌人的视觉反馈
-			UpdateEnemyVisualFeedback();
+			bool Res = UpdateEnemyVisualFeedback();
+			if (Res)
+			{
+				ClearInput("NoOneMatched");
+			}
 		}
 		
 		private void CheckForCompleteMatch()
@@ -116,7 +108,7 @@ namespace CodeRogue.Core
 						{
 							// 找到完全匹配，发射攻击信号
 							EmitSignal(SignalName.WordMatched, targetWord, enemy);
-							ClearInput();
+							ClearInput("SomeOneMatched");
 							return; // 只攻击第一个匹配的敌人
 						}
 					}
@@ -124,16 +116,18 @@ namespace CodeRogue.Core
 			}
 		}
 		
-		private void UpdateEnemyVisualFeedback()
+		private bool UpdateEnemyVisualFeedback()
 		{
+			bool Res = false;
 			foreach (var enemy in _enemies)
 			{
 				if (enemy != null && enemy.IsAlive)
 				{
 					var enemyView = enemy.GetEnemyView();
-					enemyView?.UpdateWordHighlight(_currentInput);
+					Res = enemyView.UpdateWordHighlight(_currentInput);
 				}
 			}
+			return Res;
 		}
 		
 		public void RegisterEnemy(EnemyController enemy)
@@ -149,11 +143,12 @@ namespace CodeRogue.Core
 			_enemies.Remove(enemy);
 		}
 		
-		public void ClearInput()
+		public void ClearInput(String Reason)
 		{
 			_currentInput = "";
 			EmitSignal(SignalName.InputChanged, _currentInput);
 			UpdateEnemyVisualFeedback();
+			GD.Print($"ClearInput Reason{Reason}");
 		}
 	}
 }

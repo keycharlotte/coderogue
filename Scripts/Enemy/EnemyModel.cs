@@ -79,7 +79,7 @@ public partial class EnemyModel : RefCounted
 		MoveSpeed = 50.0f;
 		AttackRange = 32.0f;
 		DetectionRange = 64.0f;
-		SpritePath = "res://AssetsTextures/enemy_default.png";
+		// SpritePath = "res://AssetsTextures/enemy_default.png";
 		ExperienceReward = 10;
 	}
 	

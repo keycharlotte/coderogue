@@ -1,15 +1,22 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Player;
+using CodeRogue.Core;
 
-public partial class LevelManager : Node
+namespace CodeRogue.Level
 {
+	public partial class LevelManager : Node2D
+{
+
+	
 	[Export] public int CurrentLevel { get; set; } = 1;
 	[Export] public float SpawnRadius { get; set; } = 200.0f;
 	[Export] public float MinSpawnDistance { get; set; } = 100.0f;
 	[Export] public int MaxEnemiesOnScreen { get; set; } = 10;
+	[Export] public PackedScene PlayerScene { get; set; }
 	
-	private Node2D _player;
+	private PlayerController _player;
 	private List<EnemyController> _activeEnemies = new List<EnemyController>();
 	private Timer _spawnTimer;
 	private Timer _waveTimer;
@@ -20,6 +27,7 @@ public partial class LevelManager : Node
 	private int _currentWave = 0;
 	private int _enemiesSpawnedInWave = 0;
 	private bool _waveInProgress = false;
+	private bool _levelActive = false;
 	
 	// 信号
 	[Signal] public delegate void LevelStartedEventHandler(int level);
@@ -28,16 +36,66 @@ public partial class LevelManager : Node
 	[Signal] public delegate void WaveCompletedEventHandler(int wave);
 	[Signal] public delegate void EnemySpawnedEventHandler(EnemyController enemy);
 	[Signal] public delegate void EnemyDefeatedEventHandler(EnemyController enemy);
+	[Signal] public delegate void PlayerCreatedEventHandler(PlayerController player);
 	
 	public override void _Ready()
 	{
 		_random.Randomize();
 		SetupTimers();
-		FindPlayer();
+	}
+	
+	/// <summary>
+	/// 初始化关卡（由GameManager调用）
+	/// </summary>
+	public void InitializeLevel()
+	{
 		LoadLevelConfig();
+		CreatePlayer(); // 在初始化时创建玩家
+		GD.Print("LevelManager initialized by GameManager - Player created");
+	}
+	
+	private void CreatePlayer()
+	{
+		// 如果没有设置玩家场景，使用默认路径
+		if (PlayerScene == null)
+		{
+			PlayerScene = GD.Load<PackedScene>("res://ScenesPlayer/Player.tscn");
+		}
 		
-		// 延迟启动关卡
-		CallDeferred(nameof(StartLevel));
+		if (PlayerScene == null)
+		{
+			GD.PrintErr("LevelManager: Player scene not found!");
+			return;
+		}
+		
+		_player = PlayerScene.Instantiate<PlayerController>();
+		
+		// 设置玩家初始位置（可以从关卡配置中获取）
+		_player.GlobalPosition = GetPlayerSpawnPosition();
+		
+		// 将玩家添加到场景
+		GetParent().AddChild(_player);
+		
+		// 连接玩家信号
+		_player.Connect(PlayerController.SignalName.PlayerDied, new Callable(this, nameof(OnPlayerDied)));
+		
+		// 将玩家添加到组中，方便其他系统查找
+		_player.AddToGroup("player");
+		
+		EmitSignal(SignalName.PlayerCreated, _player);
+		
+		GD.Print("Player created and added to scene");
+	}
+	
+	private Vector2 GetPlayerSpawnPosition()
+	{
+		// 获取视口大小并返回屏幕中心点
+		var viewport = GetViewport();
+		if (viewport != null)
+		{
+			return viewport.GetVisibleRect().Size / 2;
+		}
+		return Vector2.Zero;
 	}
 	
 	private void SetupTimers()
@@ -56,31 +114,43 @@ public partial class LevelManager : Node
 		AddChild(_waveTimer);
 	}
 	
-	private void FindPlayer()
-	{
-		_player = GetTree().GetFirstNodeInGroup("player") as Node2D;
-		if (_player == null)
-		{
-			GD.PrintErr("LevelManager: Player not found!");
-		}
-	}
-	
 	private void LoadLevelConfig()
 	{
 		_currentLevelConfig = new LevelConfig(CurrentLevel);
+		GD.Print($"Loaded config for Level {CurrentLevel}");
 	}
 	
 	public void StartLevel()
 	{
-		GD.Print($"Starting Level {CurrentLevel}");
-		EmitSignal(SignalName.LevelStarted, CurrentLevel);
-		
-		_currentWave = 0;
-		StartNextWave();
+		if (!_levelActive)
+		{
+			_levelActive = true;
+			
+			// 确保已初始化
+			if (_currentLevelConfig == null)
+			{
+				InitializeLevel();
+			}
+			
+			// 确保玩家已创建
+			if (_player == null)
+			{
+				GD.PrintErr("Player not created during initialization!");
+				return;
+			}
+			
+			// 只开始刷怪流程
+			StartNextWave();
+			EmitSignal(SignalName.LevelStarted, CurrentLevel);
+			GameManager.Instance?.TriggerStartLevel(CurrentLevel);
+			GD.Print($"Level {CurrentLevel} started - Wave spawning begins");
+		}
 	}
 	
 	private void StartNextWave()
 	{
+		if (!_levelActive) return;
+		
 		_currentWave++;
 		_enemiesSpawnedInWave = 0;
 		_waveInProgress = true;
@@ -110,7 +180,7 @@ public partial class LevelManager : Node
 	
 	private void SpawnEnemy()
 	{
-		if (!_waveInProgress || _player == null)
+		if (!_waveInProgress || _player == null || !_levelActive)
 			return;
 			
 		var waveConfig = _currentLevelConfig.GetWaveConfig(_currentWave);
@@ -178,7 +248,6 @@ public partial class LevelManager : Node
 				Mathf.Sin(angle) * distance
 			);
 			
-			// 检查位置是否有效（可以添加更多检查，如地形碰撞等）
 			if (IsValidSpawnPosition(spawnPos))
 			{
 				return spawnPos;
@@ -190,13 +259,11 @@ public partial class LevelManager : Node
 	
 	private bool IsValidSpawnPosition(Vector2 position)
 	{
-		// 基本检查：确保不在玩家太近的位置
 		if (_player != null && position.DistanceTo(_player.GlobalPosition) < MinSpawnDistance)
 		{
 			return false;
 		}
 		
-		// 可以添加更多检查，如地形碰撞、其他敌人位置等
 		return true;
 	}
 	
@@ -214,11 +281,11 @@ public partial class LevelManager : Node
 		enemy.GlobalPosition = position;
 		
 		// 添加到场景
-		GetTree().CurrentScene.AddChild(enemy);
+		GetParent().AddChild(enemy);
 		_activeEnemies.Add(enemy);
 		
-		// 连接敌人死亡信号
-		enemy.Connect("enemy_died", new Callable(this, nameof(OnEnemyDied)));
+		// 连接敌人死亡信号 - 修正信号名称
+		enemy.Connect(EnemyController.SignalName.EnemyDied, new Callable(this, nameof(OnEnemyDied)));
 		
 		EmitSignal(SignalName.EnemySpawned, enemy);
 		
@@ -233,6 +300,22 @@ public partial class LevelManager : Node
 		CheckWaveCompletion();
 	}
 	
+	private void OnPlayerDied()
+	{
+		_levelActive = false;
+		_spawnTimer.Stop();
+		_waveTimer.Stop();
+		
+		GD.Print("Player died - Level stopped");
+		
+		// 通知GameManager玩家死亡
+		// var gameManager = GameManager.Instance;
+		// if (gameManager != null)
+		// {
+		// 	gameManager.OnPlayerDied();
+		// }
+	}
+	
 	private void CleanupDeadEnemies()
 	{
 		_activeEnemies.RemoveAll(enemy => enemy == null || !IsInstanceValid(enemy));
@@ -244,7 +327,7 @@ public partial class LevelManager : Node
 		if (waveConfig == null)
 			return;
 			
-		// 检查是否所有敌人都已生成且被击败
+		// 检查是否所有敌人都已死亡
 		if (_enemiesSpawnedInWave >= waveConfig.MaxEnemies && _activeEnemies.Count == 0)
 		{
 			CompleteWave();
@@ -266,13 +349,19 @@ public partial class LevelManager : Node
 	
 	private void CompleteLevel()
 	{
+		_levelActive = false;
 		_spawnTimer.Stop();
 		_waveTimer.Stop();
 		
 		GD.Print($"Level {CurrentLevel} completed!");
 		EmitSignal(SignalName.LevelCompleted, CurrentLevel);
 		
-		// 可以在这里处理关卡完成逻辑，如奖励、下一关卡等
+		// 通知GameManager关卡完成
+		// var gameManager = GameManager.Instance;
+		// if (gameManager != null)
+		// {
+		// 	gameManager.OnLevelCompleted(CurrentLevel);
+		// }
 	}
 	
 	public void NextLevel()
@@ -294,23 +383,75 @@ public partial class LevelManager : Node
 		}
 		_activeEnemies.Clear();
 		
+		// 重置玩家状态
+		if (_player != null)
+		{
+			_player.GlobalPosition = GetPlayerSpawnPosition();
+			// 重置玩家血量等状态
+		}
+		
 		// 重新开始关卡
 		StartLevel();
 	}
 	
+	/// <summary>
+	/// 停止关卡（由GameManager调用）
+	/// </summary>
+	public void StopLevel()
+	{
+		if (_levelActive)
+		{
+			_levelActive = false;
+			_waveInProgress = false;
+			
+			// 停止计时器
+			_spawnTimer?.Stop();
+			_waveTimer?.Stop();
+			
+			// 清理敌人
+			ClearAllEnemies();
+			
+			// 移除玩家
+			if (_player != null)
+			{
+				_player.QueueFree();
+				_player = null;
+			}
+			
+			GameManager.Instance?.TriggerQuitLevel(CurrentLevel);
+			GD.Print($"Level {CurrentLevel} stopped");
+		}
+	}
+	/// <summary>
+	/// 清理所有敌人
+	/// </summary>
+	private void ClearAllEnemies()
+	{
+		foreach (var enemy in _activeEnemies.ToList())
+		{
+			if (enemy != null && IsInstanceValid(enemy))
+			{
+				enemy.QueueFree();
+			}
+		}
+		_activeEnemies.Clear();
+	}
+	// 公共接口
+	public PlayerController GetPlayer() => _player;
 	public int GetActiveEnemyCount()
 	{
 		CleanupDeadEnemies();
 		return _activeEnemies.Count;
 	}
+	public int GetCurrentWave() => _currentWave;
+	public bool IsWaveInProgress() => _waveInProgress;
+	public bool IsLevelActive() => _levelActive;
 	
-	public int GetCurrentWave()
+	// 重写_ExitTree以确保清理
+	public override void _ExitTree()
 	{
-		return _currentWave;
+		StopLevel();
+		base._ExitTree();
 	}
-	
-	public bool IsWaveInProgress()
-	{
-		return _waveInProgress;
 	}
 }

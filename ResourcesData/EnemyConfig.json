@@ -4,9 +4,9 @@
 	"maxHealth": 50,
 	"attackPower": 8,
 	"moveSpeed": 30.0,
-	"attackRange": 25.0,
-	"detectionRange": 80.0,
-	"spritePath": "res://AssetsTextures/slime.png",
+	"attackRange": 10.0,
+	"detectionRange": 9999.0,
+	"spritePath": "res://Art/AssetsTextures/whitebg.png",
 	"experienceReward": 15
   },
   "2": {
@@ -14,9 +14,9 @@
 	"maxHealth": 80,
 	"attackPower": 12,
 	"moveSpeed": 45.0,
-	"attackRange": 30.0,
-	"detectionRange": 100.0,
-	"spritePath": "res://AssetsTextures/goblin.png",
+	"attackRange": 10.0,
+	"detectionRange": 99999.0,
+	"spritePath": "res://Art/AssetsTextures/whitebg.png",
 	"experienceReward": 25
   },
   "3": {

@@ -1,6 +1,8 @@
 using Godot;
 using CodeRogue.Core;
 using CodeRogue.Data;
+using CodeRogue.Utils;
+using System.Linq;
 
 namespace CodeRogue.UI
 {
@@ -48,29 +50,24 @@ namespace CodeRogue.UI
         
         private void ConnectSignals()
         {
-            // 连接按钮信号
+            // 连接按钮点击信号
             if (_startButton != null)
-            {
                 _startButton.Pressed += OnStartButtonPressed;
-                _startButton.MouseEntered += () => OnButtonHover(_startButton);
-            }
-            
             if (_continueButton != null)
-            {
                 _continueButton.Pressed += OnContinueButtonPressed;
-                _continueButton.MouseEntered += () => OnButtonHover(_continueButton);
-            }
-            
             if (_settingsButton != null)
-            {
                 _settingsButton.Pressed += OnSettingsButtonPressed;
-                _settingsButton.MouseEntered += () => OnButtonHover(_settingsButton);
-            }
-            
             if (_quitButton != null)
-            {
                 _quitButton.Pressed += OnQuitButtonPressed;
-                _quitButton.MouseEntered += () => OnButtonHover(_quitButton);
+            
+            // 批量添加悬停动效
+            var buttons = new[] { _startButton, _continueButton, _settingsButton, _quitButton };
+            ButtonAnimationHelper.AddHoverAnimationToButtons(buttons.Where(b => b != null).ToArray());
+            
+            // 添加悬停音效（需要单独处理）
+            foreach (var button in buttons.Where(b => b != null))
+            {
+                button.MouseEntered += PlayButtonHoverSound;
             }
         }
         
@@ -123,25 +120,25 @@ namespace CodeRogue.UI
             // 创建新游戏数据
             var gameData = new GameData();
             gameData.ResetToDefaults();
-            
             // 切换到游戏场景
-            GetTree().ChangeSceneToFile("res://Scenes/Level/Level1.tscn");
+            GameManager.Instance?.StartGame();
+            // GetTree().ChangeSceneToFile("res://Scenes/Level/BaseLevel.tscn");
         }
         
         private void ContinueGame()
         {
-            // 加载存档
-            var gameData = GameData.LoadGame();
+            // // 加载存档
+            // var gameData = GameData.LoadGame();
             
-            // 根据存档数据切换到对应关卡
-            string levelScene = $"res://Scenes/Level/Level{gameData.CurrentLevel}.tscn";
-            GetTree().ChangeSceneToFile(levelScene);
+            // // 根据存档数据切换到对应关卡
+            // string levelScene = $"res://Scenes/Level/Level{gameData.CurrentLevel}.tscn";
+            // GetTree().ChangeSceneToFile(levelScene);
         }
         
         private void ShowSettings()
         {
             // 显示设置菜单
-            var uiManager = GetNode<UIManager>("/root/UIManager");
+            var uiManager = NodeUtils.GetUIManager(this);
             uiManager?.ShowSettingsMenu();
         }
         

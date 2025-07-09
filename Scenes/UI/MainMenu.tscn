@@ -4,6 +4,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_g18y6"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="Theme" id="Theme_mjmdf"]
 Label/font_sizes/font_size = 48
@@ -11,6 +12,7 @@ Label/fonts/font = SubResource("SystemFont_g18y6")
 
 [sub_resource type="SystemFont" id="SystemFont_72sra"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6w0q"]
 bg_color = Color(0.4, 0.4, 0.6, 1)
@@ -42,6 +44,7 @@ Label/font_sizes/font_size = 16
 
 [sub_resource type="SystemFont" id="SystemFont_kl3t2"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynupv"]
 bg_color = Color(0.4, 0.4, 0.6, 1)
@@ -73,6 +76,7 @@ Label/font_sizes/font_size = 16
 
 [sub_resource type="SystemFont" id="SystemFont_hys1s"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgqbg"]
 bg_color = Color(0.4, 0.4, 0.6, 1)
@@ -104,6 +108,7 @@ Label/font_sizes/font_size = 16
 
 [sub_resource type="SystemFont" id="SystemFont_ytwc7"]
 font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ncoa"]
 bg_color = Color(0.4, 0.4, 0.6, 1)
@@ -138,6 +143,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_g18y6")
 
 [node name="Background" type="ColorRect" parent="."]

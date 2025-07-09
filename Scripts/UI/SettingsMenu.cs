@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 
 namespace CodeRogue.UI
 {
@@ -28,7 +29,7 @@ namespace CodeRogue.UI
         
         [Export]
         public Button ResetButton { get; set; }
-        
+
         public override void _Ready()
         {
             // 连接控件信号
@@ -72,11 +73,12 @@ namespace CodeRogue.UI
         public void HideSettings()
         {
             Visible = false;
+            
         }
         
         private void LoadSettings()
         {
-            var audioManager = GetNode<AudioManager>("/root/AudioManager");
+            var audioManager = NodeUtils.GetAudioManager(this);
             if (audioManager != null)
             {
                 if (MasterVolumeSlider != null)
@@ -96,19 +98,19 @@ namespace CodeRogue.UI
         
         private void OnMasterVolumeChanged(double value)
         {
-            var audioManager = GetNode<AudioManager>("/root/AudioManager");
+            var audioManager = NodeUtils.GetAudioManager(this);
             audioManager?.SetMasterVolume((float)value);
         }
         
         private void OnMusicVolumeChanged(double value)
         {
-            var audioManager = GetNode<AudioManager>("/root/AudioManager");
+            var audioManager = NodeUtils.GetAudioManager(this);
             audioManager?.SetMusicVolume((float)value);
         }
         
         private void OnSfxVolumeChanged(double value)
         {
-            var audioManager = GetNode<AudioManager>("/root/AudioManager");
+            var audioManager = NodeUtils.GetAudioManager(this);
             audioManager?.SetSFXVolume((float)value);
         }
         
@@ -138,7 +140,9 @@ namespace CodeRogue.UI
         
         private void OnBackPressed()
         {
-            HideSettings();
+            // 通过UIManager返回上一级UI
+            var uiManager = NodeUtils.GetUIManager(this);
+            uiManager?.HideSettingsMenu();
         }
         
         private void OnResetPressed()

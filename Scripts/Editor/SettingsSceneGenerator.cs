@@ -11,6 +11,7 @@ public partial class SettingsSceneGenerator : EditorScript
 		// 创建根节点
 		var root = new Control();
 		root.Name = "SettingsMenu";
+		
 		// root.SetAnchorsAndOffsetsPreset(Control.PresetMode.FullRect);
 
 		
@@ -21,22 +22,19 @@ public partial class SettingsSceneGenerator : EditorScript
 		// 创建背景
 		var background = new ColorRect();
 		background.Name = "Background";
-		// background.SetAnchorsAndOffsetsPreset(Control.PresetMode.FullRect);
 		background.Color = new Color(0.1f, 0.1f, 0.1f, 0.9f);
 		root.AddChild(background);
-		background.Owner = root;
+		// background.Owner = root; // 移除这行
 		
 		// 创建滚动容器
 		var scrollContainer = new ScrollContainer();
 		scrollContainer.Name = "ScrollContainer";
-		// scrollContainer.SetAnchorsAndOffsetsPreset(Control.PresetMode.FullRect);
-		// scrollContainer.SetAnchorsAndOffsetsPreset(Control.PresetMode.FullRect, true);
 		scrollContainer.OffsetLeft = 50;
 		scrollContainer.OffsetTop = 50;
 		scrollContainer.OffsetRight = -50;
 		scrollContainer.OffsetBottom = -50;
 		root.AddChild(scrollContainer);
-		scrollContainer.Owner = root;
+		// scrollContainer.Owner = root; // 移除这行
 		
 		// 创建主容器
 		var vboxContainer = new VBoxContainer();
@@ -74,19 +72,23 @@ public partial class SettingsSceneGenerator : EditorScript
 		audioSection.AddChild(sfxVolumeContainer);
 		sfxVolumeContainer.Owner = root;
 		
-		// 显示设置部分
+		// 全屏设置
+		var fullscreenContainer = CreateCheckBoxContainer("全屏", "FullscreenCheckBox", false);
+		// 创建显示设置部分
 		var displaySection = CreateSection("显示设置");
 		vboxContainer.AddChild(displaySection);
 		displaySection.Owner = root;
-		
-		// 全屏设置
-		var fullscreenContainer = CreateCheckBoxContainer("全屏", "FullscreenCheckBox", false);
 		displaySection.AddChild(fullscreenContainer);
 		fullscreenContainer.Owner = root;
 		
+		// 垂直同步
+		var vsyncContainer = CreateCheckBoxContainer("垂直同步", "VsyncCheckBox", true);
+		displaySection.AddChild(vsyncContainer);
+		vsyncContainer.Owner = root;
+
 		// 分辨率设置
 		var resolutionContainer = CreateOptionButtonContainer("分辨率", "ResolutionOption", 
-			new string[] { "1920x1080", "1600x900", "1366x768", "1280x720" });
+		new string[] { "1920x1080", "1600x900", "1366x768", "1280x720" });
 		displaySection.AddChild(resolutionContainer);
 		resolutionContainer.Owner = root;
 		
@@ -107,11 +109,27 @@ public partial class SettingsSceneGenerator : EditorScript
 		buttonContainer.AddChild(backButton);
 		backButton.Owner = root;
 		
+		// 在保存场景之前，统一设置所有节点的Owner
+		SetOwnerRecursively(root, root);
+		
 		// 保存场景
 		scene.Pack(root);
 		ResourceSaver.Save(scene, "res://Scenes/UI/SettingsMenu.tscn");
 		
 		GD.Print("SettingsMenu.tscn 场景已生成完成！");
+	}
+	
+	// 添加递归设置Owner的辅助方法
+	private void SetOwnerRecursively(Node node, Node owner)
+	{
+		foreach (Node child in node.GetChildren())
+		{
+			if (child != owner) // 避免将根节点设置为自己的Owner
+			{
+				child.Owner = owner;
+				SetOwnerRecursively(child, owner);
+			}
+		}
 	}
 	
 	private VBoxContainer CreateSection(string title)
@@ -137,7 +155,7 @@ public partial class SettingsSceneGenerator : EditorScript
 		label.CustomMinimumSize = new Vector2(120, 0);
 		container.AddChild(label);
 		
-		var slider = new HSlider(); // 改为 HSlider
+		var slider = new HSlider();
 		slider.Name = sliderName;
 		slider.MinValue = minValue;
 		slider.MaxValue = maxValue;
