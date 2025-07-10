@@ -115,6 +115,11 @@ layout_mode = 2
 theme = SubResource("Theme_intyv")
 text = "Score: 0"
 
+[node name="DeckButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(80, 50)
+layout_mode = 2
+text = "牌库"
+
 [node name="PauseButton" type="Button" parent="."]
 custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
@@ -126,3 +131,25 @@ offset_right = -20.0
 offset_bottom = 60.0
 theme = SubResource("Theme_ikj5o")
 text = "暂停"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.003
+anchor_top = 0.795
+anchor_right = 0.003
+anchor_bottom = 0.795
+offset_left = 0.544
+offset_top = -0.160034
+offset_right = 540.544
+offset_bottom = 127.84
+
+[node name="DebugInput" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.901
+anchor_bottom = 0.901
+offset_left = 2.0
+offset_top = -51.328
+offset_right = 562.0
+offset_bottom = 2.672
+text = "aaaaaaaaaabbbbbbbbbbb"

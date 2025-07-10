@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.UI;
 
 [GlobalClass]
 public partial class SkillDeckManager : Node
@@ -89,5 +90,22 @@ public partial class SkillDeckManager : Node
     internal float GetChargeEfficiency()
     {
         throw new NotImplementedException();
+    }
+
+    internal void OpenDeck()
+    {
+        // 创建技能卡组UI场景
+        var deckUIScene = GD.Load<PackedScene>("res://Scenes/UI/SkillDeckUI.tscn");
+        if (deckUIScene != null)
+        {
+            var deckUI = deckUIScene.Instantiate<SkillDeckUI>();
+            GetTree().CurrentScene.AddChild(deckUI);
+        }
+        else
+        {
+            // 如果场景文件不存在，直接创建UI
+            var deckUI = new SkillDeckUI();
+            GetTree().CurrentScene.AddChild(deckUI);
+        }
     }
 }

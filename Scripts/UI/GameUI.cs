@@ -1,6 +1,7 @@
 using Godot;
 using CodeRogue.Core;
 using CodeRogue.Player;
+using System;
 
 namespace CodeRogue.UI
 {
@@ -14,7 +15,7 @@ namespace CodeRogue.UI
 		private Label _levelLabel;
 		private Label _scoreLabel;
 		private Button _pauseButton;
-		
+		private Button _deckButton;
 		private PlayerController _player;
 		
 		public override void _Ready()
@@ -32,6 +33,7 @@ namespace CodeRogue.UI
 			_levelLabel = GetNode<Label>("HBoxContainer/InfoContainer/LevelLabel");
 			_scoreLabel = GetNode<Label>("HBoxContainer/InfoContainer/ScoreLabel");
 			_pauseButton = GetNode<Button>("PauseButton");
+			_deckButton = GetNode<Button>("HBoxContainer/DeckButton");
 		}
 		
 		private void ConnectSignals()
@@ -40,8 +42,17 @@ namespace CodeRogue.UI
 			{
 				_pauseButton.Pressed += OnPauseButtonPressed;
 			}
+			if (_deckButton != null)
+			{
+				_deckButton.Pressed += OnDeckButtonPressed;
+			}
 		}
-		
+
+		private void OnDeckButtonPressed()
+		{
+			SkillDeckManager.Instance?.OpenDeck();
+		}
+
 		private void FindPlayer()
 		{
 			// 查找玩家节点

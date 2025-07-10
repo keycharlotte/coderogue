@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="CodeRogue"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/resource_data_exporter/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

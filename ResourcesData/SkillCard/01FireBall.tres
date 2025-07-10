@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SkillCard" load_steps=2 format=3 uid="uid://diicgwm0vbu27"]
+
+[ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
+
+[resource]
+script = ExtResource("1_crrrm")
+Id = 1
+Name = "FireBall"
+Description = "发射一枚火球"
+Type = 0
+Rarity = 0
+ChargeCost = 100
+Level = 1
+Tags = Array[Object]([null, null])
+Effects = Array[Object]([null])
+IconPath = ""
+RarityColor = Color(0, 0, 0, 0)
+LevelData = Array[Object]([null, null])
+metadata/_custom_type_script = "uid://ba751fit8geao"

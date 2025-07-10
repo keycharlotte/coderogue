@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillDeck" load_steps=2 format=3 uid="uid://ecqsn6nn5kap"]
+
+[ext_resource type="Script" uid="uid://bc222bsookp45" path="res://Scripts/Skills/SkillDeck.cs" id="1_w0nqv"]
+
+[resource]
+script = ExtResource("1_w0nqv")
+Cards = Array[Object]([])
+MaxDeckSize = 20
+metadata/_custom_type_script = "uid://bc222bsookp45"
