@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dra8sv2oouuam"]
+
+[ext_resource type="Script" uid="uid://buhfr6ib8b7tv" path="res://Scripts/UI/SkillCardUI.cs" id="1_tre6c"]
+
+[node name="SkillCardUI" type="Control"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+script = ExtResource("1_tre6c")

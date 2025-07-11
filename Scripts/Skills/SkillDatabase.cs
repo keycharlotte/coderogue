@@ -10,7 +10,7 @@ public partial class SkillDatabase : Node
 	public static SkillDatabase Instance => _instance;
 	
 	[Export] public Array<SkillCard> AllSkills { get; set; }
-	[Export] public string SkillConfigPath { get; set; } = "res://ResourcesData/Skills/";
+	[Export] public string SkillConfigPath { get; set; } = "res://ResourcesData/SkillCard/";
 	
 	private Godot.Collections.Dictionary<int, SkillCard> _skillsById;
 	private Godot.Collections.Dictionary<SkillRarity, Array<SkillCard>> _skillsByRarity;

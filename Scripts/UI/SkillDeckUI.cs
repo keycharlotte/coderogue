@@ -45,7 +45,8 @@ namespace CodeRogue.UI
 			mainContainer.CustomMinimumSize = new Vector2(800, 600);
 			mainContainer.AddThemeConstantOverride("separation", 10);
 			AddChild(mainContainer);
-			
+			var theme = GD.Load<Theme>("res://ResourcesThemes/GameUITheme.tres");
+			theme.SetFontSize("font_size", "Label", 18);
 			// 标题栏
 			var titleContainer = new HBoxContainer();
 			mainContainer.AddChild(titleContainer);

@@ -1,8 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://bn1j0ixfypw8k"]
+[gd_scene load_steps=3 format=3 uid="uid://bn1j0ixfypw8k"]
 
 [ext_resource type="Script" uid="uid://4p3ogd2bhjg8" path="res://Scripts/UI/SkillDeckUI.cs" id="1_n3rmg"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_7yhua"]
 
 [node name="SkillDeckUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_n3rmg")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1149.0
+offset_bottom = 649.0
+theme = ExtResource("2_7yhua")
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 1089.0
+offset_top = 6.0
+offset_right = 1145.0
+offset_bottom = 45.0
+text = "返回"
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 195.0
+offset_bottom = 67.0
+theme = ExtResource("2_7yhua")
+text = "技能卡组"
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 53.0
+offset_right = 1132.0
+offset_bottom = 629.0
+columns = 4
+
+[node name="VSlider" type="VSlider" parent="Panel"]
+layout_mode = 0
+offset_left = 1060.0
+offset_top = 94.0
+offset_right = 1225.0
+offset_bottom = 639.0

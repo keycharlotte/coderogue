@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/SkillCardUI.cs" id="1_2lrib"]
+
+[node name="SkillCardUI" type="Control"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+script = ExtResource("1_2lrib")
+
+[node name="_Panel_2" type="Panel" parent="."]
+layout_mode = 0
+
+[node name="_VBoxContainer_3" type="VBoxContainer" parent="_Panel_2"]
+layout_mode = 0
+theme_override_constants/separation = 5
+
+[node name="_HBoxContainer_4" type="HBoxContainer" parent="_Panel_2/_VBoxContainer_3"]
+layout_mode = 2
+
+[node name="_TextureRect_5" type="TextureRect" parent="_Panel_2/_VBoxContainer_3/_HBoxContainer_4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 3
+
+[node name="_Label_6" type="Label" parent="_Panel_2/_VBoxContainer_3/_HBoxContainer_4"]
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+
+[node name="_HBoxContainer_7" type="HBoxContainer" parent="_Panel_2/_VBoxContainer_3"]
+layout_mode = 2
+
+[node name="_Label_8" type="Label" parent="_Panel_2/_VBoxContainer_3/_HBoxContainer_7"]
+layout_mode = 2
+text = "消耗: 0"
+
+[node name="_Label_9" type="Label" parent="_Panel_2/_VBoxContainer_3/_HBoxContainer_7"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 2
+
+[node name="_Label_10" type="Label" parent="_Panel_2/_VBoxContainer_3"]
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 3
+
+[node name="_VBoxContainer_11" type="VBoxContainer" parent="_Panel_2/_VBoxContainer_3"]
+layout_mode = 2
+
+[node name="_Button_12" type="Button" parent="_Panel_2/_VBoxContainer_3"]
+custom_minimum_size = Vector2(60, 25)
+layout_mode = 2
+text = "移除"
