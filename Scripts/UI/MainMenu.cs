@@ -24,6 +24,8 @@ namespace CodeRogue.UI
         private Label _titleLabel;
         private AudioStreamPlayer _audioPlayer;
         
+        [Export] public TextureRect BackgroundRect { get; set; }
+
         public override void _Ready()
         {
             InitializeUI();
@@ -46,6 +48,8 @@ namespace CodeRogue.UI
             {
                 _titleLabel.Text = "Code Rogue";
             }
+
+            BackgroundRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/default.png");
         }
         
         private void ConnectSignals()

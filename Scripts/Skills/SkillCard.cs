@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 
@@ -13,7 +14,11 @@ public partial class SkillCard : Resource
 	[Export] public int Level { get; set; } = 1;
 	[Export] public Array<SkillTag> Tags { get; set; }
 	[Export] public Array<SkillEffect> Effects { get; set; }
-	[Export] public string IconPath { get; set; }
+	// 将字符串路径改为直接引用Texture2D资源
+	[Export] public Texture2D Icon { get; set; }
+	// 保留旧的IconPath以兼容现有数据，但标记为过时
+	[Export, Obsolete("使用Icon属性代替")]
+	public string IconPath { get; set; }
 	[Export] public Color RarityColor { get; set; }
 	
 	// 技能升级数据

@@ -9,106 +9,27 @@ namespace CodeRogue.UI
 	/// </summary>
 	public partial class SkillDeckUI : Control
 	{
-		private GridContainer _cardsGrid;
-		private Label _deckInfoLabel;
-		private Button _closeButton;
-		private Button _shuffleButton;
-		private ScrollContainer _scrollContainer;
-		private VBoxContainer _statsContainer;
+		[Export] private GridContainer _cardsGrid;
+		[Export] private Label _deckInfoLabel;
+		[Export] private Button _closeButton;
+		// [Export] private Button _shuffleButton;
+		[Export] private ScrollContainer _scrollContainer;
+		[Export] private VBoxContainer _statsContainer;
 		
 		private SkillDeck _currentDeck;
 		private List<SkillCardUI> _cardUIs;
 		
 		public override void _Ready()
 		{
-			InitializeUI();
 			ConnectSignals();
 			LoadCurrentDeck();
-		}
-		
-		private void InitializeUI()
-		{
-			// 设置主面板
-			// SetAnchorsAndOffsetsPreset(PresetMode.FullRect);
-			
-			// 创建背景面板
-			var backgroundPanel = new Panel();
-			// backgroundPanel.SetAnchorsAndOffsetsPreset(PresetMode.FullRect);
-			var bgStyle = new StyleBoxFlat();
-			bgStyle.BgColor = new Color(0, 0, 0, 0.8f);
-			backgroundPanel.AddThemeStyleboxOverride("panel", bgStyle);
-			AddChild(backgroundPanel);
-			
-			// 创建主容器
-			var mainContainer = new VBoxContainer();
-			// mainContainer.SetAnchorsAndOffsetsPreset(PresetMode.CenterWide);
-			mainContainer.CustomMinimumSize = new Vector2(800, 600);
-			mainContainer.AddThemeConstantOverride("separation", 10);
-			AddChild(mainContainer);
-			var theme = GD.Load<Theme>("res://ResourcesThemes/GameUITheme.tres");
-			theme.SetFontSize("font_size", "Label", 18);
-			// 标题栏
-			var titleContainer = new HBoxContainer();
-			mainContainer.AddChild(titleContainer);
-			
-			var titleLabel = new Label();
-			titleLabel.Text = "技能卡组";
-			titleLabel.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-			titleLabel.AddThemeStyleboxOverride("normal", new StyleBoxEmpty());
-			titleContainer.AddChild(titleLabel);
-			
-			_closeButton = new Button();
-			_closeButton.Text = "关闭";
-			_closeButton.CustomMinimumSize = new Vector2(80, 40);
-			titleContainer.AddChild(_closeButton);
-			
-			// 卡组信息
-			_deckInfoLabel = new Label();
-			_deckInfoLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-			mainContainer.AddChild(_deckInfoLabel);
-			
-			// 操作按钮
-			var buttonContainer = new HBoxContainer();
-			mainContainer.AddChild(buttonContainer);
-			
-			_shuffleButton = new Button();
-			_shuffleButton.Text = "洗牌";
-			_shuffleButton.CustomMinimumSize = new Vector2(80, 35);
-			buttonContainer.AddChild(_shuffleButton);
-			
-			// 主内容区域
-			var contentContainer = new HBoxContainer();
-			contentContainer.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-			mainContainer.AddChild(contentContainer);
-			
-			// 卡片滚动区域
-			_scrollContainer = new ScrollContainer();
-			_scrollContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-			_scrollContainer.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-			contentContainer.AddChild(_scrollContainer);
-			
-			_cardsGrid = new GridContainer();
-			_cardsGrid.Columns = 3;
-			_cardsGrid.AddThemeConstantOverride("h_separation", 10);
-			_cardsGrid.AddThemeConstantOverride("v_separation", 10);
-			_scrollContainer.AddChild(_cardsGrid);
-			
-			// 统计信息面板
-			_statsContainer = new VBoxContainer();
-			_statsContainer.CustomMinimumSize = new Vector2(200, 0);
-			contentContainer.AddChild(_statsContainer);
-			
-			var statsTitle = new Label();
-			statsTitle.Text = "卡组统计";
-			_statsContainer.AddChild(statsTitle);
-			
 			_cardUIs = new List<SkillCardUI>();
 		}
 		
 		private void ConnectSignals()
 		{
 			_closeButton.Pressed += OnCloseButtonPressed;
-			_shuffleButton.Pressed += OnShuffleButtonPressed;
+			// _shuffleButton.Pressed += OnShuffleButtonPressed;
 			
 			// 连接卡组管理器信号
 			if (SkillDeckManager.Instance != null)
@@ -121,17 +42,22 @@ namespace CodeRogue.UI
 		
 		private void LoadCurrentDeck()
 		{
-			if (SkillDeckManager.Instance != null)
+			if (SkillDeckManager.Instance == null)
 			{
-				_currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
-				UpdateDeckDisplay();
+				GD.PrintErr("SkillDeckManager.Instance is null, retrying later...");
+				CallDeferred("LoadCurrentDeck");
+				return;
 			}
+			
+			// 原有的加载逻辑
+			_currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
+			UpdateDeckDisplay();
 		}
 		
 		private void UpdateDeckDisplay()
 		{
 			if (_currentDeck == null) return;
-			
+			GD.Print($"UpdateDeckDisplay: {_currentDeck._drawPile}");
 			// 清除现有卡片UI
 			ClearCardUIs();
 			
@@ -150,18 +76,23 @@ namespace CodeRogue.UI
 		
 		private void CreateCardUI(SkillCard card)
 		{
-			var cardUI = new SkillCardUI();
+			// 加载SkillCardUI场景
+			var cardScene = GD.Load<PackedScene>("res://Scenes/UI/SkillCardUI.tscn");
+			var cardUI = cardScene.Instantiate<SkillCardUI>();
 			cardUI.CustomMinimumSize = new Vector2(200, 280);
-			cardUI.SetSkillCard(card);
 			cardUI.CardClicked += OnCardClicked;
-			cardUI.CardRemoved += OnCardRemoveRequested;
+			cardUI.CardRemoveRequested += OnCardRemoveRequested;
 			
-			_cardsGrid.AddChild(cardUI);
+			_cardsGrid.AddChild(cardUI); // 先添加到场景树
 			_cardUIs.Add(cardUI);
+			
+			// 延迟设置技能卡数据，确保节点已完全初始化
+			cardUI.CallDeferred("SetSkillCard", card);
 		}
 		
 		private void ClearCardUIs()
 		{
+			if (_cardUIs == null) return;
 			foreach (var cardUI in _cardUIs)
 			{
 				cardUI.QueueFree();

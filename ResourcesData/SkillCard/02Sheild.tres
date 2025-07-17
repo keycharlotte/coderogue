@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="SkillCard" load_steps=9 format=3 uid="uid://ce0b2ews34n5j"]
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://ce0b2ews34n5j"]
 
 [ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/SkillTag/xihuan.tres" id="1_a8wdi"]
 [ext_resource type="Script" uid="uid://dn5d1tr5ikpl1" path="res://Scripts/Skills/SkillEffect.cs" id="1_ggc68"]
 [ext_resource type="Script" uid="uid://bi1r1lyx7orvj" path="res://Scripts/Skills/SkillLevelData.cs" id="2_fvmfg"]
 [ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="2_ggc68"]
+[ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="2_pt00n"]
+[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/SkillTag/jichu.tres" id="4_v2yrr"]
 
 [sub_resource type="Resource" id="Resource_fvmfg"]
 script = ExtResource("1_ggc68")
@@ -47,9 +49,10 @@ Type = 1
 Rarity = 0
 ChargeCost = 140
 Level = 1
-Tags = Array[Object]([ExtResource("1_a8wdi"), null])
+Tags = Array[Object]([ExtResource("1_a8wdi"), ExtResource("4_v2yrr")])
 Effects = Array[Object]([SubResource("Resource_fvmfg")])
-IconPath = ""
+Icon = ExtResource("2_pt00n")
+IconPath = "res://Art/AssetsTextures/FireBall.jpg"
 RarityColor = Color(0, 0, 0, 0)
 LevelData = Array[Object]([SubResource("Resource_v2yrr"), SubResource("Resource_pt00n"), SubResource("Resource_2jopy")])
 metadata/_custom_type_script = "uid://ba751fit8geao"

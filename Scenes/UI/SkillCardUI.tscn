@@ -1,10 +1,62 @@
-[gd_scene load_steps=2 format=3 uid="uid://dra8sv2oouuam"]
+[gd_scene load_steps=3 format=3 uid="uid://bgab118swygdw"]
 
 [ext_resource type="Script" uid="uid://buhfr6ib8b7tv" path="res://Scripts/UI/SkillCardUI.cs" id="1_tre6c"]
+[ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="2_qa0hi"]
 
-[node name="SkillCardUI" type="Control"]
+[node name="SkillCardUI" type="Control" node_paths=PackedStringArray("_nameLabel", "_descriptionLabel", "_costLabel", "_typeLabel", "_cardPanel", "_iconRect", "_tagsContainer")]
 custom_minimum_size = Vector2(200, 150)
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
 script = ExtResource("1_tre6c")
+_nameLabel = NodePath("CardPanel/_VBoxContainer_3/NameLabel")
+_descriptionLabel = NodePath("CardPanel/_VBoxContainer_3/DescriptionLabel")
+_costLabel = NodePath("CardPanel/_VBoxContainer_3/_HBoxContainer_7/CostLabel")
+_typeLabel = NodePath("CardPanel/_VBoxContainer_3/_HBoxContainer_7/TypeLabel")
+_cardPanel = NodePath("CardPanel")
+_iconRect = NodePath("CardPanel/_VBoxContainer_3/_HBoxContainer_4/IconRect")
+_tagsContainer = NodePath("CardPanel/_VBoxContainer_3/_VBoxContainer_11")
+
+[node name="CardPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 240.0
+
+[node name="_VBoxContainer_3" type="VBoxContainer" parent="CardPanel"]
+layout_mode = 0
+theme_override_constants/separation = 5
+
+[node name="_HBoxContainer_4" type="HBoxContainer" parent="CardPanel/_VBoxContainer_3"]
+layout_mode = 2
+
+[node name="IconRect" type="TextureRect" parent="CardPanel/_VBoxContainer_3/_HBoxContainer_4"]
+custom_minimum_size = Vector2(150, 130)
+layout_mode = 2
+texture = ExtResource("2_qa0hi")
+expand_mode = 1
+
+[node name="NameLabel" type="Label" parent="CardPanel/_VBoxContainer_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+
+[node name="_HBoxContainer_7" type="HBoxContainer" parent="CardPanel/_VBoxContainer_3"]
+layout_mode = 2
+
+[node name="CostLabel" type="Label" parent="CardPanel/_VBoxContainer_3/_HBoxContainer_7"]
+layout_mode = 2
+text = "消耗: 0"
+
+[node name="TypeLabel" type="Label" parent="CardPanel/_VBoxContainer_3/_HBoxContainer_7"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 2
+
+[node name="DescriptionLabel" type="Label" parent="CardPanel/_VBoxContainer_3"]
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 3
+
+[node name="_VBoxContainer_11" type="VBoxContainer" parent="CardPanel/_VBoxContainer_3"]
+custom_minimum_size = Vector2(55, 50)
+layout_mode = 2

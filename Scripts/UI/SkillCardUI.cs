@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Linq;
 
 namespace CodeRogue.UI
@@ -14,10 +15,11 @@ namespace CodeRogue.UI
 		[Export] private Label _costLabel;
 		[Export] private Label _typeLabel;
 		[Export] private Panel _cardPanel;
-		[Export] private TextureRect _iconRect;
+		[Export] public TextureRect _iconRect;
 		[Export] private VBoxContainer _tagsContainer;
 		
 		[Signal] public delegate void CardClickedEventHandler(SkillCard card);
+		[Signal] public delegate void CardRemoveRequestedEventHandler(SkillCard card);
 		
 		public override void _Ready()
 		{
@@ -27,7 +29,7 @@ namespace CodeRogue.UI
 		
 		private void InitializeUI()
 		{
-
+			// SetSkillCard();
 		}
 		
 		private void ConnectSignals()
@@ -65,14 +67,17 @@ namespace CodeRogue.UI
 			// 更新标签显示
 			UpdateTagsDisplay();
 			
-			// 加载图标
-			if (!string.IsNullOrEmpty(_skillCard.IconPath))
+			// 加载图标 - 优先使用直接引用的Icon
+			if (_skillCard.IconPath != null)
 			{
-				var texture = GD.Load<Texture2D>(_skillCard.IconPath);
-				if (texture != null)
-				{
-					_iconRect.Texture = texture;
-				}
+				// 也可以使用ResourceLoader
+				GD.Print(_skillCard.IconPath);
+				_iconRect.Texture = ResourceLoader.Load<Texture2D>(_skillCard.IconPath);
+			}
+			// 如果两者都为空，使用默认图标
+			else
+			{
+				_iconRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/default.png");
 			}
 		}
 		

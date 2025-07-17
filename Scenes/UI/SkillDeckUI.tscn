@@ -3,10 +3,15 @@
 [ext_resource type="Script" uid="uid://4p3ogd2bhjg8" path="res://Scripts/UI/SkillDeckUI.cs" id="1_n3rmg"]
 [ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_7yhua"]
 
-[node name="SkillDeckUI" type="Control"]
+[node name="SkillDeckUI" type="Control" node_paths=PackedStringArray("_cardsGrid", "_deckInfoLabel", "_closeButton", "_scrollContainer", "_statsContainer")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_n3rmg")
+_cardsGrid = NodePath("Panel/ScrollContainer/GridContainer")
+_deckInfoLabel = NodePath("Panel/InfoLabel")
+_closeButton = NodePath("Panel/CloseButton")
+_scrollContainer = NodePath("Panel/ScrollContainer")
+_statsContainer = NodePath("Panel/VBoxContainer")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
@@ -14,7 +19,7 @@ offset_right = 1149.0
 offset_bottom = 649.0
 theme = ExtResource("2_7yhua")
 
-[node name="Button" type="Button" parent="Panel"]
+[node name="CloseButton" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 1089.0
 offset_top = 6.0
@@ -31,17 +36,36 @@ offset_bottom = 67.0
 theme = ExtResource("2_7yhua")
 text = "技能卡组"
 
-[node name="GridContainer" type="GridContainer" parent="Panel"]
-layout_mode = 0
-offset_left = 13.0
-offset_top = 53.0
-offset_right = 1132.0
-offset_bottom = 629.0
-columns = 4
-
 [node name="VSlider" type="VSlider" parent="Panel"]
 layout_mode = 0
 offset_left = 1060.0
 offset_top = 94.0
 offset_right = 1225.0
 offset_bottom = 639.0
+
+[node name="InfoLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 4.0
+offset_right = 270.0
+offset_bottom = 35.0
+theme = ExtResource("2_7yhua")
+text = "技能卡组"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 47.0
+offset_right = 1134.0
+offset_bottom = 638.0
+
+[node name="GridContainer" type="GridContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 482.0
+offset_right = 1132.0
+offset_bottom = 614.0

@@ -14,7 +14,8 @@ public partial class SkillDeckManager : Node
     [Signal] public delegate void CardAddedEventHandler(SkillCard card);
     [Signal] public delegate void CardRemovedEventHandler(SkillCard card);
     
-    private SkillDeck _currentDeck;
+    [Export]
+    public SkillDeck _currentDeck;
     private List<SkillDeck> _savedDecks;
     
     public override void _Ready()
@@ -26,10 +27,15 @@ public partial class SkillDeckManager : Node
     
     private void InitializeDefaultDeck()
     {
-        _currentDeck = new SkillDeck();
-        _currentDeck.MaxDeckSize = 20;
-        _currentDeck.Cards = new Godot.Collections.Array<SkillCard>();
-        
+        _currentDeck = new SkillDeck
+        {
+            MaxDeckSize = 20,
+            Cards = []
+        };
+
+        // 先初始化，确保 _drawPile 不为 null
+        _currentDeck.Initialize();
+
         // 添加一些基础技能
         var database = SkillDatabase.Instance;
         if (database != null)
@@ -40,8 +46,11 @@ public partial class SkillDeckManager : Node
                 _currentDeck.AddCard(skill);
             }
         }
+        else
+        {
+            GD.PrintErr("SkillDatabase is null");
+        }
         
-        _currentDeck.Initialize();
         EmitSignal(SignalName.DeckChanged, _currentDeck);
     }
     

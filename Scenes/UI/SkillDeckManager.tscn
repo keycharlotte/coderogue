@@ -1,0 +1,18 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkgam3ha3yf5d"]
+
+[ext_resource type="Script" uid="uid://l2fhelbymftg" path="res://Scripts/Skills/SkillDeckManager.cs" id="1_16wsf"]
+[ext_resource type="PackedScene" uid="uid://bn1j0ixfypw8k" path="res://Scenes/UI/SkillDeckUI.tscn" id="2_xrfu1"]
+[ext_resource type="Script" uid="uid://cgnf5sv6e6ati" path="res://Scripts/Skills/SkillDatabase.cs" id="4_4jcm0"]
+[ext_resource type="Resource" uid="uid://diicgwm0vbu27" path="res://ResourcesData/SkillCard/01FireBall.tres" id="5_by1ng"]
+[ext_resource type="Resource" uid="uid://ce0b2ews34n5j" path="res://ResourcesData/SkillCard/02Sheild.tres" id="6_uwvw3"]
+[ext_resource type="Resource" uid="uid://d1y2kdjha0jby" path="res://ResourcesData/SkillCard/03Lightning.tres" id="7_ya4ix"]
+[ext_resource type="Resource" uid="uid://bpgt4qf10704s" path="res://ResourcesData/SkillCard/04Heal.tres" id="8_ublbt"]
+
+[node name="SkillDeckManager" type="Node2D"]
+script = ExtResource("1_16wsf")
+
+[node name="SkillDeckUI" parent="." instance=ExtResource("2_xrfu1")]
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("4_4jcm0")
+AllSkills = Array[Object]([ExtResource("5_by1ng"), ExtResource("6_uwvw3"), ExtResource("7_ya4ix"), ExtResource("8_ublbt")])
