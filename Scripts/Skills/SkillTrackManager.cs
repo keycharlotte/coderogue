@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Skills;
 
 [GlobalClass]
 public partial class SkillTrackManager : Node
@@ -269,21 +270,14 @@ public partial class SkillTrackManager : Node
     {
         throw new NotImplementedException();
     }
-}
 
-public class SkillTrack
-{
-    public int Index { get; set; }
-    public SkillCard EquippedSkill { get; set; }
-    public float CurrentCharge { get; set; }
-    public float MaxCharge { get; set; }
-    public TrackState State { get; set; }
-}
+    internal void ClearTrack(int i)
+    {
+        throw new NotImplementedException();
+    }
 
-public enum TrackState
-{
-    Empty,
-    Charging,
-    Ready,
-    Cooldown
+    internal void StartCharging()
+    {
+        throw new NotImplementedException();
+    }
 }

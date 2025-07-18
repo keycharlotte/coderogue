@@ -8,5 +8,8 @@
         "Randf",
         "Stylebox",
         "tscn"
-    ]
+    ],
+    "files.exclude": {
+        "**/*.uid": true
+    }
 }
