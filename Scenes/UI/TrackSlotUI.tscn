@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvqxk8y7n8wqr"]
+
+[ext_resource type="Script" uid="uid://7ybwpqxbvsp2" path="res://Scripts/UI/TrackSlotUI.cs" id="1_abc123"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="1_qjsyp"]
+
+[node name="TrackSlotUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 50.0
+theme = ExtResource("1_qjsyp")
+script = ExtResource("1_abc123")
+_background = NodePath("Background")
+_skillIcon = NodePath("SkillIcon")
+_chargeProgress = NodePath("ChargeProgress")
+_skillNameLabel = NodePath("SkillNameLabel")
+_stateLabel = NodePath("StateLabel")
+_clickArea = NodePath("ClickArea")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SkillIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 45.0
+offset_bottom = 45.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SkillNameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 5.0
+offset_right = 155.0
+offset_bottom = 25.0
+text = "技能名称"
+vertical_alignment = 1
+
+[node name="ChargeProgress" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 14.0
+offset_right = 390.0
+offset_bottom = 38.0
+show_percentage = false
+
+[node name="StateLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 25.0
+offset_right = 115.0
+offset_bottom = 48.0
+text = "状态"
+vertical_alignment = 1
+
+[node name="ClickArea" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true

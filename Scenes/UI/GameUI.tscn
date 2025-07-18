@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://t2ffrcxaux3a"]
+[gd_scene load_steps=15 format=3 uid="uid://t2ffrcxaux3a"]
 
 [ext_resource type="Script" uid="uid://cgsfr7tgawli1" path="res://Scripts/UI/GameUI.cs" id="1_13cgw"]
+[ext_resource type="PackedScene" uid="uid://bo03756c7jc4p" path="res://Scenes/UI/SkillTrackUI.tscn" id="2_71wt1"]
 
 [sub_resource type="SystemFont" id="SystemFont_13cgw"]
 font_names = PackedStringArray("Arial")
@@ -80,12 +81,15 @@ grow_vertical = 2
 script = ExtResource("1_13cgw")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 80.0
+grow_horizontal = 2
 theme_override_constants/separation = 20
 
 [node name="HealthContainer" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 
@@ -102,6 +106,7 @@ theme = SubResource("Theme_fe2yh")
 value = 100.0
 
 [node name="InfoContainer" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 
@@ -119,6 +124,10 @@ text = "Score: 0"
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
 text = "牌库"
+
+[node name="RelicContainer" type="HBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(800, 20)
+layout_mode = 2
 
 [node name="PauseButton" type="Button" parent="."]
 custom_minimum_size = Vector2(80, 40)
@@ -153,3 +162,21 @@ offset_top = -51.328
 offset_right = 562.0
 offset_bottom = 2.672
 text = "aaaaaaaaaabbbbbbbbbbb"
+
+[node name="BuffContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = -4.0
+offset_top = 30.0
+offset_right = 36.0
+offset_bottom = 70.0
+scale = Vector2(11.844, 0.945171)
+
+[node name="Control2" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 836.0
+offset_top = 373.0
+offset_right = 1149.0
+offset_bottom = 647.0
+
+[node name="SkillTrackUI" parent="Control2" instance=ExtResource("2_71wt1")]
+layout_mode = 1

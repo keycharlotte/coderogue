@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="2_qa0hi"]
 
 [node name="SkillCardUI" type="Control" node_paths=PackedStringArray("_nameLabel", "_descriptionLabel", "_costLabel", "_typeLabel", "_cardPanel", "_iconRect", "_tagsContainer")]
-custom_minimum_size = Vector2(200, 150)
+custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 152.0
+offset_bottom = 242.0
 size_flags_horizontal = 3
 script = ExtResource("1_tre6c")
 _nameLabel = NodePath("CardPanel/_VBoxContainer_3/NameLabel")

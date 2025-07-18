@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo03756c7jc4p"]
+
+[ext_resource type="Script" uid="uid://cjkcfftppxgjd" path="res://Scripts/UI/SkillTrackUI.cs" id="1_abc123"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_def456"]
+
+[node name="SkillTrackUI" type="Control" node_paths=PackedStringArray("_tracksContainer", "_statusLabel", "_activateButton")]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -300.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_abc123")
+_tracksContainer = NodePath("VBoxContainer/TracksContainer")
+_statusLabel = NodePath("VBoxContainer/StatusLabel")
+_activateButton = NodePath("VBoxContainer/ActivateButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_def456")
+text = "技能轨道系统"
+horizontal_alignment = 1
+
+[node name="TracksContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+theme = ExtResource("2_def456")
+text = "等待技能装载..."
+horizontal_alignment = 1
+
+[node name="ActivateButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_def456")
+text = "激活所有就绪技能"
