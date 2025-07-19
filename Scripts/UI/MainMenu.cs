@@ -125,7 +125,8 @@ namespace CodeRogue.UI
             var gameData = new GameData();
             gameData.ResetToDefaults();
             // 切换到游戏场景
-            GameManager.Instance?.StartGame();
+            var gameManager = GetNode<GameManager>("/root/GameManager");
+        gameManager?.StartGame();
             // GetTree().ChangeSceneToFile("res://Scenes/Level/BaseLevel.tscn");
         }
         

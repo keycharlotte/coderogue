@@ -3,18 +3,14 @@ using Godot;
 using Godot.Collections;
 
 [GlobalClass]
-public partial class HeroDatabase : Resource
+public partial class HeroDatabase : Node
 {
-    private static HeroDatabase _instance;
-    public static HeroDatabase Instance => _instance ??= new HeroDatabase();
-    
     private Godot.Collections.Dictionary<int, HeroConfig> _heroConfigs;
     private Array<HeroConfig> _allHeroes;
     
-    public HeroDatabase()
+    public override void _Ready()
     {
         _heroConfigs = new Godot.Collections.Dictionary<int, HeroConfig>();
-
         _allHeroes = new Array<HeroConfig>();
         LoadHeroConfigs();
     }

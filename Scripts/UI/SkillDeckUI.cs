@@ -21,9 +21,9 @@ namespace CodeRogue.UI
 		
 		public override void _Ready()
 		{
+			_cardUIs = new List<SkillCardUI>();
 			ConnectSignals();
 			LoadCurrentDeck();
-			_cardUIs = new List<SkillCardUI>();
 		}
 		
 		private void ConnectSignals()
@@ -32,27 +32,29 @@ namespace CodeRogue.UI
 			// _shuffleButton.Pressed += OnShuffleButtonPressed;
 			
 			// 连接卡组管理器信号
-			if (SkillDeckManager.Instance != null)
-			{
-				SkillDeckManager.Instance.DeckChanged += OnDeckChanged;
-				SkillDeckManager.Instance.CardAdded += OnCardAdded;
-				SkillDeckManager.Instance.CardRemoved += OnCardRemoved;
-			}
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		if (deckManager != null)
+		{
+			deckManager.DeckChanged += OnDeckChanged;
+			deckManager.CardAdded += OnCardAdded;
+			deckManager.CardRemoved += OnCardRemoved;
+		}
 		}
 		
 		private void LoadCurrentDeck()
+	{
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		if (deckManager == null)
 		{
-			if (SkillDeckManager.Instance == null)
-			{
-				GD.PrintErr("SkillDeckManager.Instance is null, retrying later...");
-				CallDeferred("LoadCurrentDeck");
-				return;
-			}
-			
-			// 原有的加载逻辑
-			_currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
-			UpdateDeckDisplay();
+			GD.PrintErr("SkillDeckManager autoload is null, retrying later...");
+			CallDeferred("LoadCurrentDeck");
+			return;
 		}
+		
+		// 原有的加载逻辑
+		_currentDeck = deckManager.GetCurrentDeck();
+		UpdateDeckDisplay();
+	}
 		
 		private void UpdateDeckDisplay()
 		{
@@ -150,9 +152,10 @@ namespace CodeRogue.UI
 		}
 		
 		private void OnCardRemoveRequested(SkillCard card)
-		{
-			SkillDeckManager.Instance?.RemoveCardFromDeck(card);
-		}
+	{
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		deckManager?.RemoveCardFromDeck(card);
+	}
 		
 		private void OnDeckChanged(SkillDeck newDeck)
 		{

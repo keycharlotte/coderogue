@@ -16,9 +16,10 @@ namespace CodeRogue.UI
 			SetupUI();
 			
 			// 连接输入管理器信号
-			if (InputManager.Instance != null)
-			{
-				InputManager.Instance.InputChanged += OnInputChanged;
+			var inputManager = GetNode<InputManager>("/root/InputManager");
+		if (inputManager != null)
+		{
+			inputManager.InputChanged += OnInputChanged;
 			}
 		}
 		
@@ -46,9 +47,10 @@ namespace CodeRogue.UI
 		
 		public override void _ExitTree()
 		{
-			if (InputManager.Instance != null)
-			{
-				InputManager.Instance.InputChanged -= OnInputChanged;
+			var inputManager = GetNode<InputManager>("/root/InputManager");
+		if (inputManager != null)
+		{
+			inputManager.InputChanged -= OnInputChanged;
 			}
 		}
 	}

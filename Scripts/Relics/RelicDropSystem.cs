@@ -27,10 +27,13 @@ public partial class RelicDropSystem : RefCounted
 	/// <summary>
 	/// 获取随机遗物ID
 	/// </summary>
-	public int GetRandomRelicId(RelicRarity? targetRarity, int currentLevel, Array<RelicInstance> ownedRelics)
+	public int GetRandomRelicId(RelicDatabase database, RelicRarity? targetRarity, int currentLevel, Array<RelicInstance> ownedRelics)
 	{
-		var database = new RelicDatabase();
-		database.LoadConfigs();
+		if (database == null)
+		{
+			GD.PrintErr("RelicDatabase is null!");
+			return -1;
+		}
 		
 		var availableConfigs = database.GetAvailableConfigs(currentLevel, ownedRelics);
 		if (availableConfigs.Count == 0)

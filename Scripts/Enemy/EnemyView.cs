@@ -1,3 +1,4 @@
+using CodeRogue.Core;
 using Godot;
 
 public partial class EnemyView : Node2D
@@ -81,9 +82,10 @@ public partial class EnemyView : Node2D
 	
 	private void AssignRandomWord()
 	{
-		if (CodeRogue.Core.WordManager.Instance != null)
-		{
-			CurrentWord = CodeRogue.Core.WordManager.Instance.GetRandomWord();
+		var wordManager = GetNode<WordManager>("/root/WordManager");
+			if (wordManager != null)
+			{
+				CurrentWord = wordManager.GetRandomWord();
 		}
 	}
 	
@@ -121,7 +123,6 @@ public partial class EnemyView : Node2D
 				return false;
 			}
 		}
-		return false;
 	}
 	
 	public void OnWordMatched()

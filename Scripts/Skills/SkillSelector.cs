@@ -23,7 +23,12 @@ public partial class SkillSelector : Node
 	public override void _Ready()
 	{
 		_instance = this;
-		_database = SkillDatabase.Instance;
+		_database = GetNode<SkillDatabase>("/root/SkillDatabase");
+		if (_database == null)
+		{
+			GD.PrintErr("SkillDatabase autoload not found!");
+			return;
+		}
 		_random = new Random();
 		InitializeSelectionWeights();
 	}
@@ -48,7 +53,8 @@ public partial class SkillSelector : Node
 	private List<SkillCard> GenerateSkillOptions(int playerLevel)
 	{
 		var options = new List<SkillCard>();
-		var currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var currentDeck = deckManager?.GetCurrentDeck();
 		var ownedSkills = currentDeck?.Cards?.ToList() ?? new List<SkillCard>();
 		
 		// 调整权重基于游戏进度
@@ -145,7 +151,8 @@ public partial class SkillSelector : Node
 	
 	private void AdjustWeightsByBuildTendency(Godot.Collections.Dictionary<SkillRarity, float> weights)
 	{
-		var currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck?.Cards == null) return;
 		
 		// 分析当前构建倾向
@@ -163,7 +170,8 @@ public partial class SkillSelector : Node
 	
 	public void SelectSkill(SkillCard selectedSkill)
 	{
-		var currentDeck = SkillDeckManager.Instance.GetCurrentDeck();
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck == null) return;
 		
 		// 检查是否是升级现有技能
@@ -182,7 +190,8 @@ public partial class SkillSelector : Node
 		}
 		
 		// 更新技能轨道
-		SkillTrackManager.Instance.SetDeck(currentDeck);
+		var skillTrackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
+			skillTrackManager?.SetDeck(currentDeck);
 	}
 }
 

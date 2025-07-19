@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace CodeRogue.Data
@@ -5,8 +6,7 @@ namespace CodeRogue.Data
 	/// <summary>
 	/// 游戏数据类 - 存储游戏进度和设置
 	/// </summary>
-	[System.Serializable]
-	public partial class GameData : Resource
+	public partial class GameData : Node
 	{
 		[Export]
 		public int PlayerLevel { get; set; } = 1;
@@ -35,9 +35,10 @@ namespace CodeRogue.Data
 		[Export]
 		public bool FullScreen { get; set; } = false;
 		
-		public GameData()
+		public override void _Ready()
 		{
-			// 默认构造函数
+			// 自动加载游戏数据
+			LoadGameData();
 		}
 		
 		public void ResetToDefaults()
@@ -53,18 +54,59 @@ namespace CodeRogue.Data
 			FullScreen = false;
 		}
 		
-		public void SaveGame()
+		public void SaveGameData()
 		{
-			ResourceSaver.Save(this, "user://savegame.tres");
+			var saveData = new Godot.Collections.Dictionary<string, Variant>()
+			{
+				["PlayerLevel"] = PlayerLevel,
+				["PlayerExperience"] = PlayerExperience,
+				["PlayerHealth"] = PlayerHealth,
+				["PlayerMaxHealth"] = PlayerMaxHealth,
+				["CurrentLevel"] = CurrentLevel,
+				["MasterVolume"] = MasterVolume,
+				["SfxVolume"] = SfxVolume,
+				["MusicVolume"] = MusicVolume,
+				["FullScreen"] = FullScreen
+			};
+			
+			var saveFile = FileAccess.Open("user://savegame.save", FileAccess.ModeFlags.Write);
+			if (saveFile != null)
+			{
+				saveFile.StoreString(Json.Stringify(saveData));
+				saveFile.Close();
+			}
 		}
 		
-		public static GameData LoadGame()
+		public void LoadGameData()
 		{
-			if (ResourceLoader.Exists("user://savegame.tres"))
+			if (!FileAccess.FileExists("user://savegame.save"))
 			{
-				return ResourceLoader.Load<GameData>("user://savegame.tres");
+				return; // 使用默认值
 			}
-			return new GameData();
+			
+			var saveFile = FileAccess.Open("user://savegame.save", FileAccess.ModeFlags.Read);
+			if (saveFile != null)
+			{
+				var jsonString = saveFile.GetAsText();
+				saveFile.Close();
+				
+				var json = new Json();
+				var parseResult = json.Parse(jsonString);
+				if (parseResult == Error.Ok)
+				{
+					var saveData = json.Data.AsGodotDictionary<string, Variant>();
+					
+					PlayerLevel = saveData.GetValueOrDefault("PlayerLevel", 1).AsInt32();
+					PlayerExperience = saveData.GetValueOrDefault("PlayerExperience", 0).AsInt32();
+					PlayerHealth = saveData.GetValueOrDefault("PlayerHealth", 100).AsInt32();
+					PlayerMaxHealth = saveData.GetValueOrDefault("PlayerMaxHealth", 100).AsInt32();
+					CurrentLevel = saveData.GetValueOrDefault("CurrentLevel", 1).AsInt32();
+					MasterVolume = saveData.GetValueOrDefault("MasterVolume", 1.0f).AsSingle();
+					SfxVolume = saveData.GetValueOrDefault("SfxVolume", 1.0f).AsSingle();
+					MusicVolume = saveData.GetValueOrDefault("MusicVolume", 1.0f).AsSingle();
+					FullScreen = saveData.GetValueOrDefault("FullScreen", false).AsBool();
+				}
+			}
 		}
 	}
 }

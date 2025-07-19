@@ -10,29 +10,20 @@ namespace CodeRogue.Core
 	/// </summary>
 	public partial class WordManager : Node
 	{
-		public static WordManager Instance { get; private set; }
-		
 		private List<string> _wordBank = new List<string>
-		{
-			"cat", "dog", "bird", "fish", "tree", "book", "fire", "water",
-			"stone", "wind", "light", "dark", "sword", "magic", "power",
-			"speed", "jump", "run", "walk", "fly", "swim", "fight", "win",
-			"lose", "game", "play", "fun", "cool", "hot", "cold", "warm"
-		};
-		
-		private Random _random = new Random();
-		
-		public override void _Ready()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				QueueFree();
-			}
-		}
+	{
+		"cat", "dog", "bird", "fish", "tree", "book", "fire", "water",
+		"stone", "wind", "light", "dark", "sword", "magic", "power",
+		"speed", "jump", "run", "walk", "fly", "swim", "fight", "win",
+		"lose", "game", "play", "fun", "cool", "hot", "cold", "warm"
+	};
+	
+	private Random _random = new Random();
+	
+	public override void _Ready()
+	{
+		// 初始化逻辑
+	}
 		
 		/// <summary>
 		/// 获取随机单词

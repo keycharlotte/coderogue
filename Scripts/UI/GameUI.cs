@@ -49,9 +49,10 @@ namespace CodeRogue.UI
 		}
 
 		private void OnDeckButtonPressed()
-		{
-			SkillDeckManager.Instance?.OpenDeck();
-		}
+	{
+		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		deckManager?.OpenDeck();
+	}
 
 		private void FindPlayer()
 		{
@@ -101,7 +102,8 @@ namespace CodeRogue.UI
 		
 		private void OnPauseButtonPressed()
 		{
-			GameManager.Instance?.PauseGame();
+			var gameManager = GetNode<GameManager>("/root/GameManager");
+		gameManager?.PauseGame();
 		}
 		
 		public override void _Input(InputEvent @event)

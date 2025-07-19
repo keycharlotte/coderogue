@@ -2,12 +2,13 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using System;
 public partial class BuffCalculator : RefCounted
 {
-    public float CalculateProperty(Node target, string property)
+    public static float CalculateProperty(Node target, string property)
     {
-        var buffs = BuffManager.Instance.GetTargetBuffs(target);
+        var buffManager = target.GetNode<BuffManager>("/root/BuffManager");
+        var buffs = buffManager?.GetTargetBuffs(target) ?? new Array<BuffInstance>();
         float baseValue = GetBasePropertyValue(target, property);
         float finalValue = baseValue;
         
@@ -22,7 +23,7 @@ public partial class BuffCalculator : RefCounted
         return finalValue;
     }
     
-    public float CalculateEffectValue(BuffInstance buff, BuffEffectData effect)
+    public static float CalculateEffectValue(BuffInstance buff, BuffEffectData effect)
     {
         float value = effect.BaseValue;
         
@@ -41,7 +42,7 @@ public partial class BuffCalculator : RefCounted
         return value;
     }
     
-    private float GetBasePropertyValue(Node target, string property)
+    private static float GetBasePropertyValue(Node target, string property)
     {
         if (target is IBuffTarget buffTarget)
         {
@@ -50,7 +51,7 @@ public partial class BuffCalculator : RefCounted
         return 0f;
     }
     
-    private float ApplyAdditiveEffects(float baseValue, IEnumerable<BuffInstance> buffs, string property)
+    private static float ApplyAdditiveEffects(float baseValue, IEnumerable<BuffInstance> buffs, string property)
     {
         float additiveValue = 0f;
         
@@ -69,7 +70,7 @@ public partial class BuffCalculator : RefCounted
         return baseValue + additiveValue;
     }
     
-    private float ApplyMultiplicativeEffects(float currentValue, IEnumerable<BuffInstance> buffs, string property)
+    private static float ApplyMultiplicativeEffects(float currentValue, IEnumerable<BuffInstance> buffs, string property)
     {
         float multiplier = 1f;
         
@@ -88,7 +89,7 @@ public partial class BuffCalculator : RefCounted
         return currentValue * multiplier;
     }
     
-    private float ApplyFinalEffects(float currentValue, IEnumerable<BuffInstance> buffs, string property)
+    private static float ApplyFinalEffects(float currentValue, IEnumerable<BuffInstance> buffs, string property)
     {
         float finalValue = currentValue;
         
@@ -114,7 +115,7 @@ public partial class BuffCalculator : RefCounted
         return finalValue;
     }
     
-    private float EvaluateFormula(string formula, BuffInstance buff)
+    private static float EvaluateFormula(string formula, BuffInstance buff)
     {
         // 简单的公式计算实现
         // 可以使用更复杂的表达式解析器

@@ -3,10 +3,15 @@ using Godot.Collections;
 using System.Linq;
 
 [GlobalClass]
-public partial class RelicDatabase : RefCounted
+public partial class RelicDatabase : Node
 {
     private Dictionary<int, RelicConfig> _configs = new Dictionary<int, RelicConfig>();
     private Array<RelicConfig> _configList = new Array<RelicConfig>();
+    
+    public override void _Ready()
+    {
+        LoadConfigs();
+    }
     
     public void LoadConfigs()
     {

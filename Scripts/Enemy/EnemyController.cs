@@ -51,20 +51,22 @@ public partial class EnemyController : CharacterBody2D
 		_patrolTarget = _spawnPosition;
 		
 		// 注册到输入管理器
-		if (CodeRogue.Core.InputManager.Instance != null)
+		var inputManager = GetNode<InputManager>("/root/InputManager");
+		if (inputManager != null)
 		{
-			CodeRogue.Core.InputManager.Instance.RegisterEnemy(this);
-			CodeRogue.Core.InputManager.Instance.WordMatched += OnWordMatched;
+			inputManager.RegisterEnemy(this);
+			inputManager.WordMatched += OnWordMatched;
 		}
 	}
 	
 	public override void _ExitTree()
 	{
 		// 从输入管理器注销
-		if (CodeRogue.Core.InputManager.Instance != null)
+		var inputManager = GetNode<InputManager>("/root/InputManager");
+		if (inputManager != null)
 		{
-			CodeRogue.Core.InputManager.Instance.UnregisterEnemy(this);
-			CodeRogue.Core.InputManager.Instance.WordMatched -= OnWordMatched;
+			inputManager.UnregisterEnemy(this);
+			inputManager.WordMatched -= OnWordMatched;
 		}
 	}
 	
@@ -412,9 +414,10 @@ public partial class EnemyController : CharacterBody2D
 	/// </summary>
 	private void AssignRandomWord()
 	{
-		if (WordManager.Instance != null)
+		var wordManager = GetNode<WordManager>("/root/WordManager");
+		if (wordManager != null)
 		{
-			CurrentWord = WordManager.Instance.GetRandomWord();
+			CurrentWord = wordManager.GetRandomWord();
 			GD.Print($"Enemy {EnemyId} assigned word: {CurrentWord}");
 			
 			// 通知视图更新显示的单词

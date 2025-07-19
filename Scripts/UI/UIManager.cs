@@ -85,7 +85,7 @@ namespace CodeRogue.UI
             }
 
             GD.Print("UIManager initialized");
-            ShowMainMenu();
+            // ShowMainMenu();
         }
         
         public void ShowMainMenu()

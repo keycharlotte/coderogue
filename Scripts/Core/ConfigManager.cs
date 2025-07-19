@@ -4,16 +4,11 @@ using System.IO;
 
 public partial class ConfigManager : Node
 {
-	private static ConfigManager _instance;
-	public static ConfigManager Instance => _instance;
-	
 	[Export] public string ConfigDataPath { get; set; } = "res://ResourcesData/";
 	[Export] public string ExcelExportPath { get; set; } = "user://ExcelExports/";
 	
 	public override void _Ready()
 	{
-		_instance = this;
-		
 		// 确保导出目录存在
 		var exportDir = ProjectSettings.GlobalizePath(ExcelExportPath);
 		if (!Directory.Exists(exportDir))

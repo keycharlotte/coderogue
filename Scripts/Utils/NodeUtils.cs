@@ -18,7 +18,7 @@ namespace CodeRogue.Utils
         {
             try
             {
-                return node.GetNode<AudioManager>("/root/Main/AudioManager");
+                return node.GetNode<AudioManager>("/root/AudioManager");
             }
             catch
             {
@@ -36,7 +36,7 @@ namespace CodeRogue.Utils
         {
             try
             {
-                return node.GetNode<GameManager>("/root/Main/GameManager");
+                return node.GetNode<GameManager>("/root/GameManager");
             }
             catch
             {
@@ -54,7 +54,8 @@ namespace CodeRogue.Utils
         {
             try
             {
-                return node.GetNode<UIManager>("/root/Main/UIManager");
+                return node.GetNode<UIManager>("/root/UIManager");
+
             }
             catch
             {

@@ -16,8 +16,6 @@ namespace CodeRogue.Core
 		[Signal]
 		public delegate void WordMatchedEventHandler(string word, EnemyController enemy);
 		
-		public static InputManager Instance { get; private set; }
-		
 		private string _currentInput = "";
 		private bool _isInputActive = true;
 		private List<EnemyController> _enemies = new List<EnemyController>();
@@ -31,14 +29,7 @@ namespace CodeRogue.Core
 		
 		public override void _Ready()
 		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				QueueFree();
-			}
+			// 初始化逻辑
 		}
 		
 		public override void _Input(InputEvent @event)

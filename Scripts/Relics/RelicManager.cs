@@ -6,19 +6,6 @@ using System.Linq;
 [GlobalClass]
 public partial class RelicManager : Node
 {
-    private static RelicManager _instance;
-    public static RelicManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new RelicManager();
-            }
-            return _instance;
-        }
-    }
-
     // 信号
     [Signal] public delegate void RelicObtainedEventHandler(RelicInstance relic);
     [Signal] public delegate void RelicTriggeredEventHandler(RelicInstance relic, string triggerContext);
@@ -35,31 +22,24 @@ public partial class RelicManager : Node
 
     public override void _Ready()
     {
-        if (_instance != null && _instance != this)
+        InitializeSystem();
+    }
+    
+    private void InitializeSystem()
+    {
+        _database = GetNode<RelicDatabase>("/root/RelicDatabase");
+        if (_database == null)
         {
-            QueueFree();
+            GD.PrintErr("RelicDatabase autoload not found!");
             return;
         }
-        _instance = this;
-        
-        _database = new RelicDatabase();
         _dropSystem = new RelicDropSystem();
         
-        // 初始化数据库
-        _database.LoadConfigs();
-        
         // 连接BuffManager信号（如果需要）
-        if (BuffManager.Instance != null)
+        var buffManager = GetNode<BuffManager>("/root/BuffManager");
+        if (buffManager != null)
         {
             // 可以连接相关信号
-        }
-    }
-
-    public override void _ExitTree()
-    {
-        if (_instance == this)
-        {
-            _instance = null;
         }
     }
 
@@ -122,7 +102,7 @@ public partial class RelicManager : Node
     /// </summary>
     public RelicInstance ObtainRandomRelic(RelicRarity? targetRarity = null, int currentLevel = 1)
     {
-        var configId = _dropSystem.GetRandomRelicId(targetRarity, currentLevel, _ownedRelics);
+        var configId = _dropSystem.GetRandomRelicId(_database, targetRarity, currentLevel, _ownedRelics);
         if (configId != -1 && ObtainRelic(configId))
         {
             return _ownedRelics.LastOrDefault(r => r.ConfigId == configId);

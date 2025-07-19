@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://j5f4e3d2c1b0"]
+
+[ext_resource type="Script" path="res://Scripts/Relics/RelicManager.cs" id="1_9x8qr"]
+
+[node name="RelicManager" type="Node"]
+script = ExtResource("1_9x8qr")

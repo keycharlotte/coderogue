@@ -44,9 +44,13 @@ public partial class SkillSystemTest : Node
     {
         GD.Print("\n--- 初始化组件 ---");
         
-        // 创建测试用的技能数据库
-        _database = new SkillDatabase();
-        _database._Ready();
+        // 获取技能数据库
+        _database = GetNode<SkillDatabase>("/root/SkillDatabase");
+        if (_database == null)
+        {
+            GD.PrintErr("SkillDatabase autoload not found!");
+            return;
+        }
         
         // 创建技能选择器
         _selector = new SkillSelector();

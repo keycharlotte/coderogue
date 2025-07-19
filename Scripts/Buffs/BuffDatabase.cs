@@ -3,11 +3,16 @@ using Godot;
 using Godot.Collections;
 
 [GlobalClass]
-public partial class BuffDatabase : Resource
+public partial class BuffDatabase : Node
 {
     [Export] public Array<BuffConfig> Buffs { get; set; } = new();
     
     private Godot.Collections.Dictionary<int, BuffConfig> _buffLookup = new();
+    
+    public override void _Ready()
+    {
+        Initialize();
+    }
     
     public void Initialize()
     {

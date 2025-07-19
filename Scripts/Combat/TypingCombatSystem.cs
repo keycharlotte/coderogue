@@ -89,7 +89,8 @@ public partial class TypingCombatSystem : Node
     private int CalculateBaseDamage(int wordLength)
     {
         // 基础伤害 = 单词长度 × 英雄攻击力 × 连击倍率
-        HeroInstance hero = HeroManager.Instance.GetActiveHero();
+        var heroManager = GetNode<HeroManager>("/root/HeroManager");
+        HeroInstance hero = heroManager?.GetActiveHero();
         float baseDamage = wordLength * hero.GetFinalStats().Attack;
         float comboMultiplier = 1f + (_comboCount * 0.1f); // 每连击+10%
         return Mathf.RoundToInt(baseDamage * comboMultiplier);
@@ -104,7 +105,8 @@ public partial class TypingCombatSystem : Node
         float speedBonus = Mathf.Max(0, 2f - inputTime) * 2f;
         
         // 卡组充能效率加成
-        float deckEfficiency = SkillDeckManager.Instance.GetChargeEfficiency();
+        var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+        float deckEfficiency = deckManager?.GetChargeEfficiency() ?? 1.0f;
         
         return Mathf.RoundToInt((baseCharge + speedBonus) * deckEfficiency);
     }

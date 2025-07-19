@@ -7,9 +7,6 @@ using CodeRogue.UI;
 [GlobalClass]
 public partial class SkillDeckManager : Node
 {
-    private static SkillDeckManager _instance;
-    public static SkillDeckManager Instance => _instance;
-    
     [Signal] public delegate void DeckChangedEventHandler(SkillDeck newDeck);
     [Signal] public delegate void CardAddedEventHandler(SkillCard card);
     [Signal] public delegate void CardRemovedEventHandler(SkillCard card);
@@ -20,30 +17,28 @@ public partial class SkillDeckManager : Node
     
     public override void _Ready()
     {
-        _instance = this;
         _savedDecks = new List<SkillDeck>();
         InitializeDefaultDeck();
     }
     
     private void InitializeDefaultDeck()
     {
-        _currentDeck = new SkillDeck
-        {
-            MaxDeckSize = 20,
-            Cards = []
-        };
 
-        // 先初始化，确保 _drawPile 不为 null
-        _currentDeck.Initialize();
+
 
         // 添加一些基础技能
-        var database = SkillDatabase.Instance;
+        var database = GetNode<SkillDatabase>("/root/SkillDatabase");
         if (database != null)
         {
-            var basicSkills = database.GetSkillsByRarity(SkillRarity.Common);
-            foreach (var skill in basicSkills.Take(4)) // 添加前4个基础技能
+            var deck = database.GetDeckByName("Basic");
+            if (deck != null)
             {
-                _currentDeck.AddCard(skill);
+                _currentDeck = deck;
+                _currentDeck.Initialize();
+            }
+            else
+            {
+                GD.PrintErr("Initial deck not found");
             }
         }
         else

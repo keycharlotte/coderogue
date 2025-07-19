@@ -9,7 +9,7 @@ namespace CodeRogue.Test
     /// </summary>
     public partial class SkillTrackTest : Node
     {
-        [Export] private SkillTrackManager _skillTrackManager;
+
         [Export] private SkillTrackUI _skillTrackUI;
         [Export] private SkillDeckUI _skillDeckUI;
         
@@ -20,6 +20,7 @@ namespace CodeRogue.Test
         
         private SkillDatabase _skillDatabase;
         private SkillDeckManager _skillDeckManager;
+        private SkillTrackManager _skillTrackManager;
         
         public override void _Ready()
         {
@@ -29,21 +30,16 @@ namespace CodeRogue.Test
         }
         
         private void InitializeComponents()
-        {
-            // 获取组件引用
-            _skillTrackManager = GetNode<SkillTrackManager>(".");
-            _skillTrackUI = GetNode<SkillTrackUI>("UI/VBoxContainer/HBoxContainer/RightPanel/SkillTrackUI");
-            _skillDeckUI = GetNode<SkillDeckUI>("UI/VBoxContainer/HBoxContainer/LeftPanel/SkillDeckUI");
-            
-            // 获取按钮引用
-            _loadTestSkillsButton = GetNode<Button>("UI/VBoxContainer/ControlPanel/TestButton1");
-            _startChargingButton = GetNode<Button>("UI/VBoxContainer/ControlPanel/TestButton2");
-            _activateReadySkillsButton = GetNode<Button>("UI/VBoxContainer/ControlPanel/TestButton3");
-            _clearAllTracksButton = GetNode<Button>("UI/VBoxContainer/ControlPanel/TestButton4");
-            
+        {            
             // 获取系统组件
-            _skillDatabase = SkillDatabase.Instance;
-            _skillDeckManager = SkillDeckManager.Instance;
+            _skillDatabase = GetNode<SkillDatabase>("/root/SkillDatabase");
+            if (_skillDatabase == null)
+            {
+                GD.PrintErr("SkillDatabase autoload not found!");
+                return;
+            }
+            _skillDeckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+            _skillTrackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
         }
         
         private void ConnectSignals()

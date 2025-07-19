@@ -38,7 +38,7 @@ theme = ExtResource("2_def456")
 text = "技能轨道系统"
 horizontal_alignment = 1
 
-[node name="TracksContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TracksContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 

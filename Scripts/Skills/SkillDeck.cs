@@ -7,6 +7,7 @@ using System.Linq;
 [GlobalClass]
 public partial class SkillDeck : Resource
 {
+	[Export] public string Name { get; set; } = "";
 	[Export] public Array<SkillCard> Cards { get; set; }
 	[Export] public int MaxDeckSize { get; set; } = 20;
 	

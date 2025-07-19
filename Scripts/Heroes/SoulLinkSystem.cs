@@ -119,7 +119,8 @@ public partial class SoulLinkSystem : Node
         {
             foreach (var linkedHeroId in linkedHeroIds)
             {
-                var linkedHero = HeroManager.Instance.GetHeroInstance(linkedHeroId);
+                var heroManager = GetNode<HeroManager>("/root/HeroManager");
+            var linkedHero = heroManager?.GetHeroInstance(linkedHeroId);
                 if (linkedHero?.Config.SoulLink != null)
                 {
                     foreach (var effect in linkedHero.Config.SoulLink.PassiveEffects)

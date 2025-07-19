@@ -15,6 +15,25 @@ run/main_scene="res://Scenes/Main/Main.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameData="*res://Scripts/Data/GameData.cs"
+BuffDatabase="*res://Scripts/Buffs/BuffDatabase.cs"
+SkillDatabase="*res://Scripts/Skills/SkillDatabase.cs"
+HeroDatabase="*res://Scripts/Heroes/HeroDatabase.cs"
+RelicDatabase="*res://Scripts/Relics/RelicDatabase.cs"
+GameManager="*res://Scenes/Manager/GameManager.tscn"
+AudioManager="*res://Scenes/Manager/AudioManager.tscn"
+InputManager="*res://Scenes/Manager/InputManager.tscn"
+WordManager="*res://Scenes/Manager/WordManager.tscn"
+ConfigManager="*res://Scenes/Manager/ConfigManager.tscn"
+SkillDeckManager="*res://Scenes/Manager/SkillDeckManager.tscn"
+SkillTrackManager="*res://Scenes/Manager/SkillTrackManager.tscn"
+RelicManager="*res://Scenes/Manager/RelicManager.tscn"
+BuffManager="*res://Scenes/Manager/BuffManager.tscn"
+LevelManager="*res://Scenes/Manager/LevelManager.tscn"
+UIManager="*res://Scenes/Manager/UIManager.tscn"
+
 [dotnet]
 
 project/assembly_name="CodeRogue"
@@ -26,7 +45,12 @@ enabled=PackedStringArray("res://addons/resource_data_exporter/plugin.cfg")
 [file_customization]
 
 folder_colors={
-"res://Art/": "red"
+"res://Addons/": "gray",
+"res://Art/": "red",
+"res://Design/": "orange",
+"res://ResourcesData/": "yellow",
+"res://Scenes/": "green",
+"res://Scripts/": "teal"
 }
 
 [input]

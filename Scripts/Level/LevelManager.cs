@@ -100,18 +100,15 @@ namespace CodeRogue.Level
 	
 	private void SetupTimers()
 	{
-		// 敌人生成计时器
-		_spawnTimer = new Timer();
+		// 获取场景中预配置的Timer节点
+		_spawnTimer = GetNode<Timer>("SpawnTimer");
 		_spawnTimer.WaitTime = 2.0f;
 		_spawnTimer.Timeout += SpawnEnemy;
-		AddChild(_spawnTimer);
 		
-		// 波次计时器
-		_waveTimer = new Timer();
+		_waveTimer = GetNode<Timer>("WaveTimer");
 		_waveTimer.WaitTime = 30.0f;
 		_waveTimer.OneShot = true;
 		_waveTimer.Timeout += StartNextWave;
-		AddChild(_waveTimer);
 	}
 	
 	private void LoadLevelConfig()
@@ -142,7 +139,8 @@ namespace CodeRogue.Level
 			// 只开始刷怪流程
 			StartNextWave();
 			EmitSignal(SignalName.LevelStarted, CurrentLevel);
-			GameManager.Instance?.TriggerStartLevel(CurrentLevel);
+			var gameManager = GetNode<GameManager>("/root/GameManager");
+		gameManager?.TriggerStartLevel(CurrentLevel);
 			GD.Print($"Level {CurrentLevel} started - Wave spawning begins");
 		}
 	}
@@ -418,7 +416,8 @@ namespace CodeRogue.Level
 				_player = null;
 			}
 			
-			GameManager.Instance?.TriggerQuitLevel(CurrentLevel);
+			var gameManager = GetNode<GameManager>("/root/GameManager");
+		gameManager?.TriggerQuitLevel(CurrentLevel);
 			GD.Print($"Level {CurrentLevel} stopped");
 		}
 	}

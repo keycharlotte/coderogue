@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://l7h6g5f4e3d2"]
+
+[ext_resource type="Script" uid="uid://cb1xvbd5g564k" path="res://Scripts/Level/LevelManager.cs" id="1_bx8qr"]
+
+[node name="LevelManager" type="Node2D"]
+script = ExtResource("1_bx8qr")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="WaveTimer" type="Timer" parent="."]

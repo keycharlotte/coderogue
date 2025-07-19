@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://bvu18wq3p78ok"]
+
+[ext_resource type="Script" uid="uid://dn5d1tr5ikpl1" path="res://Scripts/Skills/SkillEffect.cs" id="1_dvaec"]
+[ext_resource type="Texture2D" uid="uid://dqaey7ejorw0m" path="res://Art/AssetsTextures/default.png" id="2_yc5oj"]
+[ext_resource type="Script" uid="uid://bi1r1lyx7orvj" path="res://Scripts/Skills/SkillLevelData.cs" id="3_cycsa"]
+[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/SkillTag/xihuan.tres" id="4_t3vxo"]
+[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/SkillTag/jichu.tres" id="5_qk6lv"]
+[ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="6_ibif1"]
+
+[sub_resource type="Resource" id="Resource_heal"]
+script = ExtResource("1_dvaec")
+Type = 1
+TargetProperty = "Health"
+Value = 30.0
+Duration = 0.0
+Parameters = null
+metadata/_custom_type_script = "uid://dn5d1tr5ikpl1"
+
+[sub_resource type="Resource" id="Resource_lv1"]
+script = ExtResource("3_cycsa")
+Level = 1
+ChargeCost = 120
+EffectValues = Array[float]([30.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[sub_resource type="Resource" id="Resource_lv2"]
+script = ExtResource("3_cycsa")
+Level = 2
+ChargeCost = 100
+EffectValues = Array[float]([40.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[sub_resource type="Resource" id="Resource_lv3"]
+script = ExtResource("3_cycsa")
+Level = 3
+ChargeCost = 80
+EffectValues = Array[float]([50.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[resource]
+script = ExtResource("6_ibif1")
+Id = 7
+Name = "WordMix"
+Description = "单词均一化"
+Type = 2
+Rarity = 2
+ChargeCost = 200
+Level = 1
+Tags = Array[Object]([ExtResource("4_t3vxo"), ExtResource("5_qk6lv")])
+Effects = Array[Object]([SubResource("Resource_heal")])
+Icon = ExtResource("2_yc5oj")
+IconPath = "res://Art/AssetsTextures/FireBall.jpg"
+RarityColor = Color(0, 1, 0, 1)
+LevelData = Array[Object]([SubResource("Resource_lv1"), SubResource("Resource_lv2"), SubResource("Resource_lv3")])
+metadata/_custom_type_script = "uid://ba751fit8geao"

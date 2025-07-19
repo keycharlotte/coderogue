@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://i4e3d2c1b0ba"]
+
+[ext_resource type="Script" path="res://Scripts/Heroes/HeroManager.cs" id="1_8x8qr"]
+
+[node name="HeroManager" type="Node"]
+script = ExtResource("1_8x8qr")

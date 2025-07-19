@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("1_w0nqv")
+Name = "Basic"
 Cards = Array[Object]([ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("1_fusqd"), ExtResource("2_lm7wu"), ExtResource("2_lm7wu"), ExtResource("2_lm7wu"), ExtResource("2_lm7wu"), ExtResource("2_lm7wu"), ExtResource("3_7ntur"), ExtResource("3_7ntur"), ExtResource("3_7ntur"), ExtResource("4_2rn8b"), ExtResource("4_2rn8b")])
 MaxDeckSize = 20
 metadata/_custom_type_script = "uid://bc222bsookp45"

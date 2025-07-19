@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://g2c1b0ba08y7"]
+
+[ext_resource type="Script" uid="uid://l2fhelbymftg" path="res://Scripts/Skills/SkillDeckManager.cs" id="1_6x8qr"]
+
+[node name="SkillDeckManager" type="Node"]
+script = ExtResource("1_6x8qr")
