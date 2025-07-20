@@ -64,3 +64,35 @@
    - **常见错误修复**：将所有`Color.White`替换为`Colors.White`，`Color.Black`替换为`Colors.Black`等
    - **自定义颜色**：自定义颜色仍使用`new Color(r, g, b, a)`构造函数
    - **编译错误**：使用`Color.White`会导致"Color未包含White的定义"编译错误
+
+12. **Resource类GetNode使用限制**：
+   - **严禁直接调用GetNode**：继承自`Resource`的类（如`SkillEffect`、`BuffConfig`等）不能直接调用`GetNode()`方法
+   - **正确的访问方式**：必须通过`Engine.GetMainLoop()`获取场景树根节点，然后调用`GetNode()`
+   - **标准模式**：
+     ```csharp
+     var sceneTree = Engine.GetMainLoop() as SceneTree;
+     if (sceneTree?.Root != null)
+     {
+         var manager = sceneTree.Root.GetNode<ManagerType>("/root/ManagerName");
+     }
+     ```
+   - **常见错误**：在`SkillEffect`、`BuffConfig`等Resource类中直接使用`GetNode<T>()`会导致编译错误
+   - **空值检查**：必须添加空值检查，确保场景树和目标节点存在
+   - **适用范围**：此规则适用于所有继承自`Resource`的类，包括但不限于技能效果、Buff配置、卡牌配置等
+
+## 13. 文件组织和拆分规则
+
+### 13.1 一个类一个文件原则
+- **强制要求**：每个C#文件只能包含一个主要的类定义
+- **例外情况**：紧密相关的小型辅助类（如内部类、数据结构）可以放在同一文件中
+- **文件命名**：文件名必须与类名完全一致
+
+### 13.2 枚举类型组织
+- **集中管理**：相关的枚举类型应该集中在专门的Enums文件中
+- **命名规范**：枚举文件命名格式为`{模块名}Enums.cs`
+- **示例**：`BuffEnums.cs`、`SkillEnums.cs`、`RelicEnums.cs`
+
+### 13.3 文件拆分标准
+- **触发条件**：当单个文件包含多个类、枚举或超过200行代码时，应考虑拆分
+- **拆分原则**：按功能职责拆分，确保每个文件有明确的单一职责
+- **依赖管理**：拆分后确保所有引用关系正确，添加必要的using语句

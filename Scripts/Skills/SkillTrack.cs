@@ -10,6 +10,7 @@ namespace CodeRogue.Skills
         public SkillCard EquippedSkill { get; set; }
         public float CurrentCharge { get; set; }
         public float MaxCharge { get; set; }
+        public TrackSource Source { get; set; } = TrackSource.Hero;
         
         public TrackState State 
         { 
@@ -34,5 +35,13 @@ namespace CodeRogue.Skills
         Charging,
         Ready,
         Cooldown
+    }
+
+    public enum TrackSource
+    {
+        Skill,
+        Buff,
+        Relic,
+        Hero
     }
 }

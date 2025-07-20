@@ -45,7 +45,7 @@ namespace CodeRogue.Test
         private void ConnectSignals()
         {
             // 连接按钮信号
-            _loadTestSkillsButton?.Connect(Button.SignalName.Pressed, new Callable(this, nameof(OnLoadTestSkillsPressed)));
+            _ = (_loadTestSkillsButton?.Connect(Button.SignalName.Pressed, new Callable(this, nameof(OnLoadTestSkillsPressed))));
             _startChargingButton?.Connect(Button.SignalName.Pressed, new Callable(this, nameof(OnStartChargingPressed)));
             _activateReadySkillsButton?.Connect(Button.SignalName.Pressed, new Callable(this, nameof(OnActivateReadySkillsPressed)));
             _clearAllTracksButton?.Connect(Button.SignalName.Pressed, new Callable(this, nameof(OnClearAllTracksPressed)));
