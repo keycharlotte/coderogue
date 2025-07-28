@@ -10,6 +10,8 @@ public partial class CardDatabase : Node
     [Export] public Array<MonsterCard> AllMonsterCards { get; set; }
     [Export] public Array<SkillCard> AllSkillCards { get; set; }
     [Export] public string ConfigPath { get; set; } = "res://ResourcesData/CardConfigs.json";
+    [Export] public string MonsterCardResourcePath { get; set; } = "res://ResourcesData/MonsterCard/";
+    [Export] public string SkillCardResourcePath { get; set; } = "res://ResourcesData/SkillCard/";
     
     // 稀有度和颜色权重
     private Godot.Collections.Dictionary<CardRarity, float> _rarityWeights;
@@ -26,6 +28,7 @@ public partial class CardDatabase : Node
     public override void _Ready()
     {
         LoadCardConfigs();
+        LoadCardResourceConfigs();
         IndexCards();
         GD.Print($"CardDatabase initialized: {AllMonsterCards.Count} monster cards, {AllSkillCards.Count} skill cards");
     }
@@ -93,6 +96,105 @@ public partial class CardDatabase : Node
         }
     }
     
+    /// <summary>
+    /// 从Resource文件夹加载卡牌数据
+    /// </summary>
+    private void LoadCardResourceConfigs()
+    {
+        LoadMonsterCardResources();
+        LoadSkillCardResources();
+    }
+    
+    /// <summary>
+    /// 从Resource文件夹加载怪物卡牌
+    /// </summary>
+    private void LoadMonsterCardResources()
+    {
+        var dir = DirAccess.Open(MonsterCardResourcePath);
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            string fileName = dir.GetNext();
+            
+            while (fileName != "")
+            {
+                if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
+                {
+                    var monsterCardResource = GD.Load<MonsterCard>(MonsterCardResourcePath + fileName);
+                    if (monsterCardResource != null)
+                    {
+                        // 检查是否已存在相同ID的卡牌，避免重复添加
+                        bool exists = false;
+                        foreach (var existingCard in AllMonsterCards)
+                        {
+                            if (existingCard.Id == monsterCardResource.Id)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!exists)
+                        {
+                            AllMonsterCards.Add(monsterCardResource);
+                            GD.Print($"Loaded monster card from resource: {monsterCardResource.CardName}");
+                        }
+                    }
+                }
+                fileName = dir.GetNext();
+            }
+        }
+        else
+        {
+            GD.Print($"Monster card resource directory not found: {MonsterCardResourcePath}");
+        }
+    }
+    
+    /// <summary>
+    /// 从Resource文件夹加载技能卡牌
+    /// </summary>
+    private void LoadSkillCardResources()
+    {
+        var dir = DirAccess.Open(SkillCardResourcePath);
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            string fileName = dir.GetNext();
+            
+            while (fileName != "")
+            {
+                if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
+                {
+                    var skillCardResource = GD.Load<SkillCard>(SkillCardResourcePath + fileName);
+                    if (skillCardResource != null)
+                    {
+                        // 检查是否已存在相同ID的卡牌，避免重复添加
+                        bool exists = false;
+                        foreach (var existingCard in AllSkillCards)
+                        {
+                            if (existingCard.Id == skillCardResource.Id)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!exists)
+                        {
+                            AllSkillCards.Add(skillCardResource);
+                            GD.Print($"Loaded skill card from resource: {skillCardResource.CardName}");
+                        }
+                    }
+                }
+                fileName = dir.GetNext();
+            }
+        }
+        else
+        {
+            GD.Print($"Skill card resource directory not found: {SkillCardResourcePath}");
+        }
+    }
+    
     private void LoadMonsterCards(JsonElement monsterCardsElement)
     {
         foreach (var cardElement in monsterCardsElement.EnumerateArray())
@@ -135,7 +237,7 @@ public partial class CardDatabase : Node
             var rarityStr = cardElement.GetProperty("rarity").GetString();
             if (System.Enum.TryParse<CardRarity>(rarityStr, true, out var rarity))
             {
-                card.MonsterRarity = rarity;
+                card.Rarity = rarity;
             }
             
             // 解析种族
@@ -149,12 +251,17 @@ public partial class CardDatabase : Node
             if (cardElement.TryGetProperty("color_requirements", out var colorReqs))
             {
                 var colorArray = new Godot.Collections.Array<MagicColor>();
-                foreach (var colorElement in colorReqs.EnumerateArray())
+                foreach (var colorProperty in colorReqs.EnumerateObject())
                 {
-                    var colorStr = colorElement.GetString();
+                    var colorStr = colorProperty.Name;
+                    var colorCount = colorProperty.Value.GetInt32();
                     if (System.Enum.TryParse<MagicColor>(colorStr, true, out var color))
                     {
-                        colorArray.Add(color);
+                        // 根据数量添加颜色需求
+                        for (int i = 0; i < colorCount; i++)
+                        {
+                            colorArray.Add(color);
+                        }
                     }
                 }
                 card.ColorRequirements = colorArray;
@@ -167,12 +274,24 @@ public partial class CardDatabase : Node
                 foreach (var skillElement in skillsElement.EnumerateArray())
                 {
                     var skillStr = skillElement.GetString();
-                    if (System.Enum.TryParse<MonsterSkillType>(skillStr, true, out var skill))
+                    // 映射技能名称到枚举值
+                    var mappedSkill = MapSkillNameToEnum(skillStr);
+                    if (mappedSkill.HasValue)
                     {
-                        skillsArray.Add(skill);
+                        skillsArray.Add(mappedSkill.Value);
                     }
                 }
                 card.Skills = skillsArray;
+            }
+            
+            // 初始化其他必需的数组字段
+            card.BondTypes = new Godot.Collections.Array<BondType>();
+            card.SkillValues = new Godot.Collections.Array<float>();
+            
+            // 设置图标路径
+            if (cardElement.TryGetProperty("icon_path", out var iconElement))
+            {
+                card.IconPath = iconElement.GetString();
             }
             
             return card;
@@ -184,6 +303,38 @@ public partial class CardDatabase : Node
         }
     }
     
+    /// <summary>
+    /// 将技能名称映射到MonsterSkillType枚举
+    /// </summary>
+    private MonsterSkillType? MapSkillNameToEnum(string skillName)
+    {
+        return skillName.ToLower() switch
+        {
+            "heal" => MonsterSkillType.Heal,
+            "protect" => MonsterSkillType.Protect,
+            "shield" => MonsterSkillType.Shield,
+            "rush" => MonsterSkillType.Rush,
+            "burn" => MonsterSkillType.Burn,
+            "poison" => MonsterSkillType.Poison,
+            "freeze" => MonsterSkillType.Freeze,
+            "criticalstrike" => MonsterSkillType.CriticalStrike,
+            "aoeattack" => MonsterSkillType.AoEAttack,
+            "magicattack" => MonsterSkillType.MagicAttack,
+            "taunt" => MonsterSkillType.Taunt,
+            "stealth" => MonsterSkillType.Stealth,
+            "regeneration" => MonsterSkillType.Regeneration,
+            "stun" => MonsterSkillType.Stun,
+            "silence" => MonsterSkillType.Silence,
+            "fear" => MonsterSkillType.Fear,
+            "buff" => MonsterSkillType.Buff,
+            "pack" => MonsterSkillType.Pack,
+            "summon" => MonsterSkillType.Summon,
+            "transform" => MonsterSkillType.Transform,
+            "sacrifice" => MonsterSkillType.Sacrifice,
+            _ => null
+        };
+    }
+    
     private SkillCard CreateSkillCardFromJson(JsonElement cardElement)
     {
         var card = new SkillCard();
@@ -193,13 +344,13 @@ public partial class CardDatabase : Node
             card.Id = cardElement.GetProperty("id").GetString().GetHashCode();
             card.CardName = cardElement.GetProperty("name").GetString();
             card.Description = cardElement.GetProperty("description").GetString();
-            card.ChargeCost = cardElement.GetProperty("charge_cost").GetInt32();
+            card.Cost = cardElement.GetProperty("charge_cost").GetInt32();
             
             // 解析稀有度
             var rarityStr = cardElement.GetProperty("rarity").GetString();
             if (System.Enum.TryParse<CardRarity>(rarityStr, true, out var rarity))
             {
-                card.SkillRarity = rarity;
+                card.Rarity = rarity;
             }
             
             // 解析技能类型
@@ -213,12 +364,17 @@ public partial class CardDatabase : Node
             if (cardElement.TryGetProperty("color_requirements", out var colorReqs))
             {
                 var colorArray = new Godot.Collections.Array<MagicColor>();
-                foreach (var colorElement in colorReqs.EnumerateArray())
+                foreach (var colorProperty in colorReqs.EnumerateObject())
                 {
-                    var colorStr = colorElement.GetString();
+                    var colorStr = colorProperty.Name;
+                    var colorCount = colorProperty.Value.GetInt32();
                     if (System.Enum.TryParse<MagicColor>(colorStr, true, out var color))
                     {
-                        colorArray.Add(color);
+                        // 根据数量添加颜色需求
+                        for (int i = 0; i < colorCount; i++)
+                        {
+                            colorArray.Add(color);
+                        }
                     }
                 }
                 card.ColorRequirements = colorArray;
@@ -267,7 +423,7 @@ public partial class CardDatabase : Node
             Attack = 2,
             Health = 3,
             Cost = 1,
-            MonsterRarity = CardRarity.Common,
+            Rarity = CardRarity.Common,
             Race = MonsterRace.Beast,
             ColorRequirements = new Godot.Collections.Array<MagicColor> { MagicColor.White },
             Skills = new Godot.Collections.Array<MonsterSkillType>()
@@ -280,8 +436,8 @@ public partial class CardDatabase : Node
             Id = 1,
             CardName = "默认技能",
             Description = "一个基础的技能卡牌",
-            ChargeCost = 10,
-            SkillRarity = CardRarity.Common,
+            Cost = 10,
+			Rarity = CardRarity.Common,
             SkillType = SkillType.Attack,
             ColorRequirements = new Godot.Collections.Array<MagicColor> { MagicColor.White }
         };
@@ -327,9 +483,9 @@ public partial class CardDatabase : Node
         {
             _skillCardsById[card.Id] = card;
             
-            if (!_skillCardsByRarity.ContainsKey(card.SkillRarity))
-                _skillCardsByRarity[card.SkillRarity] = new Array<SkillCard>();
-            _skillCardsByRarity[card.SkillRarity].Add(card);
+            if (!_skillCardsByRarity.ContainsKey(card.Rarity))
+				_skillCardsByRarity[card.Rarity] = new Array<SkillCard>();
+			_skillCardsByRarity[card.Rarity].Add(card);
             
             if (!_skillCardsByType.ContainsKey(card.SkillType))
                 _skillCardsByType[card.SkillType] = new Array<SkillCard>();

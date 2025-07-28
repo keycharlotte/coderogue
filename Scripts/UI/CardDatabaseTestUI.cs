@@ -9,8 +9,8 @@ using CodeRogue.UI;
 public partial class CardDatabaseTestUI : Control
 {
     [Export] private TabContainer _tabContainer;
-    [Export] private VBoxContainer _monsterCardsContainer;
-    [Export] private VBoxContainer _skillCardsContainer;
+    [Export] private GridContainer _monsterCardsContainer;
+    [Export] private GridContainer _skillCardsContainer;
     [Export] private ScrollContainer _monsterScrollContainer;
     [Export] private ScrollContainer _skillScrollContainer;
     
@@ -338,7 +338,7 @@ public partial class CardDatabaseTestUI : Control
         foreach (var card in cards)
         {
             // 稀有度过滤
-            if (_currentSkillRarityFilter.HasValue && card.SkillRarity != _currentSkillRarityFilter.Value)
+            if (_currentSkillRarityFilter.HasValue && card.Rarity != _currentSkillRarityFilter.Value)
                 continue;
             
             // 技能类型过滤
@@ -353,8 +353,8 @@ public partial class CardDatabaseTestUI : Control
             if (!string.IsNullOrEmpty(_currentSearchText))
             {
                 var searchText = _currentSearchText.ToLower();
-                if (!card.CardName.ToLower().Contains(searchText) && 
-                    !card.Description.ToLower().Contains(searchText))
+                if (!card.CardName.Contains(searchText, System.StringComparison.CurrentCultureIgnoreCase) && 
+                    !card.Description.Contains(searchText, System.StringComparison.CurrentCultureIgnoreCase))
                     continue;
             }
             
@@ -382,8 +382,8 @@ public partial class CardDatabaseTestUI : Control
         return _currentSortType switch
         {
             SortType.Name => new Array<SkillCard>(cards.OrderBy(c => c.CardName)),
-            SortType.Rarity => new Array<SkillCard>(cards.OrderBy(c => c.SkillRarity)),
-            SortType.Cost => new Array<SkillCard>(cards.OrderBy(c => c.ChargeCost)),
+            SortType.Rarity => new Array<SkillCard>(cards.OrderBy(c => c.Rarity)),
+			SortType.Cost => new Array<SkillCard>(cards.OrderBy(c => c.Cost)),
             _ => cards
         };
     }
@@ -438,20 +438,20 @@ public partial class CardDatabaseTestUI : Control
         
         // 设置稀有度颜色
         var styleBox = new StyleBoxFlat();
-        styleBox.BgColor = GetRarityColor(card.SkillRarity);
-        styleBox.SetCornerRadiusAll(8);
-        styleBox.BorderWidthTop = 2;
-        styleBox.BorderWidthBottom = 2;
-        styleBox.BorderWidthLeft = 2;
-        styleBox.BorderWidthRight = 2;
-        styleBox.BorderColor = GetRarityColor(card.SkillRarity).Lightened(0.3f);
+        styleBox.BgColor = GetRarityColor(card.Rarity);
+		styleBox.SetCornerRadiusAll(8);
+		styleBox.BorderWidthTop = 2;
+		styleBox.BorderWidthBottom = 2;
+		styleBox.BorderWidthLeft = 2;
+		styleBox.BorderWidthRight = 2;
+		styleBox.BorderColor = GetRarityColor(card.Rarity).Lightened(0.3f);
         panel.AddThemeStyleboxOverride("panel", styleBox);
         
         var nameLabel = new Label();
-        nameLabel.Text = $"{card.CardName} ({card.SkillRarity})";
-        
-        var typeLabel = new Label();
-        typeLabel.Text = $"类型: {card.SkillType} | 消耗: {card.ChargeCost}";
+        nameLabel.Text = $"{card.CardName} ({card.Rarity})";
+		
+		var typeLabel = new Label();
+		typeLabel.Text = $"类型: {card.SkillType} | 消耗: {card.Cost}";
         
         var descLabel = new Label();
         descLabel.Text = card.Description;

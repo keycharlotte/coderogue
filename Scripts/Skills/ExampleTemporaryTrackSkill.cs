@@ -16,7 +16,7 @@ namespace CodeRogue.Skills
             Name = "召唤临时轨道";
             Description = "创建一个持续10秒的临时轨道，装载火球术";
             SkillType = SkillType.Utility;
-            SkillRarity = CardRarity.Rare;
+            Rarity = CardRarity.Rare;
             
             // 创建临时轨道效果
             var tempTrackEffect = new TemporaryTrackSkillEffect
@@ -44,7 +44,7 @@ namespace CodeRogue.Skills
                 Name = "火球术",
                 Description = "发射一个火球造成伤害",
                 SkillType = SkillType.Attack,
-                SkillRarity = CardRarity.Common,
+                Rarity = CardRarity.Common,
             };
             
             // 添加伤害效果

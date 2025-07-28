@@ -18,11 +18,17 @@ public partial class SkillTrackManager : Node
 	[Export] public float BaseChargeRate { get; set; } = 1f; // 每秒充能速度
 	[Export] public float MaxChargePerTrack { get; set; } = 2000f;
 
+	private CardDatabase _database;
 	private List<SkillTrack> _tracks;
 	private UnifiedDeck _currentDeck;
 
 	public override void _Ready()
 	{
+		_database = GetNode<CardDatabase>("/root/CardDatabase");
+		if (_database == null)
+		{
+			GD.PrintErr("CardDatabase autoload not found!");
+		}
 		InitializeTracks();
 	}
 
@@ -63,7 +69,7 @@ public partial class SkillTrackManager : Node
 				EmitSignal(SignalName.ChargeUpdated, track.Index, track.CurrentCharge, track.MaxCharge);
 
 				// 检查是否充能完成
-				if (track.CurrentCharge >= track.EquippedSkill.ChargeCost)
+				if (track.CurrentCharge >= track.EquippedSkill.Cost)
 				{
 					track.State = TrackState.Ready;
 					EmitSignal(SignalName.TrackCharged, track.Index, track.EquippedSkill);

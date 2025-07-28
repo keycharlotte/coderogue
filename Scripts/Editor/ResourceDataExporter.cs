@@ -68,7 +68,7 @@ public partial class ResourceDataExporter : Node
         // 数据行
         foreach (var skill in skillCards)
         {
-            csv.AppendLine($"{skill.Id},\"{EscapeCsv(skill.Name)}\",\"{EscapeCsv(skill.Description)}\",{(int)skill.SkillType},{(int)skill.Rarity},{skill.ChargeCost},{skill.Level},\"{skill.IconPath}\",{skill.RarityColor.R},{skill.RarityColor.G},{skill.RarityColor.B},{skill.RarityColor.A}");
+            csv.AppendLine($"{skill.Id},\"{EscapeCsv(skill.Name)}\",\"{EscapeCsv(skill.Description)}\",{(int)skill.SkillType},{(int)skill.Rarity},{skill.Cost},{skill.Level},\"{skill.IconPath}\",{skill.RarityColor.R},{skill.RarityColor.G},{skill.RarityColor.B},{skill.RarityColor.A}");
         }
         
         File.WriteAllText(ProjectSettings.GlobalizePath(EXPORT_PATH + "SkillCards.csv"), csv.ToString(), Encoding.UTF8);
@@ -76,7 +76,7 @@ public partial class ResourceDataExporter : Node
     
     private void ExportSkillTags()
     {
-        var skillTags = LoadAllResourcesOfType<SkillTag>("res://ResourcesData/SkillTag/");
+        var skillTags = LoadAllResourcesOfType<CardTag>("res://ResourcesData/CardTag/");
         var csv = new StringBuilder();
         
         // CSV头部
@@ -142,7 +142,7 @@ public partial class ResourceDataExporter : Node
                 Description = values[2],
                 SkillType = (SkillType)int.Parse(values[3]),
                 Rarity = (CardRarity)int.Parse(values[4]),
-                ChargeCost = int.Parse(values[5]),
+                Cost = int.Parse(values[5]),
                 Level = int.Parse(values[6]),
                 IconPath = values[7],
                 RarityColor = new Color(float.Parse(values[8]), float.Parse(values[9]), float.Parse(values[10]), float.Parse(values[11]))
@@ -167,7 +167,7 @@ public partial class ResourceDataExporter : Node
             var values = ParseCsvLine(lines[i]);
             if (values.Length < 6) continue;
             
-            var skillTag = new SkillTag()
+            var skillTag = new CardTag()
             {
                 Name = values[0],
                 Description = values[1],
@@ -175,7 +175,7 @@ public partial class ResourceDataExporter : Node
             };
             
             // 保存为.tres文件
-            string resourcePath = $"res://ResourcesData/SkillTag/{skillTag.Name}.tres";
+            string resourcePath = $"res://ResourcesData/CardTag/{skillTag.Name}.tres";
             ResourceSaver.Save(skillTag, resourcePath);
         }
     }

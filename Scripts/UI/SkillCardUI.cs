@@ -49,11 +49,11 @@ namespace CodeRogue.UI
 			
 			_nameLabel.Text = _skillCard.Name;
 			_descriptionLabel.Text = _skillCard.Description;
-			_costLabel.Text = $"消耗: {_skillCard.ChargeCost}";
+			_costLabel.Text = $"消耗: {_skillCard.Cost}";
 			_typeLabel.Text = _skillCard.SkillType.ToString();
 			
 			// 设置稀有度颜色
-			var rarityColor = GetRarityColor(_skillCard.SkillRarity);
+			var rarityColor = GetRarityColor(_skillCard.Rarity);
 			var styleBox = new StyleBoxFlat();
 			styleBox.BgColor = rarityColor;
 			styleBox.SetCornerRadiusAll(8);
@@ -70,14 +70,23 @@ namespace CodeRogue.UI
 			// 加载图标 - 优先使用直接引用的Icon
 			if (_skillCard.IconPath != null)
 			{
-				// 也可以使用ResourceLoader
-				GD.Print(_skillCard.IconPath);
-				_iconRect.Texture = ResourceLoader.Load<Texture2D>(_skillCard.IconPath);
+				try
+				{
+					// 尝试加载指定路径的图标
+					GD.Print(_skillCard.IconPath);
+					_iconRect.Texture = ResourceLoader.Load<Texture2D>(_skillCard.IconPath);
+				}
+				catch (Exception ex)
+				{
+					// 加载失败时使用默认图标
+					GD.PrintErr($"Failed to load skill card icon: {_skillCard.IconPath}, Error: {ex.Message}");
+					_iconRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/error.png");
+				}
 			}
-			// 如果两者都为空，使用默认图标
+			// 如果路径为空，使用默认图标
 			else
 			{
-				_iconRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/default.png");
+				_iconRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/error.png");
 			}
 		}
 		

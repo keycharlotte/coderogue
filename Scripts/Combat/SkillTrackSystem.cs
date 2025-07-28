@@ -25,8 +25,8 @@ public partial class SkillTrackSystem : Node
         var activation = new SkillActivation
         {
             Skill = _nextSkill,
-            ChargeCost = _nextSkill.ChargeCost,
-            CanActivate = TypingCombatSystem.Instance.CurrentCharge >= _nextSkill.ChargeCost,
+            ChargeCost = _nextSkill.Cost,
+            CanActivate = TypingCombatSystem.Instance.CurrentCharge >= _nextSkill.Cost,
             // TriggerConditions = _nextSkill.TriggerConditions
         };
         

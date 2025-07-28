@@ -1,14 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxvyj8r2qkqxo"]
+[gd_scene load_steps=3 format=3 uid="uid://bxvyj8r2qkqxo"]
 
 [ext_resource type="Script" uid="uid://das8nmo082ie3" path="res://Scripts/UI/CardDatabaseTestUI.cs" id="1_0k8vx"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="1_rap6w"]
 
-[node name="CardDatabaseTestUI" type="Control"]
+[node name="CardDatabaseTestUI" type="Control" node_paths=PackedStringArray("_tabContainer", "_monsterCardsContainer", "_skillCardsContainer", "_monsterScrollContainer", "_skillScrollContainer", "_monsterRarityFilter", "_monsterRaceFilter", "_skillRarityFilter", "_skillTypeFilter", "_colorFilter", "_sortOption", "_searchInput", "_resetFiltersButton", "_statsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_rap6w")
 script = ExtResource("1_0k8vx")
 _tabContainer = NodePath("MainContainer/TabContainer")
 _monsterCardsContainer = NodePath("MainContainer/TabContainer/怪物卡/MonsterCardsContainer")
@@ -30,6 +32,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -1.0
+offset_right = 2.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.1, 0.9)
@@ -140,19 +146,17 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MonsterCardsContainer" type="VBoxContainer" parent="MainContainer/TabContainer/怪物卡"]
+[node name="MonsterCardsContainer" type="GridContainer" parent="MainContainer/TabContainer/怪物卡"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+columns = 7
 
 [node name="技能卡" type="ScrollContainer" parent="MainContainer/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="SkillCardsContainer" type="VBoxContainer" parent="MainContainer/TabContainer/技能卡"]
+[node name="SkillCardsContainer" type="GridContainer" parent="MainContainer/TabContainer/技能卡"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+columns = 4
 
 [connection signal="pressed" from="MainContainer/ButtonsContainer/CloseButton" to="." method="queue_free"]

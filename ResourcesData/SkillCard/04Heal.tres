@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://bpgt4qf10704s"]
 
-[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/SkillTag/xihuan.tres" id="1_a8wdi"]
+[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/CardTag/xihuan.tres" id="1_a8wdi"]
 [ext_resource type="Script" uid="uid://dn5d1tr5ikpl1" path="res://Scripts/Skills/SkillEffect.cs" id="1_ggc68"]
 [ext_resource type="Script" uid="uid://bi1r1lyx7orvj" path="res://Scripts/Skills/SkillLevelData.cs" id="2_fvmfg"]
 [ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="2_ggc68"]
 [ext_resource type="Texture2D" uid="uid://dqaey7ejorw0m" path="res://Art/AssetsTextures/default.png" id="2_tcxie"]
-[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/SkillTag/jichu.tres" id="4_1q621"]
+[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/CardTag/jichu.tres" id="4_1q621"]
 
 [sub_resource type="Resource" id="Resource_heal"]
 script = ExtResource("1_ggc68")
@@ -44,7 +44,7 @@ metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
 script = ExtResource("2_ggc68")
 Id = 4
 Name = "Heal"
-Description = "恢复生命值"
+Description = "恢复生命�?
 Type = 2
 Rarity = 0
 ChargeCost = 120

@@ -246,12 +246,6 @@ public class SkillTrack
     public float[] Cooldowns { get; set; }
 }
 
-public class SkillTag
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-}
-
 public enum SkillRarity
 {
     Common,

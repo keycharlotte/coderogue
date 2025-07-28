@@ -125,10 +125,10 @@ namespace CodeRogue.UI
 			var rarityStats = new Godot.Collections.Dictionary<CardRarity, int>();
 			foreach (var card in _currentDeck.SkillCards)
 			{
-				if (rarityStats.ContainsKey(card.SkillRarity))
-					rarityStats[card.SkillRarity]++;
-				else
-					rarityStats[card.SkillRarity] = 1;
+				if (rarityStats.ContainsKey(card.Rarity))
+				rarityStats[card.Rarity]++;
+			else
+				rarityStats[card.Rarity] = 1;
 			}
 			
 			AddStatLabel("\n稀有度分布:");

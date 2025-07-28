@@ -18,7 +18,7 @@ namespace CodeRogue.Test
         [Export] private Button _activateReadySkillsButton;
         [Export] private Button _clearAllTracksButton;
         
-        private SkillDatabase _skillDatabase;
+        private CardDatabase _cardDatabase;
         private DeckManager _skillDeckManager;
         private SkillTrackManager _skillTrackManager;
         
@@ -32,10 +32,10 @@ namespace CodeRogue.Test
         private void InitializeComponents()
         {            
             // 获取系统组件
-            _skillDatabase = GetNode<SkillDatabase>("/root/SkillDatabase");
-            if (_skillDatabase == null)
+            _cardDatabase = GetNode<CardDatabase>("/root/CardDatabase");
+            if (_cardDatabase == null)
             {
-                GD.PrintErr("SkillDatabase autoload not found!");
+                GD.PrintErr("CardDatabase autoload not found!");
                 return;
             }
             _skillDeckManager = GetNode<DeckManager>("/root/DeckManager");
@@ -77,9 +77,9 @@ namespace CodeRogue.Test
             GD.Print("Loading test skills...");
             
             // 加载一些测试技能到轨道
-            if (_skillDatabase != null && _skillTrackManager != null)
+            if (_cardDatabase != null && _skillTrackManager != null)
             {
-                var skills = _skillDatabase.GetAllSkills();
+                var skills = _cardDatabase.GetAllSkillCards();
                 
                 for (int i = 0; i < Mathf.Min(skills.Count, _skillTrackManager.MaxTracks); i++)
                 {

@@ -408,7 +408,7 @@ public partial class MonsterSystemTest : Node
          card.CardName = "测试技能";
           card.Description = "用于测试的技能";
           card.SkillType = SkillType.Attack;
-          card.ChargeCost = 1;
+          card.Cost = 1;
          return card;
      }
     

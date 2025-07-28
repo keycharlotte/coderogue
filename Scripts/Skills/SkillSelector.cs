@@ -16,17 +16,17 @@ public partial class SkillSelector : Node
 	
 	[Export] public int OptionsPerSelection { get; set; } = 3;
 	
-	private SkillDatabase _database;
+	private CardDatabase _database;
 	private Godot.Collections.Dictionary<CardRarity, float> _selectionWeights;
 	private Random _random;
 	
 	public override void _Ready()
 	{
 		_instance = this;
-		_database = GetNode<SkillDatabase>("/root/SkillDatabase");
+		_database = GetNode<CardDatabase>("/root/CardDatabase");
 		if (_database == null)
 		{
-			GD.PrintErr("SkillDatabase autoload not found!");
+			GD.PrintErr("CardDatabase autoload not found!");
 			return;
 		}
 		_random = new Random();
@@ -78,8 +78,8 @@ public partial class SkillSelector : Node
 		// 随机选择稀有度
 		var rarity = SelectRandomRarity(weights);
 		
-		// 获取该稀有度的所有技能
-		var availableSkills = _database.GetSkillsByRarity(rarity);
+		// 获取该稀有度的所有技能卡
+		var availableSkills = _database.GetSkillCardsByRarity(rarity);
 		
 		// 过滤已选择的选项 - 修复：显式转换
 		availableSkills = new Godot.Collections.Array<SkillCard>(availableSkills.Where(s => !existingOptions.Any(o => o.Id == s.Id)));

@@ -41,7 +41,7 @@ graph TB
     end
 
     subgraph "数据库层"
-        SkillDatabase[SkillDatabase]
+        CardDatabase[CardDatabase]
         HeroDatabase[HeroDatabase]
         RelicDatabase[RelicDatabase]
         BuffDatabase[BuffDatabase]
@@ -92,7 +92,8 @@ graph TB
     DeckManager --> UnifiedDeck
     
     MonsterManager --> MonsterCard
-    SkillDatabase --> SkillCard
+    CardDatabase --> SkillCard
+    CardDatabase --> MonsterCard
     
     SummonSystem --> MonsterCard
     SummonSystem --> SummonerHero
@@ -214,19 +215,23 @@ classDiagram
         +AddToCollection()
     }
     
-    class SkillDatabase {
+    class CardDatabase {
         +Array~SkillCard~ AllSkills
+        +Array~MonsterCard~ AllMonsters
         // 移除SkillDeck数组，现在使用UnifiedDeck
         +GetSkillByName()
+        +GetMonsterByName()
         +GetDeckByName()
         +GetSkillsByTag()
+        +GetMonstersByTag()
     }
     
     MonsterGameManager --> DeckManager
     MonsterGameManager --> MonsterManager
     DeckManager --> UnifiedDeck
     MonsterManager --> MonsterCard
-    SkillDatabase --> SkillCard
+    CardDatabase --> SkillCard
+    CardDatabase --> MonsterCard
 ```
 
 ### 3. 战斗系统架构

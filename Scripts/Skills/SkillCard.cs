@@ -6,9 +6,6 @@ using Godot.Collections;
 public partial class SkillCard : BaseCard
 {
 	[Export] public SkillType SkillType { get; set; }
-	[Export] public CardRarity SkillRarity { get; set; }
-	[Export] public int ChargeCost { get; set; }
-	[Export] public Array<SkillTag> SkillTags { get; set; }
 	[Export] public Array<SkillEffect> Effects { get; set; }
 	// 将字符串路径改为直接引用Texture2D资源
 	[Export, Obsolete("使用IconPath属性代替")] public Texture2D Icon { get; set; }
@@ -16,7 +13,6 @@ public partial class SkillCard : BaseCard
 	public SkillCard()
 	{
 		CardType = CardType.Skill;
-		SkillTags = new Array<SkillTag>();
 		Effects = new Array<SkillEffect>();
 	}
 	
@@ -32,19 +28,19 @@ public partial class SkillCard : BaseCard
 	/// <summary>
 	/// 获取技能稀有度（映射到基类的Rarity）
 	/// </summary>
-	public CardRarity Rarity
+	public new CardRarity Rarity
 	{
-		get => SkillRarity;
-		set => SkillRarity = value;
+		get => base.Rarity;
+		set => base.Rarity = value;
 	}
 	
 	/// <summary>
 	/// 获取充能费用（映射到基类的Cost）
 	/// </summary>
-	public int Cost
+	public new int Cost
 	{
-		get => ChargeCost;
-		set => ChargeCost = value;
+		get => base.Cost;
+		set => base.Cost = value;
 	}
 	
 	// 技能升级数据
@@ -84,7 +80,7 @@ public partial class SkillCard : BaseCard
 			}
 			
 			// 更新充能消耗
-			ChargeCost = levelData.ChargeCost;
+			Cost = levelData.ChargeCost;
 		}
 	}
 	
@@ -102,10 +98,10 @@ public partial class SkillCard : BaseCard
 		}
 		
 		// 考虑充能消耗（消耗越低评分越高）
-		float costEfficiency = 10f / Mathf.Max(1f, ChargeCost);
+		float costEfficiency = 10f / Mathf.Max(1f, Cost);
 		
 		// 稀有度加成
-		float rarityMultiplier = SkillRarity switch
+		float rarityMultiplier = Rarity switch
 		{
 			CardRarity.Common => 1.0f,
 			CardRarity.Uncommon => 1.1f,
@@ -143,20 +139,13 @@ public partial class SkillCard : BaseCard
 		copy.CardName = CardName;
 		copy.Description = Description;
 		copy.SkillType = SkillType;
-		copy.SkillRarity = SkillRarity;
-		copy.ChargeCost = ChargeCost;
+		copy.Rarity = Rarity;
+		copy.Cost = Cost;
 		copy.Level = Level;
 		copy.IconPath = IconPath;
 		copy.RarityColor = RarityColor;
 		copy.ColorRequirements = new Array<MagicColor>(ColorRequirements);
-		copy.Tags = new Array<string>(Tags);
-		
-		// 复制技能标签
-		copy.SkillTags = new Array<SkillTag>();
-		foreach (var tag in SkillTags)
-		{
-			copy.SkillTags.Add(tag);
-		}
+		copy.Tags = new Array<CardTag>(Tags);
 		
 		// 复制技能效果
 		copy.Effects = new Array<SkillEffect>();

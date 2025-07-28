@@ -1,7 +1,7 @@
 using Godot;
 
 [GlobalClass]
-public partial class SkillTag : Resource
+public partial class CardTag : Resource
 {
     [Export] public string Name { get; set; }
     [Export] public string Description { get; set; }

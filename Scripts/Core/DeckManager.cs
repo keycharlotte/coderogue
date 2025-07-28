@@ -30,23 +30,16 @@ public partial class DeckManager : Node
     private const string DECKS_SAVE_PATH = "user://unified_decks.save";
     
     // 依赖组件
-    private SkillDatabase _skillDatabase;
-    private CardManager _cardManager;
+    private CardDatabase _cardDatabase;
     
     public override void _Ready()
     {
         // 获取依赖组件
-        _skillDatabase = GetNode<SkillDatabase>("/root/SkillDatabase");
-        _cardManager = GetNode<CardManager>("/root/CardManager");
+        _cardDatabase = GetNode<CardDatabase>("/root/CardDatabase");
         
-        if (_skillDatabase == null)
+        if (_cardDatabase == null)
         {
-            GD.PrintErr("SkillDatabase not found! DeckManager requires SkillDatabase.");
-        }
-        
-        if (_cardManager == null)
-        {
-            GD.PrintErr("CardManager not found! DeckManager requires CardManager.");
+            GD.PrintErr("CardDatabase not found! DeckManager requires CardDatabase.");
         }
         
         // 加载保存的卡组
@@ -74,9 +67,9 @@ public partial class DeckManager : Node
         defaultDeck.DeckName = DefaultDeckName;
         
         // 添加一些基础技能卡
-        if (_skillDatabase != null)
+        if (_cardDatabase != null)
         {
-            var basicSkills = _skillDatabase.GetSkillsByRarity(CardRarity.Common);
+            var basicSkills = _cardDatabase.GetSkillCardsByRarity(CardRarity.Common);
             int skillsToAdd = Math.Min(5, basicSkills.Count);
             for (int i = 0; i < skillsToAdd; i++)
             {
@@ -85,9 +78,9 @@ public partial class DeckManager : Node
         }
         
         // 添加一些基础怪物卡
-        if (_cardManager != null)
+        if (_cardDatabase != null)
         {
-            var basicMonsters = _cardManager.GetMonsterCardsByRarity(CardRarity.Common);
+            var basicMonsters = _cardDatabase.GetMonsterCardsByRarity(CardRarity.Common);
             int monstersToAdd = Math.Min(10, basicMonsters.Count);
             for (int i = 0; i < monstersToAdd; i++)
             {
@@ -299,9 +292,9 @@ public partial class DeckManager : Node
         newDeck.DeckName = deckName;
         
         // 添加随机怪物卡
-        if (_cardManager != null)
+        if (_cardDatabase != null)
         {
-            var availableMonsters = _cardManager.GetAllMonsterCards();
+            var availableMonsters = _cardDatabase.GetAllMonsterCards();
             var selectedMonsters = availableMonsters.OrderBy(x => Guid.NewGuid()).Take(targetMonsters);
             
             foreach (var monster in selectedMonsters)
@@ -311,9 +304,9 @@ public partial class DeckManager : Node
         }
         
         // 添加随机技能卡
-        if (_skillDatabase != null)
+        if (_cardDatabase != null)
         {
-            var availableSkills = _skillDatabase.GetAllSkills();
+            var availableSkills = _cardDatabase.GetAllSkillCards();
             var selectedSkills = availableSkills.OrderBy(x => Guid.NewGuid()).Take(targetSkills);
             
             foreach (var skill in selectedSkills)

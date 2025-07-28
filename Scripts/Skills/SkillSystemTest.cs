@@ -6,7 +6,7 @@ using System.Linq;
 [GlobalClass]
 public partial class SkillSystemTest : Node
 {
-    private SkillDatabase _database;
+    private CardDatabase _database;
     private SkillSelector _selector;
     private DeckManager _deckManager;
     private SkillTrackManager _trackManager;
@@ -30,7 +30,7 @@ public partial class SkillSystemTest : Node
         InitializeComponents();
         
         // 运行各项测试
-        TestSkillDatabase();
+        TestCardDatabase();
         TestSkillCard();
         TestSkillDeck();
         TestSkillSelector();
@@ -44,11 +44,11 @@ public partial class SkillSystemTest : Node
     {
         GD.Print("\n--- 初始化组件 ---");
         
-        // 获取技能数据库
-        _database = GetNode<SkillDatabase>("/root/SkillDatabase");
+        // 获取卡牌数据库
+        _database = GetNode<CardDatabase>("/root/CardDatabase");
         if (_database == null)
         {
-            GD.PrintErr("SkillDatabase autoload not found!");
+            GD.PrintErr("CardDatabase autoload not found!");
             return;
         }
         
@@ -70,38 +70,34 @@ public partial class SkillSystemTest : Node
         LogResult("组件初始化", true, "所有组件初始化完成");
     }
     
-    private void TestSkillDatabase()
+    private void TestCardDatabase()
     {
-        GD.Print("\n--- 测试技能数据库 ---");
+        GD.Print("\n--- 测试卡牌数据库 ---");
         
         try
         {
-            // 测试获取所有技能
-            var allSkills = _database.GetAllSkills();
-            LogResult("获取所有技能", allSkills.Count > 0, $"找到 {allSkills.Count} 个技能");
+            // 测试获取所有技能卡
+            var allSkills = _database.GetAllSkillCards();
+            LogResult("获取所有技能卡", allSkills.Count > 0, $"找到 {allSkills.Count} 个技能卡");
             
-            // 测试按稀有度获取技能
-            var commonSkills = _database.GetSkillsByRarity(CardRarity.Common);
-            LogResult("按稀有度获取技能", commonSkills.Count > 0, $"找到 {commonSkills.Count} 个普通技能");
+            // 测试按稀有度获取技能卡
+            var commonSkills = _database.GetSkillCardsByRarity(CardRarity.Common);
+            LogResult("按稀有度获取技能卡", commonSkills.Count > 0, $"找到 {commonSkills.Count} 个普通技能卡");
             
-            // 测试按类型获取技能
-            var attackSkills = _database.GetSkillsByType(SkillType.Attack);
-            LogResult("按类型获取技能", attackSkills.Count >= 0, $"找到 {attackSkills.Count} 个攻击技能");
+            // 测试按类型获取技能卡
+            var attackSkills = _database.GetSkillCardsByType(SkillType.Attack);
+            LogResult("按类型获取技能卡", attackSkills.Count >= 0, $"找到 {attackSkills.Count} 个攻击技能卡");
             
-            // 测试按标签获取技能
-            var fireSkills = _database.GetSkillsByTag("火焰");
-            LogResult("按标签获取技能", fireSkills.Count >= 0, $"找到 {fireSkills.Count} 个火焰技能");
-            
-            // 测试按ID获取技能
+            // 测试按ID获取技能卡
             if (allSkills.Count > 0)
             {
-                var firstSkill = _database.GetSkillById(allSkills[0].Id);
-                LogResult("按ID获取技能", firstSkill != null, "成功获取指定技能");
+                var firstSkill = _database.GetSkillCardById(allSkills[0].Id);
+                LogResult("按ID获取技能卡", firstSkill != null, "成功获取指定技能卡");
             }
         }
         catch (System.Exception e)
         {
-            LogResult("技能数据库测试", false, $"异常: {e.Message}");
+            LogResult("卡牌数据库测试", false, $"异常: {e.Message}");
         }
     }
     
@@ -264,8 +260,13 @@ public partial class SkillSystemTest : Node
 		skill.Cost = chargeCost;
 		skill.Level = 1;
 		// skill.MaxLevel = 3;
-		skill.SkillRarity = CardRarity.Common;
-		skill.Tags = new Array<string> {"测试"};
+		skill.Rarity = CardRarity.Common;
+		// 创建测试标签
+        var testTag = new CardTag();
+        testTag.Name = "测试";
+        testTag.Description = "测试标签";
+        testTag.Color = Colors.White;
+        skill.Tags = new Array<CardTag> { testTag };
         
         // 创建测试效果
         var effect = new SkillEffect();

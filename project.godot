@@ -20,7 +20,6 @@ config/icon="res://icon.svg"
 GameData="*res://Scripts/Data/GameData.cs"
 CardDatabase="*res://Scripts/Core/CardDatabase.cs"
 BuffDatabase="*res://Scripts/Buffs/BuffDatabase.cs"
-SkillDatabase="*res://Scripts/Skills/SkillDatabase.cs"
 HeroDatabase="*res://Scripts/Heroes/HeroDatabase.cs"
 RelicDatabase="*res://Scripts/Relics/RelicDatabase.cs"
 GameManager="*res://Scenes/Manager/GameManager.tscn"
@@ -33,6 +32,7 @@ RelicManager="*res://Scenes/Manager/RelicManager.tscn"
 BuffManager="*res://Scenes/Manager/BuffManager.tscn"
 LevelManager="*res://Scenes/Manager/LevelManager.tscn"
 UIManager="*res://Scenes/Manager/UIManager.tscn"
+DeckManager="*res://Scenes/Manager/DeckManager.tscn"
 
 [dotnet]
 

@@ -25,12 +25,12 @@ public abstract partial class BaseCard : Resource
     [Export] public Array<MagicColor> ColorRequirements { get; set; } = new Array<MagicColor>();
     
     // 标签系统（用于分类和搜索）
-    [Export] public Array<string> Tags { get; set; } = new Array<string>();
+    [Export] public Array<CardTag> Tags { get; set; } = new Array<CardTag>();
     
     public BaseCard()
     {
         ColorRequirements = new Array<MagicColor>();
-        Tags = new Array<string>();
+        Tags = new Array<CardTag>();
     }
     
     /// <summary>
@@ -52,17 +52,25 @@ public abstract partial class BaseCard : Resource
     /// <summary>
     /// 检查是否包含指定标签
     /// </summary>
-    public bool HasTag(string tag)
+    public bool HasTag(CardTag tag)
     {
         return Tags.Contains(tag);
     }
     
     /// <summary>
+    /// 检查是否包含指定标签名称
+    /// </summary>
+    public bool HasTag(string tagName)
+    {
+        return Tags.Any(tag => tag != null && tag.Name == tagName);
+    }
+    
+    /// <summary>
     /// 添加标签
     /// </summary>
-    public void AddTag(string tag)
+    public void AddTag(CardTag tag)
     {
-        if (!HasTag(tag))
+        if (tag != null && !HasTag(tag))
         {
             Tags.Add(tag);
         }
@@ -71,9 +79,23 @@ public abstract partial class BaseCard : Resource
     /// <summary>
     /// 移除标签
     /// </summary>
-    public void RemoveTag(string tag)
+    public void RemoveTag(CardTag tag)
     {
         Tags.Remove(tag);
+    }
+    
+    /// <summary>
+    /// 根据标签名称移除标签
+    /// </summary>
+    public void RemoveTag(string tagName)
+    {
+        for (int i = Tags.Count - 1; i >= 0; i--)
+        {
+            if (Tags[i] != null && Tags[i].Name == tagName)
+            {
+                Tags.RemoveAt(i);
+            }
+        }
     }
     
     /// <summary>

@@ -10,8 +10,6 @@ using System.Linq;
 public partial class MonsterCard : BaseCard
 {
     [Export] public string MonsterName { get; set; } = "";
-    [Export] public CardRarity MonsterRarity { get; set; }
-    
     // 基础属性
     [Export] public int Health { get; set; } = 100;
     [Export] public int Attack { get; set; } = 50;
@@ -44,12 +42,12 @@ public partial class MonsterCard : BaseCard
     }
     
     /// <summary>
-    /// 获取怪物稀有度（映射到基类的Rarity）
+    /// 获取怪物稀有度（使用基类的Rarity）
     /// </summary>
     public new CardRarity Rarity
     {
-        get => MonsterRarity;
-        set => MonsterRarity = value;
+        get => base.Rarity;
+        set => base.Rarity = value;
     }
     
     /// <summary>
@@ -128,7 +126,7 @@ public partial class MonsterCard : BaseCard
     /// </summary>
     public Color GetRarityColor()
     {
-        return MonsterRarity switch
+        return Rarity switch
         {
             CardRarity.Common => Colors.Gray,
             CardRarity.Uncommon => Colors.Green,
@@ -146,7 +144,7 @@ public partial class MonsterCard : BaseCard
     {
         float baseRating = (Health + Attack * 2) / 10f;
         float skillBonus = Skills.Count * 10f;
-        float rarityMultiplier = MonsterRarity switch
+        float rarityMultiplier = Rarity switch
         {
             CardRarity.Common => 1.0f,
             CardRarity.Uncommon => 1.1f,
@@ -191,7 +189,7 @@ public partial class MonsterCard : BaseCard
         copy.CardName = CardName;
         copy.MonsterName = MonsterName;
         copy.Description = Description;
-        copy.MonsterRarity = MonsterRarity;
+        copy.Rarity = Rarity;
         copy.ColorRequirements = new Array<MagicColor>(ColorRequirements);
         copy.Health = Health;
         copy.Attack = Attack;
@@ -203,7 +201,7 @@ public partial class MonsterCard : BaseCard
         copy.IconPath = IconPath;
         copy.RarityColor = RarityColor;
         copy.SkillValues = new Array<float>(SkillValues);
-        copy.Tags = new Array<string>(Tags);
+        copy.Tags = new Array<CardTag>(Tags);
         return copy;
     }
     
