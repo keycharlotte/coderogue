@@ -16,7 +16,7 @@ namespace CodeRogue.UI
 		[Export] private ScrollContainer _scrollContainer;
 		[Export] private VBoxContainer _statsContainer;
 		
-		private SkillDeck _currentDeck;
+		private UnifiedDeck _currentDeck;
 		private List<SkillCardUI> _cardUIs;
 		
 		public override void _Ready()
@@ -32,7 +32,7 @@ namespace CodeRogue.UI
 			// _shuffleButton.Pressed += OnShuffleButtonPressed;
 			
 			// 连接卡组管理器信号
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		if (deckManager != null)
 		{
 			deckManager.DeckChanged += OnDeckChanged;
@@ -43,10 +43,10 @@ namespace CodeRogue.UI
 		
 		private void LoadCurrentDeck()
 	{
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		if (deckManager == null)
 		{
-			GD.PrintErr("SkillDeckManager autoload is null, retrying later...");
+			GD.PrintErr("DeckManager autoload is null, retrying later...");
 			CallDeferred("LoadCurrentDeck");
 			return;
 		}
@@ -59,15 +59,14 @@ namespace CodeRogue.UI
 		private void UpdateDeckDisplay()
 		{
 			if (_currentDeck == null) return;
-			GD.Print($"UpdateDeckDisplay: {_currentDeck._drawPile}");
 			// 清除现有卡片UI
 			ClearCardUIs();
 			
 			// 更新卡组信息
-			_deckInfoLabel.Text = $"卡组大小: {_currentDeck.Cards.Count}/{_currentDeck.MaxDeckSize}";
+			_deckInfoLabel.Text = $"卡组大小: {_currentDeck.SkillCards.Count}/{_currentDeck.MaxDeckSize}";
 			
 			// 创建卡片UI
-			foreach (var card in _currentDeck.Cards)
+			foreach (var card in _currentDeck.SkillCards)
 			{
 				CreateCardUI(card);
 			}
@@ -116,23 +115,28 @@ namespace CodeRogue.UI
 			if (_currentDeck == null) return;
 			
 			// 添加统计信息
-			AddStatLabel($"总卡片数: {_currentDeck.Cards.Count}");
-			AddStatLabel($"攻击技能: {_currentDeck.Cards.Count(c => c.Type == SkillType.Attack)}");
-			AddStatLabel($"防御技能: {_currentDeck.Cards.Count(c => c.Type == SkillType.Defense)}");
-			AddStatLabel($"辅助技能: {_currentDeck.Cards.Count(c => c.Type == SkillType.Utility)}");
-			AddStatLabel($"平均消耗: {(_currentDeck.Cards.Count > 0 ? _currentDeck.Cards.Average(c => c.ChargeCost):0):F1}");
+			AddStatLabel($"总卡片数: {_currentDeck.SkillCards.Count}");
+			AddStatLabel($"攻击技能: {_currentDeck.SkillCards.Count(c => c.SkillType == SkillType.Attack)}");
+			AddStatLabel($"防御技能: {_currentDeck.SkillCards.Count(c => c.SkillType == SkillType.Defense)}");
+			AddStatLabel($"辅助技能: {_currentDeck.SkillCards.Count(c => c.SkillType == SkillType.Utility)}");
+			AddStatLabel($"平均消耗: {(_currentDeck.SkillCards.Count > 0 ? _currentDeck.SkillCards.Average(c => c.Cost):0):F1}");
 			
 			// 稀有度统计
-			var rarityStats = _currentDeck.Cards.GroupBy(c => c.Rarity)
-				.ToDictionary(g => g.Key, g => g.Count());
+			var rarityStats = new Godot.Collections.Dictionary<CardRarity, int>();
+			foreach (var card in _currentDeck.SkillCards)
+			{
+				if (rarityStats.ContainsKey(card.SkillRarity))
+					rarityStats[card.SkillRarity]++;
+				else
+					rarityStats[card.SkillRarity] = 1;
+			}
 			
 			AddStatLabel("\n稀有度分布:");
-			foreach (var rarity in System.Enum.GetValues<SkillRarity>())
+			foreach (var rarity in System.Enum.GetValues<CardRarity>())
 			{
-				var count = rarityStats.GetValueOrDefault(rarity, 0);
-				if (count > 0)
+				if (rarityStats.ContainsKey(rarity))
 				{
-					AddStatLabel($"{rarity}: {count}");
+					AddStatLabel($"{rarity}: {rarityStats[rarity]}");
 				}
 			}
 		}
@@ -153,22 +157,22 @@ namespace CodeRogue.UI
 		
 		private void OnCardRemoveRequested(SkillCard card)
 	{
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		deckManager?.RemoveCardFromDeck(card);
 	}
 		
-		private void OnDeckChanged(SkillDeck newDeck)
+		private void OnDeckChanged(UnifiedDeck newDeck)
 		{
 			_currentDeck = newDeck;
 			UpdateDeckDisplay();
 		}
 		
-		private void OnCardAdded(SkillCard card)
+		private void OnCardAdded(BaseCard card)
 		{
 			UpdateDeckDisplay();
 		}
 		
-		private void OnCardRemoved(SkillCard card)
+		private void OnCardRemoved(BaseCard card)
 		{
 			UpdateDeckDisplay();
 		}

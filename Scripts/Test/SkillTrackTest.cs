@@ -19,7 +19,7 @@ namespace CodeRogue.Test
         [Export] private Button _clearAllTracksButton;
         
         private SkillDatabase _skillDatabase;
-        private SkillDeckManager _skillDeckManager;
+        private DeckManager _skillDeckManager;
         private SkillTrackManager _skillTrackManager;
         
         public override void _Ready()
@@ -38,7 +38,7 @@ namespace CodeRogue.Test
                 GD.PrintErr("SkillDatabase autoload not found!");
                 return;
             }
-            _skillDeckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+            _skillDeckManager = GetNode<DeckManager>("/root/DeckManager");
             _skillTrackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
         }
         

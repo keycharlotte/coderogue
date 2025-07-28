@@ -17,7 +17,7 @@ namespace CodeRogue.UI
 		private List<TrackSlotUI> _trackSlots;
 		private SkillTrackManager _trackManager;
 		private int _lastTrackCount = 0;
-		private SkillDeck _lastDeck = null;
+		private UnifiedDeck _lastDeck = null;
 		
 		public override void _Ready()
 		{
@@ -37,16 +37,16 @@ namespace CodeRogue.UI
 				return;
 			}
 			
-			// 尝试连接到SkillDeckManager以监听卡组变化
-			var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+			// 尝试连接到DeckManager以监听卡组变化
+			var deckManager = GetNode<DeckManager>("/root/DeckManager");
 			if (deckManager != null)
 			{
-				// 如果SkillDeckManager有卡组变化信号，可以在这里连接
-				GD.Print("SkillTrackUI: 已连接到SkillDeckManager");
+				// 如果DeckManager有卡组变化信号，可以在这里连接
+				GD.Print("SkillTrackUI: 已连接到DeckManager");
 			}
 			else
 			{
-				GD.Print("SkillTrackUI: 无法找到SkillDeckManager");
+				GD.Print("SkillTrackUI: 无法找到DeckManager");
 			}
 		}
 		
@@ -330,12 +330,12 @@ namespace CodeRogue.UI
 		/// <summary>
 		/// 设置卡组变化监听 - 外部调用接口
 		/// </summary>
-		public void OnDeckChanged(SkillDeck newDeck)
+		public void OnDeckChanged(UnifiedDeck newDeck)
 		{
 			if (_lastDeck != newDeck)
 			{
-				GD.Print($"SkillTrackUI: 卡组切换 - {newDeck?.Name ?? "无"}");
-				UpdateStatusLabel($"📦 切换卡组: {newDeck?.Name ?? "无"}");
+				GD.Print($"SkillTrackUI: 卡组切换 - {newDeck?.DeckName ?? "无"}");
+				UpdateStatusLabel($"📦 切换卡组: {newDeck?.DeckName ?? "无"}");
 				_lastDeck = newDeck;
 				
 				// 播放卡组切换效果

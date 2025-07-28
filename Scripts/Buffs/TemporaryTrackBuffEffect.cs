@@ -9,7 +9,7 @@ namespace CodeRogue.Buffs
     /// </summary>
     public partial class TemporaryTrackBuffEffect : Node, IBuffEffect
     {
-        private Dictionary<string, int> _temporaryTrackIndices = new();
+        private Godot.Collections.Dictionary<string, int> _temporaryTrackIndices = new();
         
         public void OnApply(BuffInstance buff)
         {

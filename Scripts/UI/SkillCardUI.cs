@@ -50,10 +50,10 @@ namespace CodeRogue.UI
 			_nameLabel.Text = _skillCard.Name;
 			_descriptionLabel.Text = _skillCard.Description;
 			_costLabel.Text = $"消耗: {_skillCard.ChargeCost}";
-			_typeLabel.Text = _skillCard.Type.ToString();
+			_typeLabel.Text = _skillCard.SkillType.ToString();
 			
 			// 设置稀有度颜色
-			var rarityColor = GetRarityColor(_skillCard.Rarity);
+			var rarityColor = GetRarityColor(_skillCard.SkillRarity);
 			var styleBox = new StyleBoxFlat();
 			styleBox.BgColor = rarityColor;
 			styleBox.SetCornerRadiusAll(8);
@@ -92,20 +92,21 @@ namespace CodeRogue.UI
 			if (_skillCard.Tags == null) return;
 			
 			var tagsLabel = new Label();
-			tagsLabel.Text = "标签: " + string.Join(", ", _skillCard.Tags.Select(tag => tag.Name));
+			tagsLabel.Text = "标签: " + string.Join(", ", _skillCard.Tags);
 			tagsLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
 			tagsLabel.AddThemeColorOverride("font_color", Colors.LightGray);
 			_tagsContainer.AddChild(tagsLabel);
 		}
 		
-		private Color GetRarityColor(SkillRarity rarity)
+		private Color GetRarityColor(CardRarity rarity)
 		{
 			return rarity switch
 			{
-				SkillRarity.Common => new Color(0.8f, 0.8f, 0.8f, 0.3f),
-				SkillRarity.Rare => new Color(0.3f, 0.6f, 1f, 0.3f),
-				SkillRarity.Epic => new Color(0.8f, 0.3f, 1f, 0.3f),
-				SkillRarity.Legendary => new Color(1f, 0.6f, 0.1f, 0.3f),
+				CardRarity.Common => new Color(0.8f, 0.8f, 0.8f, 0.3f),
+				CardRarity.Uncommon => new Color(0.4f, 0.8f, 0.4f, 0.3f),
+				CardRarity.Rare => new Color(0.3f, 0.6f, 1f, 0.3f),
+				CardRarity.Epic => new Color(0.8f, 0.3f, 1f, 0.3f),
+				CardRarity.Legendary => new Color(1f, 0.6f, 0.1f, 0.3f),
 				_ => new Color(0.5f, 0.5f, 0.5f, 0.3f)
 			};
 		}

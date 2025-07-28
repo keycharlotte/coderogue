@@ -1,0 +1,225 @@
+{
+  "monster_cards": [
+    {
+      "id": "holy_knight",
+      "name": "圣骑士",
+      "description": "忠诚的圣光战士",
+      "rarity": "Common",
+      "color_requirements": {
+        "White": 2
+      },
+      "health": 30,
+      "attack": 25,
+      "summon_cost": 3,
+      "race": "Human",
+      "skills": ["Heal", "Protect"],
+      "icon_path": "res://icons/monsters/holy_knight.png"
+    },
+    {
+      "id": "healing_angel",
+      "name": "治疗天使",
+      "description": "带来希望的天使",
+      "rarity": "Rare",
+      "color_requirements": {
+        "White": 3
+      },
+      "health": 25,
+      "attack": 20,
+      "summon_cost": 4,
+      "race": "Angel",
+      "skills": ["Heal", "Buff"],
+      "icon_path": "res://icons/monsters/healing_angel.png"
+    },
+    {
+      "id": "frost_elemental",
+      "name": "冰霜元素",
+      "description": "寒冷的魔法生物",
+      "rarity": "Common",
+      "color_requirements": {
+        "Blue": 2
+      },
+      "health": 20,
+      "attack": 30,
+      "summon_cost": 3,
+      "race": "Elemental",
+      "skills": ["Freeze", "MagicAttack"],
+      "icon_path": "res://icons/monsters/frost_elemental.png"
+    },
+    {
+      "id": "water_dragon",
+      "name": "水龙",
+      "description": "古老的水系巨龙",
+      "rarity": "Epic",
+      "color_requirements": {
+        "Blue": 4
+      },
+      "health": 50,
+      "attack": 45,
+      "summon_cost": 6,
+      "race": "Dragon",
+      "skills": ["AoEAttack", "MagicAttack"],
+      "icon_path": "res://icons/monsters/water_dragon.png"
+    },
+    {
+      "id": "shadow_assassin",
+      "name": "暗影刺客",
+      "description": "来自黑暗的杀手",
+      "rarity": "Uncommon",
+      "color_requirements": {
+        "Black": 2
+      },
+      "health": 25,
+      "attack": 35,
+      "summon_cost": 3,
+      "race": "Human",
+      "skills": ["Stealth", "CriticalStrike"],
+      "icon_path": "res://icons/monsters/shadow_assassin.png"
+    },
+    {
+      "id": "bone_dragon",
+      "name": "骨龙",
+      "description": "不死的龙族",
+      "rarity": "Legendary",
+      "color_requirements": {
+        "Black": 5
+      },
+      "health": 60,
+      "attack": 50,
+      "summon_cost": 7,
+      "race": "Undead",
+      "skills": ["Regeneration", "Fear"],
+      "icon_path": "res://icons/monsters/bone_dragon.png"
+    },
+    {
+      "id": "fire_goblin",
+      "name": "火焰哥布林",
+      "description": "狂暴的小恶魔",
+      "rarity": "Common",
+      "color_requirements": {
+        "Red": 1
+      },
+      "health": 15,
+      "attack": 20,
+      "summon_cost": 2,
+      "race": "Goblin",
+      "skills": ["Burn", "Rush"],
+      "icon_path": "res://icons/monsters/fire_goblin.png"
+    },
+    {
+      "id": "flame_demon",
+      "name": "烈焰恶魔",
+      "description": "地狱的烈火使者",
+      "rarity": "Rare",
+      "color_requirements": {
+        "Red": 3
+      },
+      "health": 40,
+      "attack": 45,
+      "summon_cost": 5,
+      "race": "Demon",
+      "skills": ["Burn", "AoEAttack"],
+      "icon_path": "res://icons/monsters/flame_demon.png"
+    },
+    {
+      "id": "forest_wolf",
+      "name": "森林狼",
+      "description": "野性的森林守护者",
+      "rarity": "Common",
+      "color_requirements": {
+        "Green": 2
+      },
+      "health": 35,
+      "attack": 30,
+      "summon_cost": 3,
+      "race": "Beast",
+      "skills": ["Pack", "Regeneration"],
+      "icon_path": "res://icons/monsters/forest_wolf.png"
+    },
+    {
+      "id": "nature_dragon",
+      "name": "自然巨龙",
+      "description": "生命之力的化身",
+      "rarity": "Epic",
+      "color_requirements": {
+        "Green": 4
+      },
+      "health": 55,
+      "attack": 40,
+      "summon_cost": 6,
+      "race": "Dragon",
+      "skills": ["Regeneration", "Buff"],
+      "icon_path": "res://icons/monsters/nature_dragon.png"
+    },
+    {
+      "id": "elemental_guardian",
+      "name": "元素守护者",
+      "description": "掌控多种元素的守护者",
+      "rarity": "Rare",
+      "color_requirements": {
+        "Blue": 2,
+        "Green": 2
+      },
+      "health": 45,
+      "attack": 35,
+      "summon_cost": 5,
+      "race": "Elemental",
+      "skills": ["Protect", "MagicAttack"],
+      "icon_path": "res://icons/monsters/elemental_guardian.png"
+    }
+  ],
+  "skill_cards": [
+    {
+      "id": "fireball",
+      "name": "火球术",
+      "description": "造成火焰伤害",
+      "rarity": "Common",
+      "color_requirements": {
+        "Red": 1
+      },
+      "charge_cost": 2,
+      "skill_type": "Attack",
+      "damage_multiplier": 1.5,
+      "icon_path": "res://icons/skills/fireball.png"
+    },
+    {
+      "id": "heal",
+      "name": "治疗术",
+      "description": "恢复生命值",
+      "rarity": "Common",
+      "color_requirements": {
+        "White": 1
+      },
+      "charge_cost": 1,
+      "skill_type": "Heal",
+      "defense_value": 15,
+      "icon_path": "res://icons/skills/heal.png"
+    },
+    {
+      "id": "shield",
+      "name": "护盾术",
+      "description": "提供防护",
+      "rarity": "Common",
+      "color_requirements": {
+        "White": 1
+      },
+      "charge_cost": 2,
+      "skill_type": "Defense",
+      "defense_value": 10,
+      "icon_path": "res://icons/skills/shield.png"
+    }
+  ],
+  "rarity_weights": {
+    "Common": 0.6,
+    "Uncommon": 0.25,
+    "Rare": 0.12,
+    "Epic": 0.025,
+    "Legendary": 0.005
+  },
+  "color_weights": {
+    "White": 0.2,
+    "Blue": 0.2,
+    "Black": 0.2,
+    "Red": 0.2,
+    "Green": 0.2
+  }
+}

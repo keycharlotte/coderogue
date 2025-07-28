@@ -55,7 +55,7 @@ public partial class SkillTrackSystem : Node
 
     private void ExecuteSkillEffect(SkillCard skill)
     {
-        switch (skill.Type)
+        switch (skill.SkillType)
         {
             case SkillType.Attack:
                 ExecuteAttackSkill(skill);

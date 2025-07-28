@@ -17,7 +17,7 @@ public partial class SkillSelector : Node
 	[Export] public int OptionsPerSelection { get; set; } = 3;
 	
 	private SkillDatabase _database;
-	private Godot.Collections.Dictionary<SkillRarity, float> _selectionWeights;
+	private Godot.Collections.Dictionary<CardRarity, float> _selectionWeights;
 	private Random _random;
 	
 	public override void _Ready()
@@ -35,12 +35,13 @@ public partial class SkillSelector : Node
 	
 	private void InitializeSelectionWeights()
 	{
-		_selectionWeights = new Godot.Collections.Dictionary<SkillRarity, float>
+		_selectionWeights = new Godot.Collections.Dictionary<CardRarity, float>
 		{
-			{ SkillRarity.Common, 60f },
-			{ SkillRarity.Rare, 30f },
-			{ SkillRarity.Epic, 9f },
-			{ SkillRarity.Legendary, 1f }
+			{ CardRarity.Common, 60f },
+			{ CardRarity.Uncommon, 25f },
+			{ CardRarity.Rare, 12f },
+			{ CardRarity.Epic, 2.5f },
+			{ CardRarity.Legendary, 0.5f }
 		};
 	}
 	
@@ -53,9 +54,9 @@ public partial class SkillSelector : Node
 	private List<SkillCard> GenerateSkillOptions(int playerLevel)
 	{
 		var options = new List<SkillCard>();
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		var currentDeck = deckManager?.GetCurrentDeck();
-		var ownedSkills = currentDeck?.Cards?.ToList() ?? new List<SkillCard>();
+		var ownedSkills = currentDeck?.Cards?.OfType<SkillCard>().ToList() ?? new List<SkillCard>();
 		
 		// 调整权重基于游戏进度
 		var adjustedWeights = AdjustWeightsByProgress(playerLevel);
@@ -72,7 +73,7 @@ public partial class SkillSelector : Node
 		return options;
 	}
 	
-	private SkillCard GenerateSingleOption(List<SkillCard> ownedSkills, Godot.Collections.Dictionary<SkillRarity, float> weights, List<SkillCard> existingOptions)
+	private SkillCard GenerateSingleOption(List<SkillCard> ownedSkills, Godot.Collections.Dictionary<CardRarity, float> weights, List<SkillCard> existingOptions)
 	{
 		// 随机选择稀有度
 		var rarity = SelectRandomRarity(weights);
@@ -103,7 +104,7 @@ public partial class SkillSelector : Node
 		}
 	}
 	
-	private SkillRarity SelectRandomRarity(Godot.Collections.Dictionary<SkillRarity, float> weights)
+	private CardRarity SelectRandomRarity(Godot.Collections.Dictionary<CardRarity, float> weights)
 	{
 		float totalWeight = 0f;
 		foreach (var weight in weights.Values)
@@ -123,12 +124,12 @@ public partial class SkillSelector : Node
 			}
 		}
 		
-		return SkillRarity.Common; // 默认返回普通
+		return CardRarity.Common; // 默认返回普通
 	}
 	
-	private Godot.Collections.Dictionary<SkillRarity, float> AdjustWeightsByProgress(int playerLevel)
+	private Godot.Collections.Dictionary<CardRarity, float> AdjustWeightsByProgress(int playerLevel)
 	{
-		var adjustedWeights = new Godot.Collections.Dictionary<SkillRarity, float>();
+		var adjustedWeights = new Godot.Collections.Dictionary<CardRarity, float>();
 		
 		// 复制原始权重
 		foreach (var kvp in _selectionWeights)
@@ -139,9 +140,10 @@ public partial class SkillSelector : Node
 		// 随着等级提升，高稀有度技能概率增加
 		float progressMultiplier = 1f + (playerLevel * 0.05f);
 		
-		adjustedWeights[SkillRarity.Rare] *= progressMultiplier;
-		adjustedWeights[SkillRarity.Epic] *= progressMultiplier * 1.5f;
-		adjustedWeights[SkillRarity.Legendary] *= progressMultiplier * 2f;
+		adjustedWeights[CardRarity.Uncommon] *= progressMultiplier;
+		adjustedWeights[CardRarity.Rare] *= progressMultiplier * 1.2f;
+		adjustedWeights[CardRarity.Epic] *= progressMultiplier * 1.5f;
+		adjustedWeights[CardRarity.Legendary] *= progressMultiplier * 2f;
 		
 		// 根据当前构建倾向调整权重
 		AdjustWeightsByBuildTendency(adjustedWeights);
@@ -149,9 +151,9 @@ public partial class SkillSelector : Node
 		return adjustedWeights;
 	}
 	
-	private void AdjustWeightsByBuildTendency(Godot.Collections.Dictionary<SkillRarity, float> weights)
+	private void AdjustWeightsByBuildTendency(Godot.Collections.Dictionary<CardRarity, float> weights)
 	{
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck?.Cards == null) return;
 		
@@ -170,7 +172,7 @@ public partial class SkillSelector : Node
 	
 	public void SelectSkill(SkillCard selectedSkill)
 	{
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
 		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck == null) return;
 		

@@ -8,21 +8,17 @@ public partial class SkillDatabase : Node
 {
 	[Export] public Array<SkillCard> AllSkills { get; set; }
 	[Export] public string SkillConfigPath { get; set; } = "res://ResourcesData/SkillCard/";
-	[Export] public Array<SkillDeck> AllDecks { get; set; }
-	[Export] public string DeckConfigPath { get; set; } = "res://ResourcesData/SkillDeck/";
+	// 移除SkillDeck相关属性，现在使用UnifiedDeck
 	
 	private Godot.Collections.Dictionary<int, SkillCard> _skillsById;
-	private Godot.Collections.Dictionary<SkillRarity, Array<SkillCard>> _skillsByRarity;
+	private Godot.Collections.Dictionary<CardRarity, Array<SkillCard>> _skillsByRarity;
 	private Godot.Collections.Dictionary<SkillType, Array<SkillCard>> _skillsByType;
 	private Godot.Collections.Dictionary<string, Array<SkillCard>> _skillsByTag;
-	[Export] private Godot.Collections.Dictionary<string, SkillDeck> _decksByName;
 	
 	public override void _Ready()
 	{
 		LoadSkillConfigs();
-		LoadDeckConfigs();
 		IndexSkills();
-		IndexDecks();
 	}
 	
 	private void LoadSkillConfigs()
@@ -52,32 +48,7 @@ public partial class SkillDatabase : Node
 		
 	}
 	
-	private void LoadDeckConfigs()
-	{
-		AllDecks = new Array<SkillDeck>();
-		
-		// 从资源文件夹加载所有卡组配置
-		var dir = DirAccess.Open(DeckConfigPath);
-		if (dir != null)
-		{
-			dir.ListDirBegin();
-			string fileName = dir.GetNext();
-			
-			while (fileName != "")
-			{
-				if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
-				{
-					var deckResource = GD.Load<SkillDeck>(DeckConfigPath + fileName);
-					if (deckResource != null)
-					{
-						AllDecks.Add(deckResource);
-					}
-				}
-				fileName = dir.GetNext();
-			}
-		}
-		
-	}
+	// 移除LoadDeckConfigs方法，现在使用UnifiedDeck
 	
 	private void IndexSkills()
 	{
@@ -92,23 +63,23 @@ public partial class SkillDatabase : Node
 			_skillsById[skill.Id] = skill;
 			
 			// 按稀有度索引
-			if (!_skillsByRarity.ContainsKey(skill.Rarity))
-				_skillsByRarity[skill.Rarity] = new Array<SkillCard>();
-			_skillsByRarity[skill.Rarity].Add(skill);
+			if (!_skillsByRarity.ContainsKey(skill.SkillRarity))
+				_skillsByRarity[skill.SkillRarity] = new Array<SkillCard>();
+			_skillsByRarity[skill.SkillRarity].Add(skill);
 			
 			// 按类型索引
-			if (!_skillsByType.ContainsKey(skill.Type))
-				_skillsByType[skill.Type] = new Array<SkillCard>();
-			_skillsByType[skill.Type].Add(skill);
+			if (!_skillsByType.ContainsKey(skill.SkillType))
+				_skillsByType[skill.SkillType] = new Array<SkillCard>();
+			_skillsByType[skill.SkillType].Add(skill);
 			
 			// 按标签索引
 			if (skill.Tags != null)
 			{
 				foreach (var tag in skill.Tags)
 				{
-					if (!_skillsByTag.ContainsKey(tag.Name))
-						_skillsByTag[tag.Name] = new Array<SkillCard>();
-					_skillsByTag[tag.Name].Add(skill);
+					if (!_skillsByTag.ContainsKey(tag))
+						_skillsByTag[tag] = new Array<SkillCard>();
+					_skillsByTag[tag].Add(skill);
 				}
 			}
 		}
@@ -119,21 +90,7 @@ public partial class SkillDatabase : Node
 		GD.Print($"Indexed {_skillsByTag.Count} skills by tag");
 	}
 	
-	private void IndexDecks()
-	{
-		_decksByName = [];
-		
-		foreach (var deck in AllDecks)
-		{
-			// 优先使用Name属性，如果为空则使用文件名作为备选
-			string deckName = !string.IsNullOrEmpty(deck.Name) 
-				? deck.Name 
-				: deck.ResourcePath.GetFile().GetBaseName();
-			_decksByName[deckName] = deck;
-		}
-		
-		GD.Print($"Indexed {_decksByName.Count} decks by name");
-	}
+	// 移除IndexDecks方法，现在使用UnifiedDeck
 	
 	// 查询方法
 	public SkillCard GetSkillById(int id)
@@ -141,7 +98,7 @@ public partial class SkillDatabase : Node
 		return _skillsById.GetValueOrDefault(id);
 	}
 	
-	public Array<SkillCard> GetSkillsByRarity(SkillRarity rarity)
+	public Array<SkillCard> GetSkillsByRarity(CardRarity rarity)
 	{
 		return _skillsByRarity.GetValueOrDefault(rarity, new Array<SkillCard>());
 	}
@@ -161,24 +118,5 @@ public partial class SkillDatabase : Node
 		return AllSkills;
 	}
 	
-	// 卡组查询方法
-	public SkillDeck GetDeckByName(string deckName)
-	{
-		return _decksByName.GetValueOrDefault(deckName);
-	}
-	
-	public Array<SkillDeck> GetAllDecks()
-	{
-		return AllDecks;
-	}
-	
-	public Array<string> GetAllDeckNames()
-	{
-		var names = new Array<string>();
-		foreach (var deckName in _decksByName.Keys)
-		{
-			names.Add(deckName);
-		}
-		return names;
-	}
+	// 移除卡组查询方法，现在使用UnifiedDeck
 }

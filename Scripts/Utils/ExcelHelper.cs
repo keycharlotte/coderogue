@@ -8,9 +8,9 @@ using System.Text;
 public static class ExcelHelper
 {
 	// 简单的CSV格式处理（Excel可以导出为CSV）
-	public static List<Dictionary<string, string>> ReadCsvFile(string filePath)
+	public static List<Godot.Collections.Dictionary<string, string>> ReadCsvFile(string filePath)
 	{
-		var result = new List<Dictionary<string, string>>();
+		var result = new List<Godot.Collections.Dictionary<string, string>>();
 		
 		if (!File.Exists(filePath))
 		{
@@ -32,7 +32,7 @@ public static class ExcelHelper
 				var values = ParseCsvLine(lines[i]);
 				if (values.Count == 0) continue;
 				
-				var row = new Dictionary<string, string>();
+				var row = new Godot.Collections.Dictionary<string, string>();
 				for (int j = 0; j < Math.Min(headers.Count, values.Count); j++)
 				{
 					row[headers[j]] = values[j];
@@ -48,7 +48,7 @@ public static class ExcelHelper
 		return result;
 	}
 	
-	public static void WriteCsvFile(string filePath, List<Dictionary<string, string>> data, List<string> headers = null)
+	public static void WriteCsvFile(string filePath, List<Godot.Collections.Dictionary<string, string>> data, List<string> headers = null)
 	{
 		if (data.Count == 0) return;
 		
@@ -138,9 +138,9 @@ public static class ExcelHelper
 	}
 	
 	// 将JSON转换为Excel友好的格式
-	public static List<Dictionary<string, string>> JsonToExcelData(string jsonString, string configType)
+	public static List<Godot.Collections.Dictionary<string, string>> JsonToExcelData(string jsonString, string configType)
 	{
-		var result = new List<Dictionary<string, string>>();
+		var result = new List<Godot.Collections.Dictionary<string, string>>();
 		
 		try
 		{
@@ -168,16 +168,16 @@ public static class ExcelHelper
 		return result;
 	}
 	
-	private static List<Dictionary<string, string>> ConvertEnemyConfigToExcel(Godot.Collections.Dictionary data)
+	private static List<Godot.Collections.Dictionary<string, string>> ConvertEnemyConfigToExcel(Godot.Collections.Dictionary data)
 	{
-		var result = new List<Dictionary<string, string>>();
+		var result = new List<Godot.Collections.Dictionary<string, string>>();
 		
 		foreach (var kvp in data)
 		{
 			var enemyId = kvp.Key.ToString();
 			var enemyData = kvp.Value.AsGodotDictionary();
 			
-			var row = new Dictionary<string, string>
+			var row = new Godot.Collections.Dictionary<string, string>
 			{
 				["ID"] = enemyId,
 				["Name"] = enemyData.GetValueOrDefault("name", "").ToString(),
@@ -196,9 +196,9 @@ public static class ExcelHelper
 		return result;
 	}
 	
-	private static List<Dictionary<string, string>> ConvertLevelConfigToExcel(Godot.Collections.Dictionary data)
+	private static List<Godot.Collections.Dictionary<string, string>> ConvertLevelConfigToExcel(Godot.Collections.Dictionary data)
 	{
-		var result = new List<Dictionary<string, string>>();
+		var result = new List<Godot.Collections.Dictionary<string, string>>();
 		
 		foreach (var levelKvp in data)
 		{
@@ -211,7 +211,7 @@ public static class ExcelHelper
 				var waveData = waves[waveIndex].AsGodotDictionary();
 				var enemyTypes = waveData["enemyTypes"].AsGodotDictionary();
 				
-				var row = new Dictionary<string, string>
+				var row = new Godot.Collections.Dictionary<string, string>
 				{
 					["LevelID"] = levelId,
 					["WaveIndex"] = (waveIndex + 1).ToString(),
@@ -229,7 +229,7 @@ public static class ExcelHelper
 	}
 	
 	// 将Excel数据转换为JSON
-	public static string ExcelDataToJson(List<Dictionary<string, string>> data, string configType)
+	public static string ExcelDataToJson(List<Godot.Collections.Dictionary<string, string>> data, string configType)
 	{
 		try
 		{
@@ -244,16 +244,16 @@ public static class ExcelHelper
 	}
 
 	// 通用的配置转换方法，使用反射或动态处理
-	public static List<Dictionary<string, string>> ConvertConfigToExcel(Godot.Collections.Dictionary data, string configType)
+	public static List<Godot.Collections.Dictionary<string, string>> ConvertConfigToExcel(Godot.Collections.Dictionary data, string configType)
 	{
-		var result = new List<Dictionary<string, string>>();
+		var result = new List<Godot.Collections.Dictionary<string, string>>();
 		
 		foreach (var kvp in data)
 		{
 			var id = kvp.Key.ToString();
 			var configData = kvp.Value.AsGodotDictionary();
 			
-			var row = new Dictionary<string, string>
+			var row = new Godot.Collections.Dictionary<string, string>
 			{
 				["ID"] = id
 			};
@@ -286,7 +286,7 @@ public static class ExcelHelper
 	}
 
 	// 通用的Excel到配置的转换方法
-	private static string ConvertExcelToConfig(List<Dictionary<string, string>> data, string configType)
+	private static string ConvertExcelToConfig(List<Godot.Collections.Dictionary<string, string>> data, string configType)
 	{
 		var config = new Godot.Collections.Dictionary();
 		

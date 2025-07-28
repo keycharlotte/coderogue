@@ -55,9 +55,15 @@
 10. **Godot场景文件(.tscn)节点parent属性规则**：
    - **必须指定parent**：所有子节点都必须明确指定parent属性
    - **正确的parent值**：子节点的parent应该是其直接父节点的名称
-   - **根节点的子节点**：直接属于根节点的子节点，parent应设置为根节点名称（如"AudioManager"、"LevelManager"等）
-   - **示例格式**：`[node name="ChildNode" type="NodeType" parent="ParentNodeName"]`
-   - **常见错误**：缺少parent属性或parent值不正确会导致"无效或损坏"的引擎错误
+   - **根节点的子节点**：直接属于根节点的子节点，parent应设置为"."（表示根节点）
+   - **禁止包含根节点名称**：parent属性中不应包含根节点的名称，例如不应写成"RootNodeName/ChildNode"，而应写成"ChildNode"
+   - **相对路径原则**：所有parent路径都应该是相对于根节点的相对路径，不包含根节点名称前缀
+   - **示例格式**：
+     - 根节点的直接子节点：`[node name="MainContainer" type="VBoxContainer" parent="."]`
+     - 嵌套子节点：`[node name="Button" type="Button" parent="MainContainer/ButtonContainer"]`
+   - **常见错误**：
+     - 缺少parent属性或parent值不正确会导致"无效或损坏"的引擎错误
+     - 在parent路径中包含根节点名称（如"RootNode/MainContainer"）会导致节点无法正确加载
 
 11. **Godot C#颜色使用规则**：
    - **使用Colors类而非Color类**：在Godot 4.x中，预定义颜色应使用`Colors.White`、`Colors.Black`等，而不是`Color.White`
@@ -96,3 +102,51 @@
 - **触发条件**：当单个文件包含多个类、枚举或超过200行代码时，应考虑拆分
 - **拆分原则**：按功能职责拆分，确保每个文件有明确的单一职责
 - **依赖管理**：拆分后确保所有引用关系正确，添加必要的using语句
+
+## 14. 字典类型使用规则
+
+- **强制使用Godot字典**：在任何情况下都只使用`Godot.Collections.Dictionary<TKey, TValue>`，不使用`System.Collections.Generic.Dictionary<TKey, TValue>`
+- **统一性原则**：确保项目中所有字典类型的一致性，避免类型混用导致的序列化和兼容性问题
+- **引用命名空间**：使用`using Godot.Collections;`引用命名空间，直接使用`Dictionary<TKey, TValue>`
+- **适用范围**：此规则适用于所有场景，包括但不限于：
+  - 数据存储和缓存
+  - 配置信息管理
+  - 统计信息收集
+  - 游戏状态管理
+- **迁移要求**：现有代码中的`System.Collections.Generic.Dictionary`应逐步迁移为`Godot.Collections.Dictionary`
+
+## 16. 配置数据管理规则
+
+- **禁止硬编码配置**：所有配置类数据（如技能参数、怪物属性、关卡设置等）严禁直接写死在代码中
+- **Database类加载**：配置数据必须通过相应的Database类从外部文件加载
+- **支持的文件格式**：
+  - **JSON文件**：推荐用于复杂配置数据，便于版本控制和外部编辑
+  - **Resource文件(.tres)**：适用于Godot特有的资源配置
+- **文件存储位置**：配置文件统一存放在`ResourcesData/`文件夹中
+- **动态加载**：支持运行时重新加载配置，便于调试和热更新
+- **默认值机制**：当配置文件缺失或损坏时，应提供合理的默认值
+- **配置验证**：Database类应对加载的配置数据进行有效性验证
+- **示例实现**：
+  ```csharp
+  // 错误示例：硬编码配置
+  public float SkillDamage = 100f;
+  
+  // 正确示例：通过Database加载
+  public float SkillDamage => SkillDatabase.GetSkillConfig(skillId).Damage;
+  ```
+
+游戏设计向规则
+1.所有技能卡都有一个耗能属性，没有冷却时间。
+
+## 15. 代码生成流程规则
+
+### 15.1 枚举优先原则
+- **先生成枚举类**：在生成具体功能代码之前，必须先生成相关的枚举类定义
+- **复核确认**：枚举类生成后，需要等待用户复核确认后再继续生成具体的实现代码
+- **依赖明确**：确保所有枚举定义完整且正确，避免后续代码生成时出现类型引用错误
+
+### 15.2 自动编译验证规则
+- **生成后编译**：每次生成代码后，必须自动执行编译检查，排查和修复编译错误
+- **错误修复限制**：如果同一个编译错误连续修复3次后仍未解决，必须停止自动修复
+- **错误报告**：达到修复次数限制时，应向用户报告具体的错误信息和已尝试的修复方案
+- **手动介入**：复杂错误需要用户手动介入或重新设计解决方案

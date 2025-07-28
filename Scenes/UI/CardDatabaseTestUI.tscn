@@ -1,0 +1,158 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxvyj8r2qkqxo"]
+
+[ext_resource type="Script" uid="uid://das8nmo082ie3" path="res://Scripts/UI/CardDatabaseTestUI.cs" id="1_0k8vx"]
+
+[node name="CardDatabaseTestUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0k8vx")
+_tabContainer = NodePath("MainContainer/TabContainer")
+_monsterCardsContainer = NodePath("MainContainer/TabContainer/怪物卡/MonsterCardsContainer")
+_skillCardsContainer = NodePath("MainContainer/TabContainer/技能卡/SkillCardsContainer")
+_monsterScrollContainer = NodePath("MainContainer/TabContainer/怪物卡")
+_skillScrollContainer = NodePath("MainContainer/TabContainer/技能卡")
+_monsterRarityFilter = NodePath("MainContainer/FilterContainer/MonsterFiltersContainer/MonsterRarityFilter")
+_monsterRaceFilter = NodePath("MainContainer/FilterContainer/MonsterFiltersContainer/MonsterRaceFilter")
+_skillRarityFilter = NodePath("MainContainer/FilterContainer/SkillFiltersContainer/SkillRarityFilter")
+_skillTypeFilter = NodePath("MainContainer/FilterContainer/SkillFiltersContainer/SkillTypeFilter")
+_colorFilter = NodePath("MainContainer/FilterContainer/CommonFiltersContainer/ColorFilter")
+_sortOption = NodePath("MainContainer/FilterContainer/CommonFiltersContainer/SortOption")
+_searchInput = NodePath("MainContainer/FilterContainer/SearchContainer/SearchInput")
+_resetFiltersButton = NodePath("MainContainer/ButtonsContainer/ResetFiltersButton")
+_statsLabel = NodePath("MainContainer/HeaderContainer/StatsLabel")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.1, 0.9)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainContainer/HeaderContainer"]
+layout_mode = 2
+text = "CardDatabase 测试界面"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="MainContainer/HeaderContainer"]
+layout_mode = 2
+text = "统计信息: 加载中..."
+horizontal_alignment = 1
+
+[node name="FilterContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="SearchContainer" type="VBoxContainer" parent="MainContainer/FilterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SearchLabel" type="Label" parent="MainContainer/FilterContainer/SearchContainer"]
+layout_mode = 2
+text = "搜索:"
+
+[node name="SearchInput" type="LineEdit" parent="MainContainer/FilterContainer/SearchContainer"]
+layout_mode = 2
+placeholder_text = "输入卡牌名称或描述..."
+
+[node name="MonsterFiltersContainer" type="VBoxContainer" parent="MainContainer/FilterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MonsterFiltersLabel" type="Label" parent="MainContainer/FilterContainer/MonsterFiltersContainer"]
+layout_mode = 2
+text = "怪物卡过滤:"
+
+[node name="MonsterRarityFilter" type="OptionButton" parent="MainContainer/FilterContainer/MonsterFiltersContainer"]
+layout_mode = 2
+
+[node name="MonsterRaceFilter" type="OptionButton" parent="MainContainer/FilterContainer/MonsterFiltersContainer"]
+layout_mode = 2
+
+[node name="SkillFiltersContainer" type="VBoxContainer" parent="MainContainer/FilterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillFiltersLabel" type="Label" parent="MainContainer/FilterContainer/SkillFiltersContainer"]
+layout_mode = 2
+text = "技能卡过滤:"
+
+[node name="SkillRarityFilter" type="OptionButton" parent="MainContainer/FilterContainer/SkillFiltersContainer"]
+layout_mode = 2
+
+[node name="SkillTypeFilter" type="OptionButton" parent="MainContainer/FilterContainer/SkillFiltersContainer"]
+layout_mode = 2
+
+[node name="CommonFiltersContainer" type="VBoxContainer" parent="MainContainer/FilterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CommonFiltersLabel" type="Label" parent="MainContainer/FilterContainer/CommonFiltersContainer"]
+layout_mode = 2
+text = "通用过滤:"
+
+[node name="ColorFilter" type="OptionButton" parent="MainContainer/FilterContainer/CommonFiltersContainer"]
+layout_mode = 2
+
+[node name="SortOption" type="OptionButton" parent="MainContainer/FilterContainer/CommonFiltersContainer"]
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="ResetFiltersButton" type="Button" parent="MainContainer/ButtonsContainer"]
+layout_mode = 2
+text = "重置过滤器"
+
+[node name="Spacer" type="Control" parent="MainContainer/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="MainContainer/ButtonsContainer"]
+layout_mode = 2
+text = "关闭"
+
+[node name="TabContainer" type="TabContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="怪物卡" type="ScrollContainer" parent="MainContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MonsterCardsContainer" type="VBoxContainer" parent="MainContainer/TabContainer/怪物卡"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="技能卡" type="ScrollContainer" parent="MainContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="SkillCardsContainer" type="VBoxContainer" parent="MainContainer/TabContainer/技能卡"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="MainContainer/ButtonsContainer/CloseButton" to="." method="queue_free"]

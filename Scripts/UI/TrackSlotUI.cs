@@ -86,7 +86,7 @@ namespace CodeRogue.UI
                 else
                 {
                     // 使用默认图标或根据技能类型设置图标
-                    _skillIcon.Texture = GetDefaultIconForSkillType(track.EquippedSkill.Type);
+                    _skillIcon.Texture = GetDefaultIconForSkillType(track.EquippedSkill.SkillType);
                 }
                 
                 // 显示技能图标

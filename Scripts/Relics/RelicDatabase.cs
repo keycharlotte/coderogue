@@ -5,7 +5,7 @@ using System.Linq;
 [GlobalClass]
 public partial class RelicDatabase : Node
 {
-    private Dictionary<int, RelicConfig> _configs = new Dictionary<int, RelicConfig>();
+    private Godot.Collections.Dictionary<int, RelicConfig> _configs = new Godot.Collections.Dictionary<int, RelicConfig>();
     private Array<RelicConfig> _configList = new Array<RelicConfig>();
     
     public override void _Ready()
@@ -128,7 +128,7 @@ public partial class RelicDatabase : Node
                         EffectType = RelicEffectType.SpecialAbility,
                         TargetProperty = "NextAttackMultiplier",
                         Value = 2.0f,
-                        Parameters = new Dictionary { ["comboThreshold"] = 10 }
+                        Parameters = new Godot.Collections.Dictionary { ["comboThreshold"] = 10 }
                     }
                 },
                 DropWeight = 0.3f,

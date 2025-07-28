@@ -8,7 +8,7 @@ public partial class SkillSystemTest : Node
 {
     private SkillDatabase _database;
     private SkillSelector _selector;
-    private SkillDeckManager _deckManager;
+    private DeckManager _deckManager;
     private SkillTrackManager _trackManager;
     
     [Export] public bool RunTestsOnReady { get; set; } = true;
@@ -58,7 +58,7 @@ public partial class SkillSystemTest : Node
         _selector._Ready();
         
         // 创建技能卡组管理器
-        _deckManager = new SkillDeckManager();
+        _deckManager = new DeckManager();
         AddChild(_deckManager);
         _deckManager._Ready();
         
@@ -81,7 +81,7 @@ public partial class SkillSystemTest : Node
             LogResult("获取所有技能", allSkills.Count > 0, $"找到 {allSkills.Count} 个技能");
             
             // 测试按稀有度获取技能
-            var commonSkills = _database.GetSkillsByRarity(SkillRarity.Common);
+            var commonSkills = _database.GetSkillsByRarity(CardRarity.Common);
             LogResult("按稀有度获取技能", commonSkills.Count > 0, $"找到 {commonSkills.Count} 个普通技能");
             
             // 测试按类型获取技能
@@ -143,7 +143,7 @@ public partial class SkillSystemTest : Node
         try
         {
             // 创建测试卡组
-            var deck = new SkillDeck();
+            var deck = new UnifiedDeck();
             LogResult("创建卡组", deck != null, "卡组创建成功");
             
             // 测试添加技能
@@ -197,7 +197,7 @@ public partial class SkillSystemTest : Node
         try
         {
             // 创建测试卡组
-            var deck = new SkillDeck();
+            var deck = new UnifiedDeck();
             deck.AddCard(CreateTestSkill(SkillType.Attack, 50)); // 充能消耗50
             deck.AddCard(CreateTestSkill(SkillType.Defense, 30)); // 充能消耗30
             
@@ -255,17 +255,17 @@ public partial class SkillSystemTest : Node
     }
     
     private SkillCard CreateTestSkill(SkillType type = SkillType.Attack, int chargeCost = 40)
-    {
-        var skill = new SkillCard();
-        skill.Id = (int)GD.Randi();
-        skill.Name = "测试技能";
-        skill.Description = "这是一个测试技能";
-        skill.Type = type;
-        skill.ChargeCost = chargeCost;
-        skill.Level = 1;
-        // skill.MaxLevel = 3;
-        skill.Rarity = SkillRarity.Common;
-        skill.Tags = new Array<SkillTag> {new SkillTag { Name = "测试" }};
+	{
+		var skill = new SkillCard();
+		skill.Id = (int)GD.Randi();
+		skill.Name = "测试技能";
+		skill.Description = "这是一个测试技能";
+		skill.SkillType = type;
+		skill.Cost = chargeCost;
+		skill.Level = 1;
+		// skill.MaxLevel = 3;
+		skill.SkillRarity = CardRarity.Common;
+		skill.Tags = new Array<string> {"测试"};
         
         // 创建测试效果
         var effect = new SkillEffect();

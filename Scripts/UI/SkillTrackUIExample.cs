@@ -12,7 +12,7 @@ namespace CodeRogue.Examples
     {
         private SkillTrackUI _skillTrackUI;
         private SkillTrackManager _trackManager;
-        private SkillDeckManager _deckManager;
+        private DeckManager _deckManager;
         
         public override void _Ready()
         {
@@ -27,7 +27,7 @@ namespace CodeRogue.Examples
             
             // 获取管理器引用
             _trackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
-            _deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
+            _deckManager = GetNode<DeckManager>("/root/DeckManager");
             
             if (_skillTrackUI == null)
             {
@@ -48,8 +48,8 @@ namespace CodeRogue.Examples
                 GD.Print("SkillTrackUIExample: 已连接到SkillTrackManager信号");
             }
             
-            // 如果SkillDeckManager有卡组变化信号，可以在这里连接
-            // 注意：这里假设SkillDeckManager有DeckChanged信号
+            // 如果DeckManager有卡组变化信号，可以在这里连接
+        // 注意：这里假设DeckManager有DeckChanged信号
             // if (_deckManager != null && _deckManager.HasSignal("DeckChanged"))
             // {
             //     _deckManager.Connect("DeckChanged", new Callable(this, nameof(OnDeckChanged)));
@@ -90,12 +90,12 @@ namespace CodeRogue.Examples
         /// <summary>
         /// 模拟卡组切换事件
         /// </summary>
-        public void SimulateDeckChange(SkillDeck newDeck)
+        public void SimulateDeckChange(UnifiedDeck newDeck)
         {
             if (_skillTrackUI != null)
             {
                 _skillTrackUI.OnDeckChanged(newDeck);
-                GD.Print($"Example: 模拟卡组切换到: {newDeck?.Name ?? "无"}");
+                GD.Print($"Example: 模拟卡组切换到: {newDeck?.DeckName ?? "无"}");
             }
         }
         
@@ -153,10 +153,9 @@ namespace CodeRogue.Examples
                         break;
                     case Key.F4:
                         // 模拟卡组切换（需要实际的卡组实例）
-                        var database = GetNode<SkillDatabase>("/root/SkillDatabase");
-                        if (database != null)
+                        if (_deckManager != null)
                         {
-                            var deck = database.GetDeckByName("Basic");
+                            var deck = _deckManager.GetDeck("Basic");
                             SimulateDeckChange(deck);
                         }
                         break;

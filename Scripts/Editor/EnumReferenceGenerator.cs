@@ -31,12 +31,12 @@ public partial class EnumReferenceGenerator : EditorPlugin
         }
         sb.AppendLine();
         
-        // SkillRarity枚举
-        sb.AppendLine("## SkillRarity (技能稀有度)");
-        var skillRarities = System.Enum.GetValues<SkillRarity>();
-        for (int i = 0; i < skillRarities.Length; i++)
+        // CardRarity枚举
+        sb.AppendLine("## CardRarity (卡牌稀有度)");
+        var cardRarities = System.Enum.GetValues<CardRarity>();
+        for (int i = 0; i < cardRarities.Length; i++)
         {
-            sb.AppendLine($"{i} = {skillRarities[i]}");
+            sb.AppendLine($"{i}: {cardRarities[i]}");
         }
         sb.AppendLine();
         

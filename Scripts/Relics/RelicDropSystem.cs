@@ -6,7 +6,7 @@ using System.Linq;
 public partial class RelicDropSystem : RefCounted
 {
 	// 稀有度权重配置
-	private readonly Dictionary<RelicRarity, float> _baseRarityWeights = new Dictionary<RelicRarity, float>
+	private readonly Godot.Collections.Dictionary<RelicRarity, float> _baseRarityWeights = new Godot.Collections.Dictionary<RelicRarity, float>
 	{
 		{ RelicRarity.Common, 60.0f },
 		{ RelicRarity.Rare, 30.0f },
@@ -15,7 +15,7 @@ public partial class RelicDropSystem : RefCounted
 	};
 	
 	// 层数对稀有度的影响
-	private readonly Dictionary<RelicRarity, float> _levelMultipliers = new Dictionary<RelicRarity, float>
+	private readonly Godot.Collections.Dictionary<RelicRarity, float> _levelMultipliers = new Godot.Collections.Dictionary<RelicRarity, float>
 	{
 		{ RelicRarity.Common, 0.95f },    // 每层减少5%
 		{ RelicRarity.Rare, 1.02f },      // 每层增加2%
@@ -75,7 +75,7 @@ public partial class RelicDropSystem : RefCounted
 	/// </summary>
 	private RelicRarity SelectRandomRarity(int currentLevel)
 	{
-		var weights = new Dictionary<RelicRarity, float>();
+		var weights = new Godot.Collections.Dictionary<RelicRarity, float>();
 		
 		foreach (var kvp in _baseRarityWeights)
 		{
@@ -136,7 +136,7 @@ public partial class RelicDropSystem : RefCounted
 	/// <summary>
 	/// 加权随机选择
 	/// </summary>
-	private T SelectWeightedRandom<[MustBeVariant] T>(Dictionary<T, float> weights)
+	private T SelectWeightedRandom<[MustBeVariant] T>(Godot.Collections.Dictionary<T, float> weights)
 	{
 		var totalWeight = weights.Values.Sum();
 		var random = GD.Randf() * totalWeight;
@@ -155,9 +155,9 @@ public partial class RelicDropSystem : RefCounted
 	/// <summary>
 	/// 获取稀有度权重信息（用于调试）
 	/// </summary>
-	public Dictionary<RelicRarity, float> GetRarityWeights(int currentLevel)
+	public Godot.Collections.Dictionary<RelicRarity, float> GetRarityWeights(int currentLevel)
 	{
-		var weights = new Dictionary<RelicRarity, float>();
+		var weights = new Godot.Collections.Dictionary<RelicRarity, float>();
 		
 		foreach (var kvp in _baseRarityWeights)
 		{

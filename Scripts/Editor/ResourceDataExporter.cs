@@ -68,7 +68,7 @@ public partial class ResourceDataExporter : Node
         // 数据行
         foreach (var skill in skillCards)
         {
-            csv.AppendLine($"{skill.Id},\"{EscapeCsv(skill.Name)}\",\"{EscapeCsv(skill.Description)}\",{(int)skill.Type},{(int)skill.Rarity},{skill.ChargeCost},{skill.Level},\"{skill.IconPath}\",{skill.RarityColor.R},{skill.RarityColor.G},{skill.RarityColor.B},{skill.RarityColor.A}");
+            csv.AppendLine($"{skill.Id},\"{EscapeCsv(skill.Name)}\",\"{EscapeCsv(skill.Description)}\",{(int)skill.SkillType},{(int)skill.Rarity},{skill.ChargeCost},{skill.Level},\"{skill.IconPath}\",{skill.RarityColor.R},{skill.RarityColor.G},{skill.RarityColor.B},{skill.RarityColor.A}");
         }
         
         File.WriteAllText(ProjectSettings.GlobalizePath(EXPORT_PATH + "SkillCards.csv"), csv.ToString(), Encoding.UTF8);
@@ -140,8 +140,8 @@ public partial class ResourceDataExporter : Node
                 Id = int.Parse(values[0]),
                 Name = values[1],
                 Description = values[2],
-                Type = (SkillType)int.Parse(values[3]),
-                Rarity = (SkillRarity)int.Parse(values[4]),
+                SkillType = (SkillType)int.Parse(values[3]),
+                Rarity = (CardRarity)int.Parse(values[4]),
                 ChargeCost = int.Parse(values[5]),
                 Level = int.Parse(values[6]),
                 IconPath = values[7],

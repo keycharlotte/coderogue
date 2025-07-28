@@ -14,7 +14,7 @@ public partial class BuildEfficiencyCalculator : Node
     public BuildEfficiency CalculateCurrentBuild()
     {
         // var hero = HeroManager.Instance.GetActiveHero();
-        // var deck = SkillDeckManager.Instance.GetCurrentDeck();
+        // var deck = DeckManager.Instance.GetCurrentDeck();
         // var relics = RelicManager.Instance.GetActiveRelics();
         
         var efficiency = new BuildEfficiency();

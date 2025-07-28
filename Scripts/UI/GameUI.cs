@@ -50,8 +50,8 @@ namespace CodeRogue.UI
 
 		private void OnDeckButtonPressed()
 	{
-		var deckManager = GetNode<SkillDeckManager>("/root/SkillDeckManager");
-		deckManager?.OpenDeck();
+		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		deckManager?.OpenDeckUI();
 	}
 
 		private void FindPlayer()

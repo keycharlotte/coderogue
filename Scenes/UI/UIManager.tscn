@@ -1,0 +1,16 @@
+[gd_scene load_steps=7 format=3 uid="uid://c8y7qxvn2kpml"]
+
+[ext_resource type="Script" path="res://Scripts/UI/UIManager.cs" id="1_9k8xh"]
+[ext_resource type="PackedScene" uid="uid://bqvn8y7qxqkp" path="res://Scenes/UI/MainMenu.tscn" id="2_1k9xh"]
+[ext_resource type="PackedScene" uid="uid://cxvn8y7qxqkp" path="res://Scenes/UI/GameUI.tscn" id="3_2k9xh"]
+[ext_resource type="PackedScene" uid="uid://dxvn8y7qxqkp" path="res://Scenes/UI/PauseMenu.tscn" id="4_3k9xh"]
+[ext_resource type="PackedScene" uid="uid://exvn8y7qxqkp" path="res://Scenes/UI/GameOverScreen.tscn" id="5_4k9xh"]
+[ext_resource type="PackedScene" uid="uid://fxvn8y7qxqkp" path="res://Scenes/UI/SettingsMenu.tscn" id="6_5k9xh"]
+
+[node name="UIManager" type="CanvasLayer"]
+script = ExtResource("1_9k8xh")
+MainMenuScene = ExtResource("2_1k9xh")
+GameUIScene = ExtResource("3_2k9xh")
+PauseMenuScene = ExtResource("4_3k9xh")
+GameOverScene = ExtResource("5_4k9xh")
+SettingsScene = ExtResource("6_5k9xh")

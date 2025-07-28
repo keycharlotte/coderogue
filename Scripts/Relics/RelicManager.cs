@@ -17,7 +17,7 @@ public partial class RelicManager : Node
     private RelicDropSystem _dropSystem;
     
     // 缓存
-    private Dictionary<RelicTriggerType, Array<RelicInstance>> _triggerCache = new Dictionary<RelicTriggerType, Array<RelicInstance>>();
+    private Godot.Collections.Dictionary<RelicTriggerType, Array<RelicInstance>> _triggerCache = new Godot.Collections.Dictionary<RelicTriggerType, Array<RelicInstance>>();
     private Array<RelicSynergy> _activeSynergies = new Array<RelicSynergy>();
 
     public override void _Ready()
