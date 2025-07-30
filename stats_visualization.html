@@ -213,7 +213,7 @@
                     <option value="365">Last Year</option>
                 </select>
             </div>
-            <button class="btn" onclick="loadSampleData()">Load Sample Data</button>
+            <button class="btn" onclick="loadHistoricalData()">Load Historical Data</button>
             <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
         </div>
         
@@ -411,33 +411,23 @@
             });
         }
         
-        // Load sample data for demonstration
-        function loadSampleData() {
-            const sampleData = generateSampleData();
-            processData(sampleData);
-        }
-        
-        // Generate sample data
-        function generateSampleData() {
-            const data = [];
-            const startDate = new Date();
-            startDate.setDate(startDate.getDate() - 90);
-            
-            for (let i = 0; i < 30; i++) {
-                const date = new Date(startDate);
-                date.setDate(date.getDate() + i * 3);
-                
-                data.push({
-                    date: date.toISOString().split('T')[0],
-                    CsFiles: 45 + Math.floor(Math.random() * 10) + i,
-                    Classes: 120 + Math.floor(Math.random() * 20) + i * 2,
-                    CodeLines: 3500 + Math.floor(Math.random() * 500) + i * 50,
-                    TscnFiles: 25 + Math.floor(Math.random() * 5) + Math.floor(i / 2),
-                    TresFiles: 15 + Math.floor(Math.random() * 3) + Math.floor(i / 3)
+        // Load historical data from JSON file
+        function loadHistoricalData() {
+            fetch('./historical_stats.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load historical_stats.json');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    processData(data);
+                })
+                .catch(error => {
+                    console.error('Error loading historical data:', error);
+                    document.getElementById('statsGrid').innerHTML = 
+                        '<div class="error">Error loading historical_stats.json: ' + error.message + '</div>';
                 });
-            }
-            
-            return data;
         }
         
         // Process and display data
@@ -556,7 +546,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initCharts();
-            loadSampleData();
+            loadHistoricalData();
         });
     </script>
 </body>
