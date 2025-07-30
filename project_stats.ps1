@@ -90,9 +90,11 @@ Write-Host "===============================" -ForegroundColor Cyan
 # 如果指定了JSON输出
 if ($OutputJson) {
     $JsonOutput = $Stats | ConvertTo-Json -Depth 2
-    $JsonFile = Join-Path $ProjectRoot "project_stats.json"
-    $JsonOutput | Out-File -FilePath $JsonFile -Encoding UTF8
-    Write-Host "统计结果已保存到: $JsonFile" -ForegroundColor Green
+    if ($ProjectRoot) {
+        $JsonFile = Join-Path $ProjectRoot "project_stats.json"
+        $JsonOutput | Out-File -FilePath $JsonFile -Encoding UTF8
+        Write-Host "统计结果已保存到: $JsonFile" -ForegroundColor Green
+    }
     return $JsonOutput
 }
 
