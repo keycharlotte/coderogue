@@ -1,0 +1,174 @@
+name: Deploy Statistics Visualization
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'stats_visualization.html'
+      - 'historical_stats.json'
+      - 'VISUALIZATION_GUIDE.md'
+      - '*.ps1'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整历史以便生成历史统计
+        
+    - name: Generate latest statistics and visualization
+      shell: pwsh
+      run: |
+        # 生成最新的项目统计
+        Write-Host "📊 Generating project statistics..."
+        .\project_stats.ps1
+        
+        # 生成历史统计数据（使用Git历史）
+        Write-Host "📈 Generating historical statistics..."
+        .\generate_historical_stats.ps1 -DaysBack 180 -UseGitHistory
+        
+        # 更新可视化数据
+        Write-Host "🎨 Updating visualization data..."
+        .\update_stats_with_visualization.ps1 -GenerateVisualization -HistoryDays 180
+        
+        # 验证文件存在
+        if (Test-Path "stats_visualization.html") {
+            Write-Host "✅ Visualization HTML file exists"
+        } else {
+            Write-Error "❌ Visualization HTML file not found"
+        }
+        
+        if (Test-Path "historical_stats.json") {
+            Write-Host "✅ Historical stats JSON file exists"
+        } else {
+            Write-Error "❌ Historical stats JSON file not found"
+        }
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Create deployment directory
+      shell: pwsh
+      run: |
+        # 创建部署目录
+        New-Item -ItemType Directory -Force -Path "_site"
+        
+        # 复制可视化文件
+        Copy-Item "stats_visualization.html" "_site/index.html"
+        Copy-Item "historical_stats.json" "_site/"
+        Copy-Item "VISUALIZATION_GUIDE.md" "_site/"
+        
+        # 创建简单的导航页面
+        $indexContent = @"
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeRogue 项目统计</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007acc;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .nav-link:hover {
+            background: #005a9e;
+        }
+        .description {
+            text-align: center;
+            color: #666;
+            line-height: 1.6;
+        }
+        .update-time {
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 CodeRogue 项目统计可视化</h1>
+        
+        <div class="nav-links">
+            <a href="stats_visualization.html" class="nav-link">📈 查看统计图表</a>
+            <a href="VISUALIZATION_GUIDE.md" class="nav-link">📖 使用指南</a>
+            <a href="historical_stats.json" class="nav-link">📄 原始数据</a>
+        </div>
+        
+        <div class="description">
+            <p>欢迎访问 CodeRogue 项目的统计可视化页面！</p>
+            <p>这里提供了项目开发过程中的各种统计数据和可视化图表，帮助您了解项目的发展历程。</p>
+            <p>点击上方链接查看详细的统计图表、使用指南或下载原始数据。</p>
+        </div>
+        
+        <div class="update-time">
+            最后更新时间: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')
+        </div>
+    </div>
+</body>
+</html>
+"@
+        
+        $indexContent | Out-File -FilePath "_site/navigation.html" -Encoding utf8
+        
+        Write-Host "📁 Deployment files created:"
+        Get-ChildItem "_site" | ForEach-Object { Write-Host "  - $($_.Name)" }
+        
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '_site'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      
+    - name: Output deployment URL
+      shell: pwsh
+      run: |
+        Write-Host "🚀 Visualization deployed successfully!"
+        Write-Host "📊 View at: ${{ steps.deployment.outputs.page_url }}"
+        Write-Host "📈 Direct chart access: ${{ steps.deployment.outputs.page_url }}stats_visualization.html"

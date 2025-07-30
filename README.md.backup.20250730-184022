@@ -16,31 +16,8 @@
 | TSCN Files | **32** | Number of Godot scene files |
 | TRES Files | **15** | Number of Godot resource files |
 
-> Last updated: 2025-07-30 18:46:03
+> Last updated: 2025-07-30 18:34:21
 <!-- STATS_TABLE_END -->
-
-## 📊 项目统计可视化
-
-查看项目开发历程的交互式统计图表：
-
-🔗 **[在线查看统计图表](https://keycharlotte.github.io/coderogue/stats_visualization.html)**
-
-### 可视化功能
-- 📈 **趋势图表**: 查看项目各项指标的历史变化趋势
-- 📊 **分布图表**: 了解不同类型文件的分布情况
-- 🎛️ **交互控制**: 支持时间范围筛选和数据导出
-- 📱 **响应式设计**: 支持桌面和移动设备访问
-
-### 本地使用
-```powershell
-# 生成历史统计数据
-.\generate_historical_stats.ps1 -Days 90
-
-# 更新可视化数据并打开图表
-.\update_stats_with_visualization.ps1 -OpenVisualization
-```
-
-详细使用说明请参考 [可视化指南](VISUALIZATION_GUIDE.md)。
 
 # CodeRogue
 
@@ -82,7 +59,6 @@ CodeRogue/
 - AI友好的代码结构
 - 完整的游戏状态管理
 - 可扩展的敌人AI系统
-- 自动化项目统计和可视化
 
 ## 开始开发
 

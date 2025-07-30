@@ -56,9 +56,15 @@ jobs:
         echo "tscn_files=$($stats.TscnFiles)" >> $env:GITHUB_OUTPUT
         echo "tres_files=$($stats.TresFiles)" >> $env:GITHUB_OUTPUT
         
-    - name: Save statistics to artifact
+    - name: Generate historical statistics and visualization
       shell: pwsh
       run: |
+        # 生成或更新历史统计数据
+        .\generate_historical_stats.ps1 -DaysBack 90 -UseGitHistory
+        
+        # 更新可视化数据
+        .\update_stats_with_visualization.ps1 -GenerateVisualization -HistoryDays 90
+        
         # 生成带时间戳的统计文件
         $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
         $statsFile = "project-stats-$timestamp.json"
@@ -68,12 +74,29 @@ jobs:
         New-Item -ItemType Directory -Force -Path "artifacts"
         Move-Item $statsFile "artifacts/"
         
+        # 复制可视化文件到artifacts
+        Copy-Item "stats_visualization.html" "artifacts/"
+        Copy-Item "historical_stats.json" "artifacts/"
+        
     - name: Upload statistics artifact
       uses: actions/upload-artifact@v4
       with:
         name: project-statistics
         path: artifacts/
         retention-days: 30
+        
+    - name: Deploy visualization to GitHub Pages
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        destination_dir: stats
+        keep_files: false
+        include_files: |
+          stats_visualization.html
+          historical_stats.json
+          VISUALIZATION_GUIDE.md
         
     - name: Comment PR with statistics (if PR)
       if: github.event_name == 'pull_request'

@@ -1,4 +1,4 @@
-﻿<!-- STATS_BADGES_START -->
+<!-- STATS_BADGES_START -->
 ![Classes](https://img.shields.io/badge/Classes-127-blue?style=flat-square)
 ![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18217-green?style=flat-square)
 ![C# Files](https://img.shields.io/badge/C%23_Files-125-orange?style=flat-square)
@@ -9,21 +9,21 @@
 
 <!-- STATS_TABLE_START -->
 | Statistics | Count | Description |
-|------------|-------|--------------|
+|------------|-------|-------------|
 | C# Files | **125** | Number of C# script files in the project |
 | Classes | **127** | Total number of defined classes |
 | Lines of Code | **18217** | Total lines of code (excluding empty lines and comments) |
 | TSCN Files | **32** | Number of Godot scene files |
 | TRES Files | **15** | Number of Godot resource files |
 
-> Last updated: 2025-07-30 18:46:03
+> Last updated: 2025-07-30 18:40:23
 <!-- STATS_TABLE_END -->
 
 ## 📊 项目统计可视化
 
 查看项目开发历程的交互式统计图表：
 
-🔗 **[在线查看统计图表](https://keycharlotte.github.io/coderogue/stats_visualization.html)**
+🔗 **[在线查看统计图表](https://your-username.github.io/coderogue/stats_visualization.html)**
 
 ### 可视化功能
 - 📈 **趋势图表**: 查看项目各项指标的历史变化趋势
