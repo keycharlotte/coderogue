@@ -73,7 +73,6 @@ jobs:
         
          # 创建简单的导航页面
         $htmlContent = @"
-<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
