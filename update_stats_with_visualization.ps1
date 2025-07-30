@@ -71,7 +71,12 @@ if ($GenerateVisualization) {
         $todayEntry.CodeLines = $currentStats.CodeLines
         $todayEntry.TscnFiles = $currentStats.TscnFiles
         $todayEntry.TresFiles = $currentStats.TresFiles
-        $todayEntry.lastUpdated = "$currentDate $currentTime"
+        # Add lastUpdated property if it doesn't exist
+        if (-not ($todayEntry | Get-Member -Name "lastUpdated" -MemberType Properties)) {
+            $todayEntry | Add-Member -MemberType NoteProperty -Name "lastUpdated" -Value "$currentDate $currentTime"
+        } else {
+            $todayEntry.lastUpdated = "$currentDate $currentTime"
+        }
         Write-Host "🔄 Updated today's entry" -ForegroundColor Yellow
     } else {
         # Add new entry for today
