@@ -28,7 +28,7 @@ public partial class CardManager : Node
     private CardDatabase _cardDatabase;
     
     // 当前召唤师
-    private SummonerHero _currentSummoner;
+    private HeroInstance _currentSummoner;
     
     public override void _Ready()
     {
@@ -128,7 +128,7 @@ public partial class CardManager : Node
     /// <summary>
     /// 设置当前召唤师
     /// </summary>
-    public void SetCurrentSummoner(SummonerHero summoner)
+    public void SetCurrentSummoner(HeroInstance summoner)
     {
         _currentSummoner = summoner;
         UpdateColorWeights();
@@ -148,9 +148,9 @@ public partial class CardManager : Node
         }
         
         // 提高召唤师主颜色的权重
-        ColorWeights[_currentSummoner.PrimaryColor] = 0.4f;
+        ColorWeights[_currentSummoner.Config.PrimaryColor] = 0.4f;
         
-        // 提高召唤师颜色槽位相关颜色的权重
+        // 为召唤师的颜色槽位增加权重
         foreach (var slotColor in _currentSummoner.ColorSlots)
         {
             if (slotColor != MagicColor.Colorless)
@@ -395,7 +395,7 @@ public partial class CardManager : Node
     /// <summary>
     /// 过滤可召唤的怪物卡牌
     /// </summary>
-    public List<MonsterCard> GetSummonableCards(SummonerHero summoner)
+    public List<MonsterCard> GetSummonableCards(HeroInstance summoner)
     {
         if (summoner == null)
             return new List<MonsterCard>();

@@ -122,21 +122,16 @@ public partial class MonsterSystemTest : Node
     {
         Log("\n--- Testing Summoner Hero Creation ---");
         
-        var summoner = new SummonerHero();
-        summoner.Id = 1;
-        summoner.HeroName = "测试召唤师";
-        summoner.PrimaryColor = MagicColor.Blue;
-        summoner.TypingDamageBase = 15f;
-        summoner.TypingSpeedBonus = 0.2f;
-        summoner.TypingAccuracyBonus = 0.1f;
+        // 通过HeroManager创建召唤师实例
+        var heroManager = GetNode<HeroManager>("/root/HeroManager");
+        var summoner = heroManager.ObtainHero(1);
         
-        // 初始化颜色槽位
-        summoner.InitializeDefaultColorSlots();
+        // HeroInstance的属性通过Config访问，召唤师功能已在ObtainHero中初始化
         
         // 测试基本属性
-        Assert(summoner.HeroName == "测试召唤师", "Summoner name should be set correctly");
-        Assert(summoner.PrimaryColor == MagicColor.Blue, "Primary color should be blue");
-        Assert(summoner.TypingDamageBase == 15f, "Base typing damage should be 15");
+        Assert(summoner.Config != null, "Summoner config should be loaded");
+        Assert(summoner.Config.Name != null, "Summoner name should be set");
+        Assert(summoner.Config.TypingDamageBase > 0, "Base typing damage should be positive");
         
         // 测试颜色槽位
         Assert(summoner.ColorSlots.Count > 0, "Should have color slots");
@@ -366,16 +361,13 @@ public partial class MonsterSystemTest : Node
     /// <summary>
     /// 创建测试召唤师
     /// </summary>
-    private SummonerHero CreateTestSummoner()
+    private HeroInstance CreateTestSummoner()
     {
-        var summoner = new SummonerHero();
-        summoner.Id = 1;
-        summoner.HeroName = "测试召唤师";
-        summoner.PrimaryColor = MagicColor.Red;
-        summoner.TypingDamageBase = 20f;
-        summoner.TypingSpeedBonus = 0.1f;
-        summoner.TypingAccuracyBonus = 0.05f;
-        summoner.InitializeDefaultColorSlots();
+        // 通过HeroManager创建召唤师实例
+        var heroManager = GetNode<HeroManager>("/root/HeroManager");
+        var summoner = heroManager.ObtainHero(1);
+        
+        // HeroInstance的属性通过Config访问，召唤师功能已在ObtainHero中初始化
         return summoner;
     }
     

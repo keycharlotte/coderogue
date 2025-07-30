@@ -48,6 +48,19 @@ public partial class HeroDatabase : Node
         warrior.GrowthStats.CritRate = 0.001f;
         warrior.GrowthStats.CritDamage = 0.01f;
         
+        // 召唤师配置
+        warrior.MaxColorSlots = 6;
+        warrior.PrimaryColor = MagicColor.Red;
+        warrior.RaceBonus = new Godot.Collections.Dictionary<MonsterRace, float> { { MonsterRace.Human, 0.1f } };
+        warrior.BondBonus = new Godot.Collections.Dictionary<BondType, float> { { BondType.HolyWarrior, 0.05f } };
+        warrior.TypingDamageBase = 15f;
+        // warrior.TypingDecayRate = 0.1f; // 属性不存在，暂时注释
+        warrior.TypingSpeedBonus = 0.05f;
+        warrior.TypingAccuracyBonus = 0.03f;
+        warrior.TypingDecayResistance = 0.1f;
+        warrior.DefaultSummonerSkills = new Godot.Collections.Array<SummonerSkillType> { SummonerSkillType.CombatExpertise, SummonerSkillType.DamageAmplifier };
+        warrior.DefaultSkillValues = new Godot.Collections.Array<float> { 1.0f, 0.1f };
+        
         AddHero(warrior);
         
         // 示例英雄2：史诗法师
@@ -73,6 +86,19 @@ public partial class HeroDatabase : Node
         mage.GrowthStats.Defense = 0.5f;
         mage.GrowthStats.CritRate = 0.002f;
         mage.GrowthStats.CritDamage = 0.02f;
+        
+        // 召唤师配置
+        mage.MaxColorSlots = 8;
+        mage.PrimaryColor = MagicColor.Blue;
+        mage.RaceBonus = new Godot.Collections.Dictionary<MonsterRace, float> { { MonsterRace.Elemental, 0.15f } };
+        mage.BondBonus = new Godot.Collections.Dictionary<BondType, float> { { BondType.OrderMage, 0.1f } };
+        mage.TypingDamageBase = 20f;
+        // mage.TypingDecayRate = 0.08f; // 属性不存在，暂时注释
+        mage.TypingSpeedBonus = 0.1f;
+        mage.TypingAccuracyBonus = 0.05f;
+        mage.TypingDecayResistance = 0.15f;
+        mage.DefaultSummonerSkills = new Godot.Collections.Array<SummonerSkillType> { SummonerSkillType.ElementalMastery, SummonerSkillType.DamageAmplifier };
+        mage.DefaultSkillValues = new Godot.Collections.Array<float> { 1.2f, 0.15f };
         
         AddHero(mage);
     }

@@ -28,4 +28,23 @@ public partial class HeroConfig : Resource
     // 获取途径
     [Export] public Array<HeroObtainMethod> ObtainMethods { get; set; } // 获取方式
     
+    // 召唤师相关配置
+    [Export] public int MaxColorSlots { get; set; } = 5;    // 最大颜色槽位数
+    [Export] public MagicColor PrimaryColor { get; set; }   // 主要颜色
+    
+    // 种族和羁绊加成配置
+    [Export] public Godot.Collections.Dictionary<MonsterRace, float> RaceBonus { get; set; } = new Godot.Collections.Dictionary<MonsterRace, float>();
+    [Export] public Godot.Collections.Dictionary<BondType, float> BondBonus { get; set; } = new Godot.Collections.Dictionary<BondType, float>();
+    
+    // 打字战斗基础配置
+    [Export] public float TypingDamageBase { get; set; } = 100f;
+    [Export] public float TypingDamageDecayRate { get; set; } = 0.1f; // 每关卡衰减率
+    [Export] public float TypingSpeedBonus { get; set; } = 1.0f;
+    [Export] public float TypingAccuracyBonus { get; set; } = 1.0f;
+    [Export] public float TypingDecayResistance { get; set; } = 0.0f; // 打字衰减抗性
+    
+    // 召唤师技能配置
+    [Export] public Array<SummonerSkillType> DefaultSummonerSkills { get; set; } = new Array<SummonerSkillType>();
+    [Export] public Array<float> DefaultSkillValues { get; set; } = new Array<float>();
+    
 }

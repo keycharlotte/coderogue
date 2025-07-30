@@ -97,7 +97,7 @@ public partial class UnifiedDeck : BaseDeck
         }
     }
     
-    [Export] public SummonerHero AssociatedSummoner { get; set; }
+    [Export] public HeroInstance AssociatedSummoner { get; set; }
     
     // 公开抽牌堆和弃牌堆的访问
     public List<BaseCard> DrawPile => _drawPile;

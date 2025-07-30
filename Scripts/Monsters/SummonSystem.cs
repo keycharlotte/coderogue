@@ -25,7 +25,7 @@ public partial class SummonSystem : Node
     [Export] public int MaxSummonPoints { get; set; } = 10; // 最大召唤点数
     
     // 当前召唤师
-    private SummonerHero _currentSummoner;
+    private HeroInstance _currentSummoner;
     
     public override void _Ready()
     {
@@ -42,10 +42,10 @@ public partial class SummonSystem : Node
     /// <summary>
     /// 设置当前召唤师
     /// </summary>
-    public void SetCurrentSummoner(SummonerHero summoner)
+    public void SetCurrentSummoner(HeroInstance summoner)
     {
         _currentSummoner = summoner;
-        GD.Print($"Current summoner set to: {summoner?.HeroName}");
+        GD.Print($"Current summoner set to: {summoner?.Config.Name}");
     }
     
     /// <summary>

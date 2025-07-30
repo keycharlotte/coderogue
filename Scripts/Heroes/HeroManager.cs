@@ -89,6 +89,18 @@ public partial class HeroManager : Node
 		hero.ObtainTime = Time.GetUnixTimeFromSystem();
 		hero.LastUsedTime = 0;
 		
+		// 初始化召唤师功能
+		hero.InitializeDefaultColorSlots();
+		
+		// 复制默认召唤师技能
+		if (config.DefaultSummonerSkills != null && config.DefaultSkillValues != null)
+		{
+			for (int i = 0; i < config.DefaultSummonerSkills.Count && i < config.DefaultSkillValues.Count; i++)
+			{
+				hero.AddSummonerSkill(config.DefaultSummonerSkills[i], config.DefaultSkillValues[i]);
+			}
+		}
+		
 		_ownedHeroes[hero.InstanceId] = hero;
 		
 		EmitSignal(SignalName.HeroObtained, hero);

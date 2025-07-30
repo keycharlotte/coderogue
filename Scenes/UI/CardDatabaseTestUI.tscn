@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxvyj8r2qkqxo"]
 
-[ext_resource type="Script" uid="uid://das8nmo082ie3" path="res://Scripts/UI/CardDatabaseTestUI.cs" id="1_0k8vx"]
+[ext_resource type="Script" uid="uid://das8nmo082ie3" path="res://Scripts/Core/test/CardDatabaseTestUI.cs" id="1_0k8vx"]
 [ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="1_rap6w"]
 
 [node name="CardDatabaseTestUI" type="Control" node_paths=PackedStringArray("_tabContainer", "_monsterCardsContainer", "_skillCardsContainer", "_monsterScrollContainer", "_skillScrollContainer", "_monsterRarityFilter", "_monsterRaceFilter", "_skillRarityFilter", "_skillTypeFilter", "_colorFilter", "_sortOption", "_searchInput", "_resetFiltersButton", "_statsLabel")]

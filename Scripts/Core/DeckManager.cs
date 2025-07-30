@@ -251,7 +251,7 @@ public partial class DeckManager : Node
     /// <summary>
     /// 创建新的空卡组
     /// </summary>
-    public UnifiedDeck CreateNewDeck(string deckName, SummonerHero summoner = null)
+    public UnifiedDeck CreateNewDeck(string deckName, HeroInstance summoner = null)
     {
         if (string.IsNullOrEmpty(deckName) || SavedDecks.Any(d => d.DeckName == deckName))
             return null;

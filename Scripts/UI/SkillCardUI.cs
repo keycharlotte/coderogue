@@ -52,17 +52,13 @@ namespace CodeRogue.UI
 			_costLabel.Text = $"消耗: {_skillCard.Cost}";
 			_typeLabel.Text = _skillCard.SkillType.ToString();
 			
-			// 设置稀有度颜色
+			// 通过修改现有组件的属性而非创建新样式来表示稀有度
+			// 具体的视觉样式应在.tscn文件中预定义
 			var rarityColor = GetRarityColor(_skillCard.Rarity);
-			var styleBox = new StyleBoxFlat();
-			styleBox.BgColor = rarityColor;
-			styleBox.SetCornerRadiusAll(8);
-			styleBox.BorderWidthTop = 2;
-			styleBox.BorderWidthBottom = 2;
-			styleBox.BorderWidthLeft = 2;
-			styleBox.BorderWidthRight = 2;
-			styleBox.BorderColor = rarityColor.Lightened(0.3f);
-			_cardPanel.AddThemeStyleboxOverride("panel", styleBox);
+			if (_cardPanel != null)
+			{
+				_cardPanel.Modulate = rarityColor;
+			}
 			
 			// 更新标签显示
 			UpdateTagsDisplay();
@@ -92,19 +88,17 @@ namespace CodeRogue.UI
 		
 		private void UpdateTagsDisplay()
 		{
-			// 清除现有标签
-			foreach (Node child in _tagsContainer.GetChildren())
+			// UI组件应在.tscn文件中预定义，这里只处理数据绑定
+			// 如果需要显示标签，应在场景文件中预先创建Label组件
+			if (_skillCard?.Tags != null && _tagsContainer != null)
 			{
-				child.QueueFree();
+				// 假设在.tscn中已经预定义了一个Label用于显示标签
+				var existingLabel = _tagsContainer.GetChild<Label>(0);
+				if (existingLabel != null)
+				{
+					existingLabel.Text = "标签: " + string.Join(", ", _skillCard.Tags);
+				}
 			}
-			
-			if (_skillCard.Tags == null) return;
-			
-			var tagsLabel = new Label();
-			tagsLabel.Text = "标签: " + string.Join(", ", _skillCard.Tags);
-			tagsLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-			tagsLabel.AddThemeColorOverride("font_color", Colors.LightGray);
-			_tagsContainer.AddChild(tagsLabel);
 		}
 		
 		private Color GetRarityColor(CardRarity rarity)

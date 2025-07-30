@@ -8,8 +8,8 @@ namespace CodeRogue.UI
 	/// </summary>
 	public partial class InputDisplay : Control
 	{
-		private Label _inputLabel;
-		private Panel _inputPanel;
+		[Export] private Label _inputLabel;
+		[Export] private Panel _inputPanel;
 		
 		public override void _Ready()
 		{
@@ -25,16 +25,11 @@ namespace CodeRogue.UI
 		
 		private void SetupUI()
 		{
-			_inputPanel = new Panel();
-			_inputPanel.Position = new Vector2(10, 10);
-			_inputPanel.Size = new Vector2(200, 40);
-			AddChild(_inputPanel);
-			
-			_inputLabel = new Label();
-			_inputLabel.Position = new Vector2(10, 10);
-			_inputLabel.Size = new Vector2(180, 20);
-			_inputLabel.Text = "输入: ";
-			_inputPanel.AddChild(_inputLabel);
+			// UI组件应在.tscn文件中预定义，这里只处理初始化逻辑
+			if (_inputLabel != null)
+			{
+				_inputLabel.Text = "输入: ";
+			}
 		}
 		
 		private void OnInputChanged(string currentInput)

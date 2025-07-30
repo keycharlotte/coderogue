@@ -1,5 +1,7 @@
 using Godot;
 using Godot.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 [GlobalClass]
 public partial class HeroInstance : Resource
@@ -24,6 +26,11 @@ public partial class HeroInstance : Resource
     // 时间戳
     [Export] public double ObtainTime { get; set; }         // 获得时间
     [Export] public double LastUsedTime { get; set; }       // 最后使用时间
+    
+    // 召唤师动态属性
+    [Export] public Array<MagicColor> ColorSlots { get; set; } = new Array<MagicColor>();
+    [Export] public Array<SummonerSkillType> SummonerSkills { get; set; } = new Array<SummonerSkillType>();
+    [Export] public Array<float> SkillValues { get; set; } = new Array<float>();
     
     // 计算最终属性
     public HeroStats GetFinalStats()
@@ -95,4 +102,223 @@ public partial class HeroInstance : Resource
         Awakening++;
         return true;
     }
+    
+    #region 召唤师功能
+    
+    /// <summary>
+    /// 初始化默认颜色槽位
+    /// </summary>
+    public void InitializeDefaultColorSlots()
+    {
+        if (ColorSlots.Count == 0 && Config != null)
+        {
+            // 默认给予3个主颜色槽位
+            for (int i = 0; i < 3; i++)
+            {
+                ColorSlots.Add(Config.PrimaryColor);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 检查是否能召唤指定怪物
+    /// </summary>
+    public bool CanSummonMonster(MonsterCard monster)
+    {
+        return CanSatisfyColorRequirements(monster.ColorRequirements);
+    }
+    
+    /// <summary>
+    /// 检查颜色需求是否满足（Array版本）
+    /// </summary>
+    public bool CanSatisfyColorRequirements(Godot.Collections.Array<MagicColor> requirements)
+    {
+        var availableColors = new System.Collections.Generic.Dictionary<MagicColor, int>();
+        
+        // 统计可用颜色
+        foreach (var color in ColorSlots)
+        {
+            availableColors[color] = availableColors.GetValueOrDefault(color, 0) + 1;
+        }
+        
+        // 统计需求颜色
+        var requiredColors = new System.Collections.Generic.Dictionary<MagicColor, int>();
+        foreach (var color in requirements)
+        {
+            requiredColors[color] = requiredColors.GetValueOrDefault(color, 0) + 1;
+        }
+        
+        // 检查每个颜色需求
+        foreach (var requirement in requiredColors)
+        {
+            var requiredColor = requirement.Key;
+            var requiredCount = requirement.Value;
+            var availableCount = availableColors.GetValueOrDefault(requiredColor, 0);
+            
+            if (availableCount < requiredCount)
+                return false;
+        }
+        
+        return true;
+    }
+    
+    /// <summary>
+    /// 检查颜色需求是否满足（Dictionary版本）
+    /// </summary>
+    public bool CanSatisfyColorRequirements(Godot.Collections.Dictionary<MagicColor, int> requirements)
+    {
+        var availableColors = new System.Collections.Generic.Dictionary<MagicColor, int>();
+        
+        // 统计可用颜色
+        foreach (var color in ColorSlots)
+        {
+            availableColors[color] = availableColors.GetValueOrDefault(color, 0) + 1;
+        }
+        
+        // 检查每个颜色需求
+        foreach (var requirement in requirements)
+        {
+            var requiredColor = requirement.Key;
+            var requiredCount = requirement.Value;
+            var availableCount = availableColors.GetValueOrDefault(requiredColor, 0);
+            
+            if (availableCount < requiredCount)
+                return false;
+        }
+        
+        return true;
+    }
+    
+    /// <summary>
+    /// 获取召唤加成
+    /// </summary>
+    public float GetSummonBonus(MonsterCard monster)
+    {
+        if (Config == null) return 0f;
+        
+        float bonus = 0f;
+        
+        // 种族加成
+        if (Config.RaceBonus.ContainsKey(monster.Race))
+            bonus += Config.RaceBonus[monster.Race];
+            
+        // 颜色亲和加成
+        foreach (var color in monster.ColorRequirements)
+        {
+            if (color == Config.PrimaryColor)
+            {
+                bonus += 0.2f;
+                break;
+            }
+        }
+        
+        return bonus;
+    }
+    
+    /// <summary>
+    /// 计算打字伤害
+    /// </summary>
+    public float CalculateTypingDamage(int currentLevel, float typingSpeed, float accuracy)
+    {
+        if (Config == null) return 0f;
+        
+        // 基础伤害随关卡衰减
+        float levelDecay = Mathf.Pow(1f - Config.TypingDamageDecayRate, currentLevel - 1);
+        float baseDamage = Config.TypingDamageBase * levelDecay;
+        
+        // 应用打字速度和准确度加成
+        float speedMultiplier = 1f + (typingSpeed - 1f) * Config.TypingSpeedBonus;
+        float accuracyMultiplier = 1f + (accuracy - 1f) * Config.TypingAccuracyBonus;
+        
+        return baseDamage * speedMultiplier * accuracyMultiplier;
+    }
+    
+    /// <summary>
+    /// 添加颜色槽位
+    /// </summary>
+    public bool AddColorSlot(MagicColor color)
+    {
+        if (Config == null || ColorSlots.Count >= Config.MaxColorSlots)
+            return false;
+            
+        ColorSlots.Add(color);
+        return true;
+    }
+    
+    /// <summary>
+    /// 移除颜色槽位
+    /// </summary>
+    public bool RemoveColorSlot(MagicColor color)
+    {
+        return ColorSlots.Remove(color);
+    }
+    
+    /// <summary>
+    /// 获取指定颜色的槽位数量
+    /// </summary>
+    public int GetColorSlotCount(MagicColor color)
+    {
+        int count = 0;
+        foreach (var slot in ColorSlots)
+        {
+            if (slot == color)
+                count++;
+        }
+        return count;
+    }
+    
+    /// <summary>
+    /// 检查是否拥有召唤师技能
+    /// </summary>
+    public bool HasSummonerSkill(SummonerSkillType skillType)
+    {
+        return SummonerSkills.Contains(skillType);
+    }
+    
+    /// <summary>
+    /// 获取召唤师技能的效果数值
+    /// </summary>
+    public float GetSummonerSkillValue(SummonerSkillType skillType)
+    {
+        int index = SummonerSkills.IndexOf(skillType);
+        if (index >= 0 && index < SkillValues.Count)
+        {
+            return SkillValues[index];
+        }
+        return 0f;
+    }
+    
+    /// <summary>
+    /// 添加召唤师技能
+    /// </summary>
+    public void AddSummonerSkill(SummonerSkillType skillType, float value)
+    {
+        if (!HasSummonerSkill(skillType))
+        {
+            SummonerSkills.Add(skillType);
+            SkillValues.Add(value);
+        }
+    }
+    
+    /// <summary>
+    /// 获取英雄的颜色倾向描述
+    /// </summary>
+    public string GetColorAffinityDescription()
+    {
+        var colorCounts = new System.Collections.Generic.Dictionary<MagicColor, int>();
+        foreach (var color in ColorSlots)
+        {
+            colorCounts[color] = colorCounts.GetValueOrDefault(color, 0) + 1;
+        }
+        
+        var dominantColors = colorCounts
+            .OrderByDescending(kvp => kvp.Value)
+            .Take(2)
+            .Select(kvp => $"{kvp.Key}({kvp.Value})")
+            .ToArray();
+            
+        return string.Join(", ", dominantColors);
+    }
+    
+    #endregion
 }

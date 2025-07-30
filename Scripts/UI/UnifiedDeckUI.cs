@@ -238,10 +238,15 @@ namespace CodeRogue.UI
 		
 		private void AddStatLabel(string text)
 		{
-			var label = new Label();
-			label.Text = text;
-			label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-			_statsContainer.AddChild(label);
+			// UI组件应在.tscn文件中预定义，这里通过遍历子节点来更新预定义Label的文本
+			foreach (Node child in _statsContainer.GetChildren())
+			{
+				if (child is Label label && string.IsNullOrEmpty(label.Text))
+				{
+					label.Text = text;
+					break;
+				}
+			}
 		}
 		
 		// 事件处理

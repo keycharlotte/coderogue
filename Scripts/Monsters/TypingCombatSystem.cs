@@ -37,7 +37,7 @@ public partial class TypingCombatSystem : Node
     private Godot.Collections.Dictionary<MonsterRace, Godot.Collections.Array<string>> _raceKeywords;
     
     // 当前战斗状态
-    private SummonerHero _currentSummoner;
+    private HeroInstance _currentSummoner;
     private SummonSystem _summonSystem;
     private float _combatStartTime;
     private List<TypingInput> _typingHistory = new List<TypingInput>();
@@ -105,7 +105,7 @@ public partial class TypingCombatSystem : Node
     /// <summary>
     /// 设置当前召唤师
     /// </summary>
-    public void SetCurrentSummoner(SummonerHero summoner)
+    public void SetCurrentSummoner(HeroInstance summoner)
     {
         _currentSummoner = summoner;
     }
@@ -156,13 +156,13 @@ public partial class TypingCombatSystem : Node
             return 0f;
             
         // 基础伤害
-        float baseDamage = _currentSummoner.TypingDamageBase;
+        float baseDamage = _currentSummoner.Config.TypingDamageBase;
         
-        // 速度加成
-        float speedBonus = 1f + (_currentSummoner.TypingSpeedBonus * (CurrentWPM / 100f));
+        // 应用速度加成
+        float speedBonus = 1f + (_currentSummoner.Config.TypingSpeedBonus * (CurrentWPM / 100f));
         
-        // 准确度加成
-        float accuracyBonus = 1f + (_currentSummoner.TypingAccuracyBonus * (CurrentAccuracy / 100f));
+        // 应用准确率加成
+        float accuracyBonus = 1f + (_currentSummoner.Config.TypingAccuracyBonus * (CurrentAccuracy / 100f));
         
         // 字符长度加成
         float lengthMultiplier = inputText.Length;
@@ -276,7 +276,7 @@ public partial class TypingCombatSystem : Node
         if (_currentSummoner == null)
             return 1f;
             
-        float decayRate = BaseDecayRate * (1f - _currentSummoner.TypingDecayResistance);
+        float decayRate = BaseDecayRate * (1f - _currentSummoner.Config.TypingDecayResistance);
         float decay = 1f - (TotalCharactersTyped * decayRate);
         
         return Mathf.Max(decay, MinDamageMultiplier);

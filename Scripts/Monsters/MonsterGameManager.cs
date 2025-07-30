@@ -13,7 +13,7 @@ public partial class MonsterGameManager : Node
     [Signal] public delegate void GameStateChangedEventHandler(GameState newState);
     [Signal] public delegate void BattleStartedEventHandler();
     [Signal] public delegate void BattleEndedEventHandler(bool victory);
-    [Signal] public delegate void SummonerChangedEventHandler(SummonerHero newSummoner);
+    [Signal] public delegate void SummonerChangedEventHandler(HeroInstance newSummoner);
     [Signal] public delegate void GameProgressUpdatedEventHandler(float progress);
     
     // 游戏状态
@@ -27,7 +27,7 @@ public partial class MonsterGameManager : Node
     }
     
     [Export] public GameState CurrentState { get; private set; } = GameState.MainMenu;
-    [Export] public SummonerHero CurrentSummoner { get; private set; }
+    [Export] public HeroInstance CurrentSummoner { get; private set; }
     [Export] public float GameProgress { get; private set; } = 0f; // 0-1 游戏进度
     
     // 系统组件引用
@@ -158,24 +158,14 @@ public partial class MonsterGameManager : Node
     /// <summary>
     /// 创建默认召唤师
     /// </summary>
-    private SummonerHero CreateDefaultSummoner()
+    private HeroInstance CreateDefaultSummoner()
     {
-        var summoner = new SummonerHero();
-        summoner.Id = 1;
-        summoner.HeroName = "新手召唤师";
-        summoner.Description = "刚开始冒险的召唤师";
-        summoner.PrimaryColor = MagicColor.White;
-        summoner.TypingDamageBase = 10f;
-        summoner.TypingSpeedBonus = 0.1f;
-        summoner.TypingAccuracyBonus = 0.05f;
-        summoner.TypingDecayResistance = 0.1f;
+        // 创建默认召唤师英雄实例
+        var heroManager = GetNode<HeroManager>("/root/HeroManager");
+        var summoner = heroManager.ObtainHero(1); // 假设ID为1的是默认召唤师
         
-        // 初始化颜色槽位
-        summoner.InitializeDefaultColorSlots();
-        
-        // 添加基础技能
-        summoner.AddSummonerSkill(SummonerSkillType.TypingEnhancement, 0.1f);
-        summoner.AddSummonerSkill(SummonerSkillType.SummonBonus, 0.05f);
+        // HeroInstance的属性通过Config访问，不需要直接设置
+        // 召唤师功能已在ObtainHero中初始化
         
         return summoner;
     }
@@ -183,7 +173,7 @@ public partial class MonsterGameManager : Node
     /// <summary>
     /// 设置当前召唤师
     /// </summary>
-    public void SetCurrentSummoner(SummonerHero summoner)
+    public void SetCurrentSummoner(HeroInstance summoner)
     {
         if (summoner == null)
             return;
@@ -197,7 +187,7 @@ public partial class MonsterGameManager : Node
         
         EmitSignal(SignalName.SummonerChanged, summoner);
         
-        GD.Print($"Current summoner set to: {summoner.HeroName}");
+        GD.Print($"Current summoner set to: {summoner.Config.Name}");
     }
     
     /// <summary>
@@ -389,7 +379,7 @@ public partial class MonsterGameManager : Node
             { "game_progress", GameProgress },
             { "current_state", CurrentState.ToString() },
             { "in_battle", _inBattle },
-            { "current_summoner", CurrentSummoner?.HeroName ?? "None" }
+            { "current_summoner", CurrentSummoner?.Config.Name ?? "None" }
         };
         
         // 添加各系统统计

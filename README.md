@@ -1,3 +1,24 @@
+﻿<!-- STATS_BADGES_START -->
+![Classes](https://img.shields.io/badge/Classes-127-blue?style=flat-square)
+![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18217-green?style=flat-square)
+![C# Files](https://img.shields.io/badge/C%23_Files-125-orange?style=flat-square)
+![TSCN Files](https://img.shields.io/badge/TSCN_Files-32-purple?style=flat-square)
+![TRES Files](https://img.shields.io/badge/TRES_Files-15-red?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Updated-2025--07--30-lightgrey?style=flat-square)
+<!-- STATS_BADGES_END -->
+
+<!-- STATS_TABLE_START -->
+| Statistics | Count | Description |
+|------------|-------|--------------|
+| C# Files | **125** | Number of C# script files in the project |
+| Classes | **127** | Total number of defined classes |
+| Lines of Code | **18217** | Total lines of code (excluding empty lines and comments) |
+| TSCN Files | **32** | Number of Godot scene files |
+| TRES Files | **15** | Number of Godot resource files |
+
+> Last updated: 2025-07-30 18:28:17
+<!-- STATS_TABLE_END -->
+
 # CodeRogue
 
 一个基于Godot 4.4和C#开发的Roguelike游戏项目。

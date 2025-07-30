@@ -1,0 +1,110 @@
+name: Project Statistics
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  stats:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run project statistics
+      shell: pwsh
+      run: |
+        # 执行项目统计脚本
+        .\project_stats.ps1
+        
+        # 获取统计结果
+        $stats = .\project_stats.ps1 -OutputJson | ConvertFrom-Json
+        
+        # 输出统计结果到GitHub Actions日志
+        Write-Host "📊 Project Statistics:"
+        Write-Host "🔢 C# Files: $($stats.CsFiles)"
+        Write-Host "📝 Classes: $($stats.Classes)"
+        Write-Host "📄 Lines of Code: $($stats.CodeLines)"
+        Write-Host "🎬 TSCN Files: $($stats.TscnFiles)"
+        Write-Host "📦 TRES Files: $($stats.TresFiles)"
+        
+        # 创建统计摘要文件
+        $summary = @"
+        ## 📊 Project Statistics
+        
+        | Metric | Count |
+        |--------|-------|
+        | C# Files | $($stats.CsFiles) |
+        | Classes | $($stats.Classes) |
+        | Lines of Code | $($stats.CodeLines) |
+        | TSCN Files | $($stats.TscnFiles) |
+        | TRES Files | $($stats.TresFiles) |
+        
+        *Generated on $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')*
+        "@
+        
+        # 输出到GitHub Actions摘要
+        $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+        
+        # 设置输出变量供其他步骤使用
+        echo "csharp_files=$($stats.CsFiles)" >> $env:GITHUB_OUTPUT
+        echo "classes=$($stats.Classes)" >> $env:GITHUB_OUTPUT
+        echo "lines_of_code=$($stats.CodeLines)" >> $env:GITHUB_OUTPUT
+        echo "tscn_files=$($stats.TscnFiles)" >> $env:GITHUB_OUTPUT
+        echo "tres_files=$($stats.TresFiles)" >> $env:GITHUB_OUTPUT
+        
+    - name: Save statistics to artifact
+      shell: pwsh
+      run: |
+        # 生成带时间戳的统计文件
+        $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+        $statsFile = "project-stats-$timestamp.json"
+        .\project_stats.ps1 -OutputJson | Out-File -FilePath $statsFile -Encoding utf8
+        
+        # 创建artifacts目录
+        New-Item -ItemType Directory -Force -Path "artifacts"
+        Move-Item $statsFile "artifacts/"
+        
+    - name: Upload statistics artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: project-statistics
+        path: artifacts/
+        retention-days: 30
+        
+    - name: Comment PR with statistics (if PR)
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          // 读取统计数据
+          const { execSync } = require('child_process');
+          const statsJson = execSync('powershell -Command ".\\project_stats.ps1 -OutputJson"', { encoding: 'utf8' });
+          const stats = JSON.parse(statsJson);
+          
+          // 创建PR评论
+          const comment = `## 📊 Project Statistics
+          
+          | Metric | Count |
+          |-----------|-------|
+          | C# Files | ${stats.CsFiles} |
+          | Classes | ${stats.Classes} |
+          | Lines of Code | ${stats.CodeLines} |
+          | TSCN Files | ${stats.TscnFiles} |
+          | TRES Files | ${stats.TresFiles} |
+          
+          *Statistics generated automatically on ${new Date().toISOString()}*`;
+          
+          // 发布评论
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

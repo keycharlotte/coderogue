@@ -80,7 +80,7 @@ namespace CodeRogue.UI
 			// 加载SkillCardUI场景
 			var cardScene = GD.Load<PackedScene>("res://Scenes/UI/SkillCardUI.tscn");
 			var cardUI = cardScene.Instantiate<SkillCardUI>();
-			cardUI.CustomMinimumSize = new Vector2(200, 280);
+			// CustomMinimumSize应在SkillCardUI.tscn场景文件中设置
 			cardUI.CardClicked += OnCardClicked;
 			cardUI.CardRemoveRequested += OnCardRemoveRequested;
 			
@@ -143,10 +143,20 @@ namespace CodeRogue.UI
 		
 		private void AddStatLabel(string text)
 		{
-			var label = new Label();
-			label.Text = text;
-			label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-			_statsContainer.AddChild(label);
+			// UI组件应在.tscn文件中预定义，这里只处理数据绑定
+			// 如果需要动态显示统计信息，应在场景文件中预先创建足够的Label组件
+			if (_statsContainer != null && _statsContainer.GetChildCount() > 0)
+			{
+				// 查找可用的Label组件并设置文本
+				foreach (Node child in _statsContainer.GetChildren())
+				{
+					if (child is Label label && string.IsNullOrEmpty(label.Text))
+					{
+						label.Text = text;
+						break;
+					}
+				}
+			}
 		}
 		
 		private void OnCardClicked(SkillCard card)

@@ -105,7 +105,7 @@ namespace CodeRogue.UI
 			var trackSlotScene = GD.Load<PackedScene>("res://Scenes/UI/TrackSlotUI.tscn");
 			var trackSlot = trackSlotScene.Instantiate<TrackSlotUI>();
 			trackSlot.TrackIndex = index;
-			trackSlot.CustomMinimumSize = new Vector2(400, 50);
+			// CustomMinimumSize应在TrackSlotUI.tscn场景文件中设置
 			trackSlot.TrackClicked += OnTrackClicked;
 			return trackSlot;
 		}
