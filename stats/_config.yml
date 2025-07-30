@@ -1,0 +1,31 @@
+# GitHub Pages configuration
+title: CodeRogue Project Statistics
+description: Real-time statistics and visualization for the CodeRogue game project
+baseurl: "/coderogue"
+url: "https://keycharlotte.github.io"
+
+# Theme
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclude files
+exclude:
+  - "*.ps1"
+  - "*.gd"
+  - "*.tscn"
+  - "*.tres"
+  - project.godot
+  - .gitignore
+  - .gitattributes
+  - .editorconfig
+  - README.md
+
+# Include files
+include:
+  - stats_visualization.html
+  - historical_stats.json
+  - VISUALIZATION_GUIDE.md
