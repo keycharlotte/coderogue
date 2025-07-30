@@ -71,9 +71,8 @@ jobs:
         Copy-Item "historical_stats.json" "_site/"
         Copy-Item "VISUALIZATION_GUIDE.md" "_site/"
         
-        # 创建简单的导航页面
+         # 创建简单的导航页面
         $htmlContent = @"
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
