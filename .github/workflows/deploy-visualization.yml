@@ -71,7 +71,7 @@ jobs:
         Copy-Item "VISUALIZATION_GUIDE.md" "_site/"
         
         # 创建简单的导航页面
-        $indexContent = @"
+        $htmlContent = @'
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -80,7 +80,7 @@ jobs:
     <title>CodeRogue 项目统计</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
@@ -145,14 +145,16 @@ jobs:
         </div>
         
         <div class="update-time">
-            最后更新时间: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')
+            最后更新时间: {0}
         </div>
     </div>
 </body>
 </html>
-"@
+'@
         
-        $indexContent | Out-File -FilePath "_site/navigation.html" -Encoding utf8
+        $currentTime = Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC'
+        $finalHtml = $htmlContent -f $currentTime
+        $finalHtml | Out-File -FilePath "_site/navigation.html" -Encoding utf8
         
         Write-Host "📁 Deployment files created:"
         Get-ChildItem "_site" | ForEach-Object { Write-Host "  - $($_.Name)" }
