@@ -1,0 +1,15 @@
+{
+    "cSpell.words": [
+        "Bbcode",
+        "Cooldown",
+        "Cooldowns",
+        "Debuff",
+        "Mathf",
+        "Randf",
+        "Stylebox",
+        "tscn"
+    ],
+    "files.exclude": {
+        "**/*.uid": true
+    }
+}

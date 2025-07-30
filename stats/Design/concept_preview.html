@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Rogue - 概念预览</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --text-color: #e0e0e0;
+            --accent-color: #00ffff;
+            --accent-glow: rgba(0, 255, 255, 0.2);
+            --enemy-color: #ff3333;
+            --enemy-glow: rgba(255, 0, 0, 0.2);
+            --combo-color: #ff00ff;
+            --combo-glow: rgba(255, 0, 255, 0.8);
+            --container-bg: rgba(10, 12, 16, 0.95);
+            --panel-bg: rgba(20, 22, 26, 0.7);
+            --box-bg: rgba(0, 0, 0, 0.3);
+            --typing-bg: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 预设主题 */
+        [data-theme="cyberpunk"] {
+            --bg-color: #120b1d;
+            --text-color: #f0f0f0;
+            --accent-color: #00ff9f;
+            --accent-glow: rgba(0, 255, 159, 0.2);
+            --enemy-color: #ff00aa;
+            --enemy-glow: rgba(255, 0, 170, 0.2);
+            --combo-color: #00ffff;
+            --combo-glow: rgba(0, 255, 255, 0.8);
+            --container-bg: rgba(18, 11, 29, 0.95);
+            --panel-bg: rgba(29, 17, 46, 0.7);
+            --box-bg: rgba(0, 0, 0, 0.4);
+            --typing-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="matrix"] {
+            --bg-color: #000000;
+            --text-color: #33ff33;
+            --accent-color: #00ff00;
+            --accent-glow: rgba(0, 255, 0, 0.2);
+            --enemy-color: #ff3333;
+            --enemy-glow: rgba(255, 0, 0, 0.2);
+            --combo-color: #00ff00;
+            --combo-glow: rgba(0, 255, 0, 0.8);
+            --container-bg: rgba(0, 20, 0, 0.95);
+            --panel-bg: rgba(0, 40, 0, 0.7);
+            --box-bg: rgba(0, 0, 0, 0.4);
+            --typing-bg: rgba(0, 20, 0, 0.5);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f0f0f0;
+            --text-color: #2a2a2a;
+            --accent-color: #0066cc;
+            --accent-glow: rgba(0, 102, 204, 0.2);
+            --enemy-color: #cc0000;
+            --enemy-glow: rgba(204, 0, 0, 0.2);
+            --combo-color: #9900cc;
+            --combo-glow: rgba(153, 0, 204, 0.8);
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --panel-bg: rgba(240, 240, 240, 0.7);
+            --box-bg: rgba(0, 0, 0, 0.1);
+            --typing-bg: rgba(0, 0, 0, 0.05);
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .game-container {
+            width: 1200px;
+            height: 800px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 30px var(--accent-glow);
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2px;
+            background: var(--container-bg);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        .main-area {
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .side-panel {
+            padding: 20px;
+            background: var(--panel-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-left: 1px solid var(--accent-color);
+        }
+        .status-box {
+            background: var(--box-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 5px;
+        }
+        .typing-area {
+            width: 100%;
+            max-width: 800px;
+            background: var(--typing-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .typing-target {
+            font-family: 'Consolas', monospace;
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .enemy-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .enemy {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--enemy-color);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 20px var(--enemy-glow);
+        }
+        .enemy::after {
+            content: 'E';
+            color: var(--enemy-color);
+            font-size: 24px;
+            text-shadow: 0 0 10px var(--enemy-glow);
+        }
+        .health-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #00ff00 70%, rgba(0, 255, 0, 0.2) 70%);
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+        .energy-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #00ffff 80%, rgba(0, 255, 255, 0.2) 80%);
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+        .exp-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #ff00ff 60%, rgba(255, 0, 255, 0.2) 60%);
+            border-radius: 2px;
+        }
+        .combo-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--combo-color);
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 0 0 15px var(--combo-glow);
+            background: var(--box-bg);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--combo-color);
+        }
+        .skill-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            height: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-track-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-color));
+            width: 70%;
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .equipment-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 0;
+            color: var(--accent-color);
+        }
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--accent-color);
+            background: var(--box-bg);
+            color: var(--text-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .theme-btn.active {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="default">默认主题</button>
+        <button class="theme-btn" data-theme="cyberpunk">赛博朋克</button>
+        <button class="theme-btn" data-theme="matrix">矩阵风格</button>
+        <button class="theme-btn" data-theme="light">明亮模式</button>
+    </div>
+    <div class="game-container">
+        <div class="main-area">
+            <div class="combo-counter">COMBO x42</div>
+            <div class="enemy-container">
+                <div class="enemy"></div>
+                <div class="enemy"></div>
+                <div class="enemy"></div>
+            </div>
+            <div class="typing-area">
+                <div class="typing-target">System.out.println("Hello World");</div>
+            </div>
+        </div>
+        <div class="side-panel">
+            <div class="status-box">
+                <div class="health-bar"></div>
+                <div class="energy-bar"></div>
+                <div class="exp-bar"></div>
+            </div>
+            <div class="status-box">
+                <div class="skill-track">
+                    <div class="skill-track-fill" style="width: 70%"></div>
+                </div>
+                <div class="skill-track" style="margin-top: 10px">
+                    <div class="skill-track-fill" style="width: 40%"></div>
+                </div>
+            </div>
+            <div class="status-box">
+                <div style="color: #00ffff">等级: 5</div>
+                <div style="color: #ff00ff">击杀: 127</div>
+                <div style="color: #ffff00">最大连击: 56</div>
+            </div>
+            <div class="status-box">
+                <div style="color: #00ffff; margin-bottom: 10px">装备:</div>
+                <div class="equipment-item">量子键盘 +5</div>
+                <div class="equipment-item">数据护盾 +3</div>
+                <div class="equipment-item">代码注入器 +4</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.theme-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除其他按钮的active类
+                document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+                // 添加当前按钮的active类
+                button.classList.add('active');
+                // 设置主题
+                document.body.setAttribute('data-theme', button.getAttribute('data-theme'));
+            });
+        });
+    </script>
+</body>
+</html>

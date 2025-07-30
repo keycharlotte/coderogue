@@ -1,0 +1,182 @@
+[gd_scene load_steps=15 format=3 uid="uid://t2ffrcxaux3a"]
+
+[ext_resource type="Script" uid="uid://cgsfr7tgawli1" path="res://Scripts/UI/GameUI.cs" id="1_13cgw"]
+[ext_resource type="PackedScene" uid="uid://bo03756c7jc4p" path="res://Scenes/UI/SkillTrackUI.tscn" id="2_71wt1"]
+
+[sub_resource type="SystemFont" id="SystemFont_13cgw"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_71wt1"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 16
+Label/fonts/font = SubResource("SystemFont_13cgw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xkiwj"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tog36"]
+bg_color = Color(0.8, 0.2, 0.2, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_fe2yh"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_xkiwj")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_tog36")
+
+[sub_resource type="SystemFont" id="SystemFont_npa51"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_intyv"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 18
+Label/fonts/font = SubResource("SystemFont_npa51")
+
+[sub_resource type="SystemFont" id="SystemFont_4284l"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sinwf"]
+bg_color = Color(0.4, 0.4, 0.4, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5x6t4"]
+bg_color = Color(0.3, 0.3, 0.3, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x82rw"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_ikj5o"]
+Button/font_sizes/font_size = 14
+Button/fonts/font = SubResource("SystemFont_4284l")
+Button/styles/hover = SubResource("StyleBoxFlat_sinwf")
+Button/styles/normal = SubResource("StyleBoxFlat_5x6t4")
+Button/styles/pressed = SubResource("StyleBoxFlat_x82rw")
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_13cgw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="HealthContainer" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="HBoxContainer/HealthContainer"]
+layout_mode = 2
+theme = SubResource("Theme_71wt1")
+text = "100/100"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="HBoxContainer/HealthContainer"]
+custom_minimum_size = Vector2(180, 20)
+layout_mode = 2
+theme = SubResource("Theme_fe2yh")
+value = 100.0
+
+[node name="InfoContainer" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="HBoxContainer/InfoContainer"]
+layout_mode = 2
+theme = SubResource("Theme_intyv")
+text = "Level: 1"
+
+[node name="ScoreLabel" type="Label" parent="HBoxContainer/InfoContainer"]
+layout_mode = 2
+theme = SubResource("Theme_intyv")
+text = "Score: 0"
+
+[node name="DeckButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(80, 50)
+layout_mode = 2
+text = "牌库"
+
+[node name="RelicContainer" type="HBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(800, 20)
+layout_mode = 2
+
+[node name="PauseButton" type="Button" parent="."]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+theme = SubResource("Theme_ikj5o")
+text = "暂停"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.003
+anchor_top = 0.795
+anchor_right = 0.003
+anchor_bottom = 0.795
+offset_left = 0.544
+offset_top = -0.160034
+offset_right = 540.544
+offset_bottom = 127.84
+
+[node name="DebugInput" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.901
+anchor_bottom = 0.901
+offset_left = 2.0
+offset_top = -51.328
+offset_right = 562.0
+offset_bottom = 2.672
+text = "aaaaaaaaaabbbbbbbbbbb"
+
+[node name="BuffContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = -4.0
+offset_top = 30.0
+offset_right = 36.0
+offset_bottom = 70.0
+scale = Vector2(11.844, 0.945171)
+
+[node name="Control2" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 836.0
+offset_top = 373.0
+offset_right = 1149.0
+offset_bottom = 647.0
+
+[node name="SkillTrackUI" parent="Control2" instance=ExtResource("2_71wt1")]
+layout_mode = 1

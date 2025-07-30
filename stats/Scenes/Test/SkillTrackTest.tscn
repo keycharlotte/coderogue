@@ -1,0 +1,106 @@
+[gd_scene load_steps=5 format=3 uid="uid://bct6cod64eoy1"]
+
+[ext_resource type="Script" uid="uid://cynrma6jejv68" path="res://Scripts/Test/SkillTrackTest.cs" id="1_0h8vx"]
+[ext_resource type="PackedScene" uid="uid://bo03756c7jc4p" path="res://Scenes/UI/SkillTrackUI.tscn" id="3_1h9vy"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="3_ob1lx"]
+[ext_resource type="PackedScene" uid="uid://bn1j0ixfypw8k" path="res://Scenes/UI/SkillDeckUI.tscn" id="4_2i0wz"]
+
+[node name="SkillTrackTest" type="Node" node_paths=PackedStringArray("_skillTrackUI", "_skillDeckUI", "_loadTestSkillsButton", "_startChargingButton", "_activateReadySkillsButton", "_clearAllTracksButton")]
+script = ExtResource("1_0h8vx")
+_skillTrackUI = NodePath("UI/VBoxContainer/HBoxContainer/RightPanel/SkillTrackUI")
+_skillDeckUI = NodePath("UI/VBoxContainer/HBoxContainer/LeftPanel/SkillDeckUI")
+_loadTestSkillsButton = NodePath("UI/VBoxContainer/ControlPanel/TestButton1")
+_startChargingButton = NodePath("UI/VBoxContainer/ControlPanel/TestButton2")
+_activateReadySkillsButton = NodePath("UI/VBoxContainer/ControlPanel/TestButton3")
+_clearAllTracksButton = NodePath("UI/VBoxContainer/ControlPanel/TestButton4")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ob1lx")
+
+[node name="Background" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "SkillTrack System Test"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftPanel" type="VBoxContainer" parent="UI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillDeckLabel" type="Label" parent="UI/VBoxContainer/HBoxContainer/LeftPanel"]
+layout_mode = 2
+text = "Skill Deck"
+
+[node name="SkillDeckUI" parent="UI/VBoxContainer/HBoxContainer/LeftPanel" instance=ExtResource("4_2i0wz")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="UI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="UI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillTrackLabel" type="Label" parent="UI/VBoxContainer/HBoxContainer/RightPanel"]
+layout_mode = 2
+text = "Skill Tracks"
+
+[node name="SkillTrackUI" parent="UI/VBoxContainer/HBoxContainer/RightPanel" instance=ExtResource("3_1h9vy")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlPanel" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="TestButton1" type="Button" parent="UI/VBoxContainer/ControlPanel"]
+layout_mode = 2
+text = "Load Test Skills"
+
+[node name="TestButton2" type="Button" parent="UI/VBoxContainer/ControlPanel"]
+layout_mode = 2
+text = "Start Charging"
+
+[node name="TestButton3" type="Button" parent="UI/VBoxContainer/ControlPanel"]
+layout_mode = 2
+text = "Activate Ready Skills"
+
+[node name="TestButton4" type="Button" parent="UI/VBoxContainer/ControlPanel"]
+layout_mode = 2
+text = "Clear All Tracks"

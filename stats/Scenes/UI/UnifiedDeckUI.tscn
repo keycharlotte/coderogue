@@ -1,0 +1,109 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxvl8ywqxqjy"]
+
+[ext_resource type="Script" uid="uid://2j6hr4doqwqq" path="res://Scripts/UI/UnifiedDeckUI.cs" id="1_unified_deck_ui"]
+
+[node name="UnifiedDeckUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_unified_deck_ui")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="DeckInfoLabel" type="Label" parent="MainContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "卡组信息"
+
+[node name="DeckSelector" type="OptionButton" parent="MainContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="NewDeckButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+text = "新建卡组"
+
+[node name="DuplicateDeckButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+text = "复制卡组"
+
+[node name="DeleteDeckButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+text = "删除卡组"
+
+[node name="ShuffleButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+text = "洗牌"
+
+[node name="CloseButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+text = "关闭"
+
+[node name="ContentContainer" type="HSplitContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CardsContainer" type="VBoxContainer" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="MainContainer/ContentContainer/CardsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="怪物卡" type="ScrollContainer" parent="MainContainer/ContentContainer/CardsContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MonsterCardsGrid" type="GridContainer" parent="MainContainer/ContentContainer/CardsContainer/TabContainer/怪物卡"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="技能卡" type="ScrollContainer" parent="MainContainer/ContentContainer/CardsContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="SkillCardsGrid" type="GridContainer" parent="MainContainer/ContentContainer/CardsContainer/TabContainer/技能卡"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="StatsContainer" type="VBoxContainer" parent="MainContainer/ContentContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="统计标题" type="Label" parent="MainContainer/ContentContainer/StatsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "卡组统计"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/ContentContainer/StatsContainer"]
+layout_mode = 2

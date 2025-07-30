@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8k2vxkaqkqxo"]
+
+[ext_resource type="PackedScene" uid="uid://bxvyj8r2qkqxo" path="res://Scenes/UI/CardDatabaseTestUI.tscn" id="1_0k8vx"]
+
+[node name="CardDatabaseTest" type="Node"]
+
+[node name="CardDatabaseTestUI" parent="." instance=ExtResource("1_0k8vx")]

@@ -1,0 +1,80 @@
+﻿<!-- STATS_BADGES_START -->
+![Classes](https://img.shields.io/badge/Classes-127-blue?style=flat-square)
+![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18217-green?style=flat-square)
+![C# Files](https://img.shields.io/badge/C%23_Files-125-orange?style=flat-square)
+![TSCN Files](https://img.shields.io/badge/TSCN_Files-32-purple?style=flat-square)
+![TRES Files](https://img.shields.io/badge/TRES_Files-15-red?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Updated-2025--07--30-lightgrey?style=flat-square)
+<!-- STATS_BADGES_END -->
+
+<!-- STATS_TABLE_START -->
+| Statistics | Count | Description |
+|------------|-------|--------------|
+| C# Files | **125** | Number of C# script files in the project |
+| Classes | **127** | Total number of defined classes |
+| Lines of Code | **18217** | Total lines of code (excluding empty lines and comments) |
+| TSCN Files | **32** | Number of Godot scene files |
+| TRES Files | **15** | Number of Godot resource files |
+
+> Last updated: 2025-07-30 18:28:17
+<!-- STATS_TABLE_END -->
+
+# CodeRogue
+
+一个基于Godot 4.4和C#开发的Roguelike游戏项目。
+
+## 项目结构
+CodeRogue/
+├── Scenes/                    # 场景文件
+│   ├── Main/                  # 主场景
+│   ├── Player/                # 玩家相关场景
+│   ├── Enemy/                 # 敌人场景
+│   ├── UI/                    # UI场景
+│   └── Level/                 # 关卡场景
+├── Scripts/                   # C#脚本
+│   ├── Core/                  # 核心系统
+│   ├── Player/                # 玩家系统
+│   ├── Enemy/                 # 敌人系统
+│   ├── Combat/                # 战斗系统
+│   ├── UI/                    # UI系统
+│   ├── Level/                 # 关卡系统
+│   ├── Data/                  # 数据类
+│   ├── Utils/                 # 工具类
+│   ├── Components/            # 组件系统
+│   └── Editor/                # 编辑器工具
+├── Assets/                    # 资源文件
+├── Resources/                 # Godot资源
+├── Design/                    # 设计文档
+└── Tools/                     # 开发工具
+## 开发环境
+
+- Godot 4.4+
+- .NET 6.0+
+- C# 10+
+
+## 核心特性
+
+- 模块化架构设计
+- 组件化系统
+- AI友好的代码结构
+- 完整的游戏状态管理
+- 可扩展的敌人AI系统
+
+## 开始开发
+
+1. 在Godot中打开项目
+2. 确保启用了C#支持
+3. 构建项目以生成C#程序集
+4. 开始编码！
+
+## AI代码生成指南
+
+本项目专门为AI代码生成优化，具有：
+- 清晰的命名规范
+- 完整的注释文档
+- 模块化的代码结构
+- 标准的设计模式
+
+## 许可证
+
+MIT License

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhut21r7qqag6"]
+
+[ext_resource type="Texture2D" uid="uid://vswts4v6mu43" path="res://Art/AssetsTextures/whitebg.png" id="1_4e6v8"]
+
+[node name="BaseLevel" type="Node2D"]
+position = Vector2(491, 292)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_4e6v8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -489.0
+offset_top = -290.0
+offset_right = 656.0
+offset_bottom = 359.0
+color = Color(0.870588, 0.717647, 0.239216, 1)

@@ -1,0 +1,213 @@
+[gd_scene load_steps=24 format=3 uid="uid://8dfuuohyrqdi"]
+
+[ext_resource type="Script" uid="uid://sykuufsuikq2" path="res://Scripts/UI/MainMenu.cs" id="1_g18y6"]
+
+[sub_resource type="SystemFont" id="SystemFont_g18y6"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_mjmdf"]
+Label/font_sizes/font_size = 48
+Label/fonts/font = SubResource("SystemFont_g18y6")
+
+[sub_resource type="SystemFont" id="SystemFont_72sra"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6w0q"]
+bg_color = Color(0.4, 0.4, 0.6, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8um8"]
+bg_color = Color(0.3, 0.3, 0.5, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jex3y"]
+bg_color = Color(0.2, 0.2, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_744d7"]
+Button/fonts/font = SubResource("SystemFont_72sra")
+Button/styles/hover = SubResource("StyleBoxFlat_t6w0q")
+Button/styles/normal = SubResource("StyleBoxFlat_k8um8")
+Button/styles/pressed = SubResource("StyleBoxFlat_jex3y")
+Label/font_sizes/font_size = 16
+
+[sub_resource type="SystemFont" id="SystemFont_kl3t2"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynupv"]
+bg_color = Color(0.4, 0.4, 0.6, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m48tj"]
+bg_color = Color(0.3, 0.3, 0.5, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dvisc"]
+bg_color = Color(0.2, 0.2, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_ab04i"]
+Button/fonts/font = SubResource("SystemFont_kl3t2")
+Button/styles/hover = SubResource("StyleBoxFlat_ynupv")
+Button/styles/normal = SubResource("StyleBoxFlat_m48tj")
+Button/styles/pressed = SubResource("StyleBoxFlat_dvisc")
+Label/font_sizes/font_size = 16
+
+[sub_resource type="SystemFont" id="SystemFont_hys1s"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgqbg"]
+bg_color = Color(0.4, 0.4, 0.6, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_euk5f"]
+bg_color = Color(0.3, 0.3, 0.5, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kdsd0"]
+bg_color = Color(0.2, 0.2, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_w0mr3"]
+Button/fonts/font = SubResource("SystemFont_hys1s")
+Button/styles/hover = SubResource("StyleBoxFlat_fgqbg")
+Button/styles/normal = SubResource("StyleBoxFlat_euk5f")
+Button/styles/pressed = SubResource("StyleBoxFlat_kdsd0")
+Label/font_sizes/font_size = 16
+
+[sub_resource type="SystemFont" id="SystemFont_ytwc7"]
+font_names = PackedStringArray("Arial")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ncoa"]
+bg_color = Color(0.4, 0.4, 0.6, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pyop"]
+bg_color = Color(0.3, 0.3, 0.5, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ervkh"]
+bg_color = Color(0.2, 0.2, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_2qihr"]
+Button/fonts/font = SubResource("SystemFont_ytwc7")
+Button/styles/hover = SubResource("StyleBoxFlat_0ncoa")
+Button/styles/normal = SubResource("StyleBoxFlat_4pyop")
+Button/styles/pressed = SubResource("StyleBoxFlat_ervkh")
+Label/font_sizes/font_size = 16
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("BackgroundRect")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g18y6")
+BackgroundRect = NodePath("TextureRect")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.2, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 180.0
+theme = SubResource("Theme_mjmdf")
+text = "Code Rogue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 200.0
+theme_override_constants/separation = 20
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+theme = SubResource("Theme_744d7")
+text = "开始游戏"
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+theme = SubResource("Theme_ab04i")
+text = "继续游戏"
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+theme = SubResource("Theme_w0mr3")
+text = "设置"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+theme = SubResource("Theme_2qihr")
+text = "退出游戏"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 183.0
+offset_right = 305.0
+offset_bottom = 436.0

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://f1b0ba08y7xq"]
+
+[ext_resource type="Script" uid="uid://tkfssd8j2445" path="res://Scripts/Core/ConfigManager.cs" id="1_5x8qr"]
+
+[node name="ConfigManager" type="Node"]
+script = ExtResource("1_5x8qr")

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Statistics Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .control-group input, .control-group select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            padding: 30px;
+            background: white;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .data-table {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .data-table th {
+            background: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Project Statistics Dashboard</h1>
+            <p>Visual analytics for CodeRogue project development trends</p>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="dataFile">Data File:</label>
+                <input type="file" id="dataFile" accept=".json" />
+            </div>
+            <div class="control-group">
+                <label for="timeRange">Time Range:</label>
+                <select id="timeRange">
+                    <option value="all">All Time</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="365">Last Year</option>
+                </select>
+            </div>
+            <button class="btn" onclick="loadSampleData()">Load Sample Data</button>
+            <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
+        </div>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalFiles">-</div>
+                <div class="stat-label">C# Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalClasses">-</div>
+                <div class="stat-label">Classes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalLines">-</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalScenes">-</div>
+                <div class="stat-label">Scene Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalResources">-</div>
+                <div class="stat-label">Resource Files</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">📈 Development Trends Over Time</div>
+            <div class="chart-wrapper">
+                <canvas id="trendsChart"></canvas>
+            </div>
+            
+            <div class="chart-title">📊 Current Distribution</div>
+            <div class="chart-wrapper">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="data-table" id="dataTableContainer" style="display: none;">
+            <h3>📋 Historical Data</h3>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>C# Files</th>
+                        <th>Classes</th>
+                        <th>Lines of Code</th>
+                        <th>Scene Files</th>
+                        <th>Resource Files</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        let chartData = [];
+        let trendsChart = null;
+        let distributionChart = null;
+        
+        // Initialize charts
+        function initCharts() {
+            const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+            const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            
+            trendsChart = new Chart(trendsCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'C# Files',
+                            data: [],
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Classes',
+                            data: [],
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Lines of Code',
+                            data: [],
+                            borderColor: '#ffc107',
+                            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Scene Files',
+                            data: [],
+                            borderColor: '#dc3545',
+                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Resource Files',
+                            data: [],
+                            borderColor: '#6f42c1',
+                            backgroundColor: 'rgba(111, 66, 193, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Count'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Lines of Code'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    }
+                }
+            });
+            
+            distributionChart = new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['C# Files', 'Scene Files', 'Resource Files'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            '#007bff',
+                            '#dc3545',
+                            '#6f42c1'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load sample data for demonstration
+        function loadSampleData() {
+            const sampleData = generateSampleData();
+            processData(sampleData);
+        }
+        
+        // Generate sample data
+        function generateSampleData() {
+            const data = [];
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 90);
+            
+            for (let i = 0; i < 30; i++) {
+                const date = new Date(startDate);
+                date.setDate(date.getDate() + i * 3);
+                
+                data.push({
+                    date: date.toISOString().split('T')[0],
+                    CsFiles: 45 + Math.floor(Math.random() * 10) + i,
+                    Classes: 120 + Math.floor(Math.random() * 20) + i * 2,
+                    CodeLines: 3500 + Math.floor(Math.random() * 500) + i * 50,
+                    TscnFiles: 25 + Math.floor(Math.random() * 5) + Math.floor(i / 2),
+                    TresFiles: 15 + Math.floor(Math.random() * 3) + Math.floor(i / 3)
+                });
+            }
+            
+            return data;
+        }
+        
+        // Process and display data
+        function processData(data) {
+            chartData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // Filter by time range
+            const timeRange = document.getElementById('timeRange').value;
+            let filteredData = chartData;
+            
+            if (timeRange !== 'all') {
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - parseInt(timeRange));
+                filteredData = chartData.filter(item => new Date(item.date) >= cutoffDate);
+            }
+            
+            updateCharts(filteredData);
+            updateStats(filteredData);
+            updateDataTable(filteredData);
+        }
+        
+        // Update charts with data
+        function updateCharts(data) {
+            const labels = data.map(item => item.date);
+            
+            trendsChart.data.labels = labels;
+            trendsChart.data.datasets[0].data = data.map(item => item.CsFiles);
+            trendsChart.data.datasets[1].data = data.map(item => item.Classes);
+            trendsChart.data.datasets[2].data = data.map(item => item.CodeLines);
+            trendsChart.data.datasets[3].data = data.map(item => item.TscnFiles);
+            trendsChart.data.datasets[4].data = data.map(item => item.TresFiles);
+            trendsChart.update();
+            
+            if (data.length > 0) {
+                const latest = data[data.length - 1];
+                distributionChart.data.datasets[0].data = [
+                    latest.CsFiles,
+                    latest.TscnFiles,
+                    latest.TresFiles
+                ];
+                distributionChart.update();
+            }
+        }
+        
+        // Update statistics cards
+        function updateStats(data) {
+            if (data.length === 0) return;
+            
+            const latest = data[data.length - 1];
+            document.getElementById('totalFiles').textContent = latest.CsFiles.toLocaleString();
+            document.getElementById('totalClasses').textContent = latest.Classes.toLocaleString();
+            document.getElementById('totalLines').textContent = latest.CodeLines.toLocaleString();
+            document.getElementById('totalScenes').textContent = latest.TscnFiles.toLocaleString();
+            document.getElementById('totalResources').textContent = latest.TresFiles.toLocaleString();
+        }
+        
+        // Update data table
+        function updateDataTable(data) {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+            
+            data.reverse().forEach(item => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = item.date;
+                row.insertCell(1).textContent = item.CsFiles.toLocaleString();
+                row.insertCell(2).textContent = item.Classes.toLocaleString();
+                row.insertCell(3).textContent = item.CodeLines.toLocaleString();
+                row.insertCell(4).textContent = item.TscnFiles.toLocaleString();
+                row.insertCell(5).textContent = item.TresFiles.toLocaleString();
+            });
+            
+            document.getElementById('dataTableContainer').style.display = 'block';
+        }
+        
+        // Export data as JSON
+        function exportData() {
+            if (chartData.length === 0) {
+                alert('No data to export');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(chartData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'project_stats_' + new Date().toISOString().split('T')[0] + '.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // File input handler
+        document.getElementById('dataFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    processData(data);
+                } catch (error) {
+                    alert('Error parsing JSON file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        });
+        
+        // Time range change handler
+        document.getElementById('timeRange').addEventListener('change', function() {
+            if (chartData.length > 0) {
+                processData(chartData);
+            }
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            loadSampleData();
+        });
+    </script>
+</body>
+</html>

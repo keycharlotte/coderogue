@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SkillCard" load_steps=5 format=3 uid="uid://diicgwm0vbu27"]
+
+[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/CardTag/xihuan.tres" id="1_bhuw8"]
+[ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
+[ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="1_docfo"]
+[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/CardTag/jichu.tres" id="2_docfo"]
+
+[resource]
+script = ExtResource("1_crrrm")
+Id = 1
+Name = "FireBall"
+Description = "发射一枚火�?
+Type = 0
+Rarity = 0
+ChargeCost = 100
+Level = 1
+Tags = Array[Object]([ExtResource("1_bhuw8"), ExtResource("2_docfo")])
+Effects = Array[Object]([null])
+Icon = ExtResource("1_docfo")
+IconPath = "res://Art/AssetsTextures/FireBall.jpg"
+RarityColor = Color(0, 0, 0, 0)
+LevelData = Array[Object]([null, null])
+metadata/_custom_type_script = "uid://ba751fit8geao"

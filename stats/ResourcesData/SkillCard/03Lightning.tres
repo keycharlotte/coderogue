@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="SkillCard" load_steps=10 format=3 uid="uid://d1y2kdjha0jby"]
+
+[ext_resource type="Script" uid="uid://dn5d1tr5ikpl1" path="res://Scripts/Skills/SkillEffect.cs" id="1_ggc68"]
+[ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="2_5slj7"]
+[ext_resource type="Script" uid="uid://bi1r1lyx7orvj" path="res://Scripts/Skills/SkillLevelData.cs" id="2_fvmfg"]
+[ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="2_ggc68"]
+[ext_resource type="Script" uid="uid://78uffghsnyd1" path="res://Scripts/Skills/CardTag.cs" id="4_alqvb"]
+
+[sub_resource type="Resource" id="Resource_lightning"]
+script = ExtResource("1_ggc68")
+Type = 0
+TargetProperty = "Health"
+Value = 50.0
+Duration = 0.0
+Parameters = null
+metadata/_custom_type_script = "uid://dn5d1tr5ikpl1"
+
+[sub_resource type="Resource" id="Resource_lv1"]
+script = ExtResource("2_fvmfg")
+Level = 1
+ChargeCost = 150
+EffectValues = Array[float]([50.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[sub_resource type="Resource" id="Resource_lv2"]
+script = ExtResource("2_fvmfg")
+Level = 2
+ChargeCost = 130
+EffectValues = Array[float]([60.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[sub_resource type="Resource" id="Resource_lv3"]
+script = ExtResource("2_fvmfg")
+Level = 3
+ChargeCost = 110
+EffectValues = Array[float]([70.0])
+LevelDescription = ""
+metadata/_custom_type_script = "uid://bi1r1lyx7orvj"
+
+[resource]
+script = ExtResource("2_ggc68")
+SkillType = 0
+SkillRarity = 0
+ChargeCost = 150
+SkillTags = null
+Effects = Array[Object]([SubResource("Resource_lightning")])
+Icon = ExtResource("2_5slj7")
+LevelData = Array[Object]([SubResource("Resource_lv1"), SubResource("Resource_lv2"), SubResource("Resource_lv3")])
+Id = 3
+CardName = ""
+Description = "释放一道闪电造成伤害"
+CardType = 0
+Rarity = 1
+Cost = 1
+Level = 1
+IconPath = "res://Art/AssetsTextures/FireBall.jpg"
+RarityColor = Color(1, 1, 0, 1)
+ColorRequirements = Array[int]([])
+Tags = Array[ExtResource("4_alqvb")]([])
+metadata/_custom_type_script = "uid://ba751fit8geao"

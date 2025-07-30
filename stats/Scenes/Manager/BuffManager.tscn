@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://k6g5f4e3d2c1"]
+
+[ext_resource type="Script" uid="uid://bf8wvsa84w5of" path="res://Scripts/Buffs/BuffManager.cs" id="1_ax8qr"]
+
+[node name="BuffManager" type="Node"]
+script = ExtResource("1_ax8qr")
