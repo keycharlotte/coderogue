@@ -1,5 +1,8 @@
 using Godot;
+using CodeRogue.Skills;
 
+namespace CodeRogue.Test
+{
 [GlobalClass]
 public partial class SkillTestRunner : Control
 {
@@ -63,4 +66,5 @@ public partial class SkillTestRunner : Control
         
         _outputLabel.AppendText("\n[color=green]测试完成！[/color]");
     }
+}
 }

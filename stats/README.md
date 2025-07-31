@@ -1,8 +1,8 @@
 <!-- STATS_BADGES_START -->
-![Classes](https://img.shields.io/badge/Classes-127-blue?style=flat-square)
-![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18834-green?style=flat-square)
-![C# Files](https://img.shields.io/badge/C%23_Files-132-orange?style=flat-square)
-![TSCN Files](https://img.shields.io/badge/TSCN_Files-32-purple?style=flat-square)
+![Classes](https://img.shields.io/badge/Classes-130-blue?style=flat-square)
+![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18932-green?style=flat-square)
+![C# Files](https://img.shields.io/badge/C%23_Files-133-orange?style=flat-square)
+![TSCN Files](https://img.shields.io/badge/TSCN_Files-38-purple?style=flat-square)
 ![TRES Files](https://img.shields.io/badge/TRES_Files-13-red?style=flat-square)
 ![Last Updated](https://img.shields.io/badge/Updated-2025--07--31-lightgrey?style=flat-square)
 <!-- STATS_BADGES_END -->
@@ -10,13 +10,13 @@
 <!-- STATS_TABLE_START -->
 | Statistics | Count | Description |
 |------------|-------|--------------|
-| C# Files | **132** | Number of C# script files in the project |
-| Classes | **127** | Total number of defined classes |
-| Lines of Code | **18834** | Total lines of code (excluding empty lines and comments) |
-| TSCN Files | **32** | Number of Godot scene files |
+| C# Files | **133** | Number of C# script files in the project |
+| Classes | **130** | Total number of defined classes |
+| Lines of Code | **18932** | Total lines of code (excluding empty lines and comments) |
+| TSCN Files | **38** | Number of Godot scene files |
 | TRES Files | **13** | Number of Godot resource files |
 
-> Last updated: 2025-07-31 10:30:27
+> Last updated: 2025-07-31 12:28:35
 <!-- STATS_TABLE_END -->
 
 ## 📊 项目统计可视化

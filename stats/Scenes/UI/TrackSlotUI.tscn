@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="1_qjsyp"]
 
 [node name="TrackSlotUI" type="Control" node_paths=PackedStringArray("_background", "_skillIcon", "_chargeProgress", "_skillNameLabel", "_stateLabel", "_clickArea")]
+custom_minimum_size = Vector2(400, 50)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 400.0

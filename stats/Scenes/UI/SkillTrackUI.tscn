@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_def456"]
 
 [node name="SkillTrackUI" type="Control" node_paths=PackedStringArray("_tracksContainer", "_statusLabel", "_activateButton")]
-custom_minimum_size = Vector2(300, 300)
+custom_minimum_size = Vector2(400, 300)
 layout_mode = 3
 anchors_preset = 3
 anchor_left = 1.0
@@ -25,14 +25,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 16.0
+offset_top = 18.0
+offset_right = -4.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_def456")
 text = "技能轨道系统"
@@ -43,6 +44,7 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="StatusLabel" type="Label" parent="VBoxContainer"]
+visible = false
 modulate = Color(1, 1, 1, 0.7)
 layout_mode = 2
 theme = ExtResource("2_def456")
@@ -50,6 +52,7 @@ text = "等待技能装载..."
 horizontal_alignment = 1
 
 [node name="ActivateButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_def456")
 text = "激活所有就绪技能"
