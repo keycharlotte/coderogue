@@ -1,7 +1,10 @@
 using Godot;
 using Godot.Collections;
+using CodeRogue.Heroes;
 
-public partial class SpecialTraitProcessor : Node
+namespace CodeRogue.Heroes
+{
+	public partial class SpecialTraitProcessor : Node
 {
 	[Signal] public delegate void TraitTriggeredEventHandler(HeroInstance hero, SpecialTraitConfig trait);
 	
@@ -61,5 +64,6 @@ public partial class SpecialTraitProcessor : Node
 			return Mathf.RoundToInt(baseValue.AsInt32() * (1.0f + (level - 1) * scaling));
 		}
 		return baseValue;
+	}
 	}
 }

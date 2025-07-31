@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System.Linq;
+using CodeRogue.Buffs;
 
 [GlobalClass]
 public partial class BuffManager : Node

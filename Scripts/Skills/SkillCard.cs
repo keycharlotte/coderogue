@@ -7,8 +7,6 @@ public partial class SkillCard : BaseCard
 {
 	[Export] public SkillType SkillType { get; set; }
 	[Export] public Array<SkillEffect> Effects { get; set; }
-	// 将字符串路径改为直接引用Texture2D资源
-	[Export, Obsolete("使用IconPath属性代替")] public Texture2D Icon { get; set; }
 	
 	public SkillCard()
 	{

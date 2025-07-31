@@ -3,6 +3,7 @@ using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using CodeRogue.Buffs;
 public partial class BuffCalculator : RefCounted
 {
     public static float CalculateProperty(Node target, string property)
