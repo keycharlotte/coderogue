@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://e7f8g9h0i1j2k"]
+
+[ext_resource type="Script" path="res://Scripts/Core/AutoSaveManager.cs" id="1_autosave"]
+
+[node name="AutoSaveManager" type="Node"]
+script = ExtResource("1_autosave")

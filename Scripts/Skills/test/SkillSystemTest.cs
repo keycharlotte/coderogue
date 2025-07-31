@@ -2,7 +2,11 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Skills;
+using CodeRogue.Core;
 
+namespace CodeRogue.Test
+{
 [GlobalClass]
 public partial class SkillSystemTest : Node
 {
@@ -298,4 +302,5 @@ public partial class SkillSystemTest : Node
     {
         RunAllTests();
     }
+}
 }

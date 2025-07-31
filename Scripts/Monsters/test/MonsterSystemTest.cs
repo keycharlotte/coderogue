@@ -2,7 +2,10 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Monsters;
 
+namespace CodeRogue.Test
+{
 /// <summary>
 /// 怪物系统测试类
 /// 用于测试和验证怪物召唤系统的各项功能
@@ -464,4 +467,5 @@ public partial class MonsterSystemTest : Node
     {
         RunAllTests();
     }
+}
 }

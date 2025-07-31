@@ -2,7 +2,10 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 using CodeRogue.UI;
+using CodeRogue.Core;
 
+namespace CodeRogue.Test
+{
 /// <summary>
 /// CardDatabase测试UI - 显示数据库中的所有卡牌并提供过滤、筛选、排序功能
 /// </summary>
@@ -491,4 +494,5 @@ public partial class CardDatabaseTestUI : Control
         
         _statsLabel.Text = $"怪物卡: {filteredMonsters}/{totalMonsters} | 技能卡: {filteredSkills}/{totalSkills}";
     }
+}
 }
