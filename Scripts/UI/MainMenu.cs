@@ -48,8 +48,6 @@ namespace CodeRogue.UI
             {
                 _titleLabel.Text = "Code Rogue";
             }
-
-            BackgroundRect.Texture = ResourceLoader.Load<Texture2D>("res://Art/AssetsTextures/default.png");
         }
         
         private void ConnectSignals()
@@ -126,7 +124,7 @@ namespace CodeRogue.UI
             gameData.ResetToDefaults();
             // 切换到游戏场景
             var gameManager = GetNode<GameManager>("/root/GameManager");
-        gameManager?.StartGame();
+            gameManager?.StartGame();
             // GetTree().ChangeSceneToFile("res://Scenes/Level/BaseLevel.tscn");
         }
         

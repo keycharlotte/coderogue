@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqxvl8ywqxqjy"]
 
-[ext_resource type="Script" path="res://Scripts/UI/SkillTrackUIExample.cs" id="1_example"]
+[ext_resource type="Script" uid="uid://qovua6ni6bif" path="res://Scripts/UI/SkillTrackUIExample.cs" id="1_example"]
 
 [node name="SkillTrackUIExample" type="Node"]
 script = ExtResource("1_example")

@@ -71,6 +71,9 @@ namespace CodeRogue.Core
 			_uiManager = NodeUtils.GetUIManager(this);
 			_audioManager = NodeUtils.GetAudioManager(this);
 			
+			// 激活LevelManager
+			ActivateLevelManager();
+			
 			// 初始化游戏数据
 			if (GameData == null)
 			{
@@ -84,49 +87,48 @@ namespace CodeRogue.Core
 		{
 			CurrentState = GameState.Playing;
 			_uiManager?.ShowGameUI();
-			
-			// 创建并初始化LevelManager
-			CreateLevelManager();
-			
+					
 			// 启动关卡
 			_levelManager?.StartLevel();
 		}
 		
 		/// <summary>
-		/// 创建LevelManager实例
+		/// 激活LevelManager实例
 		/// </summary>
-		private void CreateLevelManager()
+		private void ActivateLevelManager()
 		{
-			// 如果已存在，先销毁
-			DestroyLevelManager();
+			// 通过AutoLoad路径获取LevelManager实例
+			_levelManager = GetNode<LevelManager>("/root/LevelManager");
 			
-			// 创建新的LevelManager实例
-			_levelManager = new LevelManager();
-			
-			// 添加到场景树中
-			AddChild(_levelManager);
-			
-			// 连接LevelManager的信号
-			ConnectLevelManagerSignals();
-			
-			GD.Print("LevelManager created by GameManager");
+			if (_levelManager != null)
+			{
+				// 连接LevelManager的信号
+				ConnectLevelManagerSignals();
+				
+				GD.Print("LevelManager activated by GameManager");
+			}
+			else
+			{
+				GD.PrintErr("Failed to get LevelManager from AutoLoad");
+			}
 		}
 		
 		/// <summary>
-		/// 销毁LevelManager实例
+		/// 重置LevelManager实例
 		/// </summary>
-		private void DestroyLevelManager()
+		private void ResetLevelManager()
 		{
 			if (_levelManager != null)
 			{
 				// 断开信号连接
 				DisconnectLevelManagerSignals();
 				
-				// 从场景树中移除并释放
-				_levelManager.QueueFree();
+				// 重置LevelManager状态（如果有重置方法的话）
+				// _levelManager.Reset();
+				
 				_levelManager = null;
 				
-				GD.Print("LevelManager destroyed by GameManager");
+				GD.Print("LevelManager reset by GameManager");
 			}
 		}
 		
@@ -189,8 +191,8 @@ namespace CodeRogue.Core
 			EmitSignal(SignalName.PlayerDeath);
 			_uiManager?.ShowGameOverScreen();
 			
-			// 游戏结束时销毁LevelManager
-			DestroyLevelManager();
+			// 游戏结束时重置LevelManager
+			ResetLevelManager();
 		}
 		
 		public void RestartGame()
@@ -199,11 +201,11 @@ namespace CodeRogue.Core
 			CurrentState = GameState.Playing;
 			GetTree().Paused = false;
 			
-			// 销毁当前LevelManager
-			DestroyLevelManager();
+			// 重置当前LevelManager
+			ResetLevelManager();
 			
-			// 重新创建LevelManager
-			CreateLevelManager();
+			// 重新激活LevelManager
+			ActivateLevelManager();
 			_levelManager?.StartLevel();
 			
 			// 显示游戏UI
@@ -217,8 +219,8 @@ namespace CodeRogue.Core
 			CurrentState = GameState.Menu;
 			GetTree().Paused = false;
 			
-			// 返回主菜单时销毁LevelManager
-			DestroyLevelManager();
+			// 返回主菜单时重置LevelManager
+			ResetLevelManager();
 			
 			GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 			
@@ -230,8 +232,8 @@ namespace CodeRogue.Core
 			CurrentState = GameState.Menu;
 			GetTree().Paused = false;
 			
-			// 销毁LevelManager
-			DestroyLevelManager();
+			// 重置LevelManager
+			ResetLevelManager();
 			
 			GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 		}

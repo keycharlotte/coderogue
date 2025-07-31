@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://t2ffrcxaux3a"]
+[gd_scene load_steps=16 format=3 uid="uid://t2ffrcxaux3a"]
 
 [ext_resource type="Script" uid="uid://cgsfr7tgawli1" path="res://Scripts/UI/GameUI.cs" id="1_13cgw"]
 [ext_resource type="PackedScene" uid="uid://bo03756c7jc4p" path="res://Scenes/UI/SkillTrackUI.tscn" id="2_71wt1"]
+[ext_resource type="Theme" uid="uid://cv7oremove1qj" path="res://ResourcesThemes/GameUITheme.tres" id="2_xkiwj"]
 
 [sub_resource type="SystemFont" id="SystemFont_13cgw"]
 font_names = PackedStringArray("Arial")
@@ -80,79 +81,85 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_13cgw")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 646.0
+theme = ExtResource("2_xkiwj")
+color = Color(0.560955, 0.560955, 0.560955, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BG"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_right = 860.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme_override_constants/separation = 20
 
-[node name="HealthContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="HealthContainer" type="VBoxContainer" parent="BG/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 
-[node name="HealthLabel" type="Label" parent="HBoxContainer/HealthContainer"]
+[node name="HealthLabel" type="Label" parent="BG/HBoxContainer/HealthContainer"]
 layout_mode = 2
 theme = SubResource("Theme_71wt1")
 text = "100/100"
 horizontal_alignment = 1
 
-[node name="HealthBar" type="ProgressBar" parent="HBoxContainer/HealthContainer"]
+[node name="HealthBar" type="ProgressBar" parent="BG/HBoxContainer/HealthContainer"]
 custom_minimum_size = Vector2(180, 20)
 layout_mode = 2
 theme = SubResource("Theme_fe2yh")
 value = 100.0
 
-[node name="InfoContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="InfoContainer" type="VBoxContainer" parent="BG/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 
-[node name="LevelLabel" type="Label" parent="HBoxContainer/InfoContainer"]
+[node name="LevelLabel" type="Label" parent="BG/HBoxContainer/InfoContainer"]
 layout_mode = 2
 theme = SubResource("Theme_intyv")
 text = "Level: 1"
 
-[node name="ScoreLabel" type="Label" parent="HBoxContainer/InfoContainer"]
+[node name="ScoreLabel" type="Label" parent="BG/HBoxContainer/InfoContainer"]
 layout_mode = 2
 theme = SubResource("Theme_intyv")
 text = "Score: 0"
 
-[node name="DeckButton" type="Button" parent="HBoxContainer"]
+[node name="RelicContainer" type="HBoxContainer" parent="BG/HBoxContainer"]
+custom_minimum_size = Vector2(800, 20)
+layout_mode = 2
+
+[node name="DeckButton" type="Button" parent="BG/HBoxContainer"]
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
 text = "牌库"
 
-[node name="RelicContainer" type="HBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(800, 20)
-layout_mode = 2
-
-[node name="PauseButton" type="Button" parent="."]
+[node name="PauseButton" type="Button" parent="BG"]
 custom_minimum_size = Vector2(80, 40)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -100.0
+offset_left = -95.0
 offset_top = 20.0
-offset_right = -20.0
+offset_right = -15.0
 offset_bottom = 60.0
+grow_horizontal = 0
 theme = SubResource("Theme_ikj5o")
 text = "暂停"
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="BG"]
 layout_mode = 1
-anchor_left = 0.003
-anchor_top = 0.795
-anchor_right = 0.003
-anchor_bottom = 0.795
-offset_left = 0.544
-offset_top = -0.160034
-offset_right = 540.544
-offset_bottom = 127.84
+offset_left = 1.0
+offset_top = 517.0
+offset_right = 541.0
+offset_bottom = 645.0
 
-[node name="DebugInput" type="Label" parent="Control"]
+[node name="DebugInput" type="Label" parent="BG/Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.901
@@ -163,7 +170,7 @@ offset_right = 562.0
 offset_bottom = 2.672
 text = "aaaaaaaaaabbbbbbbbbbb"
 
-[node name="BuffContainer" type="HBoxContainer" parent="Control"]
+[node name="BuffContainer" type="HBoxContainer" parent="BG/Control"]
 layout_mode = 0
 offset_left = -4.0
 offset_top = 30.0
@@ -171,12 +178,12 @@ offset_right = 36.0
 offset_bottom = 70.0
 scale = Vector2(11.844, 0.945171)
 
-[node name="Control2" type="Control" parent="."]
+[node name="Control2" type="Control" parent="BG"]
 anchors_preset = 0
 offset_left = 836.0
 offset_top = 373.0
 offset_right = 1149.0
 offset_bottom = 647.0
 
-[node name="SkillTrackUI" parent="Control2" instance=ExtResource("2_71wt1")]
+[node name="SkillTrackUI" parent="BG/Control2" instance=ExtResource("2_71wt1")]
 layout_mode = 1
