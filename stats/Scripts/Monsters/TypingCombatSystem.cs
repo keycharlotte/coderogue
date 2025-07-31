@@ -3,6 +3,8 @@ using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CodeRogue.Core;
+using CodeRogue.Monsters;
 
 /// <summary>
 /// 打字战斗系统
@@ -393,16 +395,4 @@ public partial class TypingCombatSystem : Node
         // 可以使用Tween或Timer来实现持续时间效果
         // 这里先简单记录，具体实现可以根据需要扩展
     }
-}
-
-/// <summary>
-/// 打字输入记录
-/// </summary>
-[System.Serializable]
-public class TypingInput
-{
-    public string Text { get; set; }
-    public float Timestamp { get; set; }
-    public int CharacterCount { get; set; }
-    public bool IsCorrect { get; set; } = true;
 }

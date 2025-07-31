@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System.Linq;
+using CodeRogue.Data;
 
 [GlobalClass]
 public partial class RelicDropSystem : RefCounted

@@ -3,6 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Heroes;
 
 [GlobalClass]
 public partial class HeroManager : Node

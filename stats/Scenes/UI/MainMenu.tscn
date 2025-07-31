@@ -146,7 +146,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g18y6")
-BackgroundRect = NodePath("TextureRect")
+BackgroundRect = NodePath("")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
@@ -204,10 +204,3 @@ theme = SubResource("Theme_2qihr")
 text = "退出游戏"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 183.0
-offset_right = 305.0
-offset_bottom = 436.0

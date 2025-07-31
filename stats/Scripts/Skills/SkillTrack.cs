@@ -29,19 +29,4 @@ namespace CodeRogue.Skills
         }
     }
 
-    public enum TrackState
-    {
-        Empty,
-        Charging,
-        Ready,
-        Cooldown
-    }
-
-    public enum TrackSource
-    {
-        Skill,
-        Buff,
-        Relic,
-        Hero
-    }
 }
