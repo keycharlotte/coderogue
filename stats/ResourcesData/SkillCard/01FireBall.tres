@@ -1,23 +1,54 @@
-[gd_resource type="Resource" script_class="SkillCard" load_steps=5 format=3 uid="uid://diicgwm0vbu27"]
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://diicgwm0vbu27"]
 
-[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/CardTag/xihuan.tres" id="1_bhuw8"]
 [ext_resource type="Script" uid="uid://ba751fit8geao" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
-[ext_resource type="Texture2D" uid="uid://b7cxn4uyrweuw" path="res://Art/AssetsTextures/123.png" id="1_docfo"]
-[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/CardTag/jichu.tres" id="2_docfo"]
+[ext_resource type="Script" uid="uid://bp32wwi0vvo26" path="res://Scripts/Skills/data/SkillEffect.cs" id="2_effect"]
+[ext_resource type="Script" uid="uid://dl4wdpa76hxd2" path="res://Scripts/Skills/data/CardTag.cs" id="3_7qyre"]
+[ext_resource type="Script" uid="uid://b42dob1pdv5af" path="res://Scripts/Skills/data/SkillLevelData.cs" id="3_leveldata"]
+[ext_resource type="Resource" uid="uid://byreuqvbx2dxw" path="res://ResourcesData/CardTag/xihuan.tres" id="5_tag1"]
+[ext_resource type="Resource" uid="uid://du27uktbdwxir" path="res://ResourcesData/CardTag/jichu.tres" id="6_tag2"]
+
+[sub_resource type="Resource" id="Resource_damage_effect"]
+script = ExtResource("2_effect")
+Type = 0
+TargetProperty = "Health"
+Value = 80.0
+Duration = 0.0
+Parameters = {}
+
+[sub_resource type="Resource" id="Resource_level1"]
+script = ExtResource("3_leveldata")
+Level = 1
+ChargeCost = 100
+EffectValues = Array[float]([80.0])
+LevelDescription = "基础火球术，造成80点伤害"
+
+[sub_resource type="Resource" id="Resource_level2"]
+script = ExtResource("3_leveldata")
+Level = 2
+ChargeCost = 90
+EffectValues = Array[float]([100.0])
+LevelDescription = "强化火球术，造成100点伤害，消耗减少"
+
+[sub_resource type="Resource" id="Resource_level3"]
+script = ExtResource("3_leveldata")
+Level = 3
+ChargeCost = 80
+EffectValues = Array[float]([120.0])
+LevelDescription = "精通火球术，造成120点伤害，消耗进一步减少"
 
 [resource]
 script = ExtResource("1_crrrm")
+SkillType = 0
+Effects = Array[Resource]([SubResource("Resource_damage_effect")])
+LevelData = Array[Resource]([SubResource("Resource_level1"), SubResource("Resource_level2"), SubResource("Resource_level3")])
 Id = 1
-Name = "FireBall"
-Description = "发射一枚火�?
-Type = 0
+CardName = "火球术"
+Description = "发射一枚火球，对敌人造成火焰伤害"
+CardType = 1
 Rarity = 0
-ChargeCost = 100
+Cost = 100
 Level = 1
-Tags = Array[Object]([ExtResource("1_bhuw8"), ExtResource("2_docfo")])
-Effects = Array[Object]([null])
-Icon = ExtResource("1_docfo")
-IconPath = "res://Art/AssetsTextures/FireBall.jpg"
-RarityColor = Color(0, 0, 0, 0)
-LevelData = Array[Object]([null, null])
-metadata/_custom_type_script = "uid://ba751fit8geao"
+IconPath = "res://Art/AssetsTextures/123.png"
+RarityColor = Color(1, 1, 1, 1)
+ColorRequirements = Array[int]([])
+Tags = Array[ExtResource("3_7qyre")]([ExtResource("5_tag1"), ExtResource("6_tag2")])

@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://dqhqjqjqjqjqj"]
+
+[ext_resource type="Script" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
+[ext_resource type="Script" path="res://Scripts/Skills/data/SkillEffect.cs" id="2_effect"]
+[ext_resource type="Script" path="res://Scripts/Skills/data/SkillLevelData.cs" id="3_leveldata"]
+[ext_resource type="Texture2D" path="res://Art/AssetsTextures/123.png" id="4_icon"]
+[ext_resource type="Resource" path="res://ResourcesData/CardTag/xihuan.tres" id="5_tag1"]
+[ext_resource type="Resource" path="res://ResourcesData/CardTag/jichu.tres" id="6_tag2"]
+
+[sub_resource type="Resource" id="Resource_lightning_damage"]
+script = ExtResource("2_effect")
+Type = 0
+TargetProperty = "Health"
+Value = 120.0
+Duration = 0.0
+Parameters = {}
+
+[sub_resource type="Resource" id="Resource_lightning_stun"]
+script = ExtResource("2_effect")
+Type = 4
+TargetProperty = "Stun"
+Value = 1.0
+Duration = 2.0
+Parameters = {}
+
+[sub_resource type="Resource" id="Resource_level1"]
+script = ExtResource("3_leveldata")
+Level = 1
+ChargeCost = 160
+EffectValues = Array[float]([120.0, 2.0])
+LevelDescription = "闪电攻击，造成120点伤害并眩晕2秒"
+
+[sub_resource type="Resource" id="Resource_level2"]
+script = ExtResource("3_leveldata")
+Level = 2
+ChargeCost = 150
+EffectValues = Array[float]([150.0, 2.5])
+LevelDescription = "强化闪电，造成150点伤害并眩晕2.5秒"
+
+[sub_resource type="Resource" id="Resource_level3"]
+script = ExtResource("3_leveldata")
+Level = 3
+ChargeCost = 140
+EffectValues = Array[float]([180.0, 3.0])
+LevelDescription = "精通闪电，造成180点伤害并眩晕3秒"
+
+[resource]
+script = ExtResource("1_crrrm")
+Id = 5
+CardName = "闪电术"
+Description = "召唤闪电攻击敌人，造成高额伤害并眩晕目标"
+CardType = 1
+Rarity = 1
+Cost = 160
+Level = 1
+IconPath = "res://Art/AssetsTextures/123.png"
+RarityColor = Color(0, 1, 0, 1)
+ColorRequirements = Array[int]([])
+Tags = Array[Resource]([ExtResource("5_tag1"), ExtResource("6_tag2")])
+SkillType = 0
+Effects = Array[Resource]([SubResource("Resource_lightning_damage"), SubResource("Resource_lightning_stun")])
+LevelData = Array[Resource]([SubResource("Resource_level1"), SubResource("Resource_level2"), SubResource("Resource_level3")])

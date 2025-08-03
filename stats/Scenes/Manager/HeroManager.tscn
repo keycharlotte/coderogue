@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://i4e3d2c1b0ba"]
+[gd_scene load_steps=4 format=3 uid="uid://i4e3d2c1b0ba"]
 
 [ext_resource type="Script" uid="uid://mi5hdu0ipc77" path="res://Scripts/Heroes/HeroManager.cs" id="1_8x8qr"]
+[ext_resource type="Script" uid="uid://5mc5ux5l15pf" path="res://Scripts/Heroes/SpecialTraitProcessor.cs" id="2_6h4n7"]
+[ext_resource type="Script" uid="uid://cqugc2ub1fq4i" path="res://Scripts/Heroes/SoulLinkSystem.cs" id="2_auqyf"]
 
-[node name="HeroManager" type="Node"]
+[node name="HeroManager" type="Node" node_paths=PackedStringArray("SoulLinkSystem", "TraitProcessor")]
 script = ExtResource("1_8x8qr")
+SoulLinkSystem = NodePath("SoulLinkSystem")
+TraitProcessor = NodePath("SpecialTraitProcessor")
+
+[node name="SoulLinkSystem" type="Node" parent="."]
+script = ExtResource("2_auqyf")
+
+[node name="SpecialTraitProcessor" type="Node" parent="."]
+script = ExtResource("2_6h4n7")

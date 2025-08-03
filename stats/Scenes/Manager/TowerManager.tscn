@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dopgdua1rhke2"]
+
+[ext_resource type="Script" uid="uid://eq6vgfw1mlu" path="res://Scripts/Tower/TowerManager.cs" id="1_8k9xh"]
+
+[node name="TowerManager" type="Node"]
+script = ExtResource("1_8k9xh")

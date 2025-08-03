@@ -28,12 +28,12 @@ namespace CodeRogue.UI
 		private void InitializeUI()
 		{
 			// 获取UI节点
-			_healthBar = GetNode<ProgressBar>("HBoxContainer/HealthContainer/HealthBar");
-			_healthLabel = GetNode<Label>("HBoxContainer/HealthContainer/HealthLabel");
-			_levelLabel = GetNode<Label>("HBoxContainer/InfoContainer/LevelLabel");
-			_scoreLabel = GetNode<Label>("HBoxContainer/InfoContainer/ScoreLabel");
-			_pauseButton = GetNode<Button>("PauseButton");
-			_deckButton = GetNode<Button>("HBoxContainer/DeckButton");
+			_healthBar = GetNode<ProgressBar>("BG/HBoxContainer/HealthContainer/HealthBar");
+			_healthLabel = GetNode<Label>("BG/HBoxContainer/HealthContainer/HealthLabel");
+			_levelLabel = GetNode<Label>("BG/HBoxContainer/InfoContainer/LevelLabel");
+			_scoreLabel = GetNode<Label>("BG/HBoxContainer/InfoContainer/ScoreLabel");
+			_pauseButton = GetNode<Button>("BG/PauseButton");
+			_deckButton = GetNode<Button>("BG/HBoxContainer/DeckButton");
 		}
 		
 		private void ConnectSignals()

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c9k4m5n6p7q8r"]
+[gd_scene load_steps=2 format=3 uid="uid://dak4m5n6p7q8r"]
 
-[ext_resource type="Script" path="res://Scripts/Monsters/MonsterManager.cs" id="1_monster"]
+[ext_resource type="Script" uid="uid://vmtieh7faebq" path="res://Scripts/Monsters/MonsterManager.cs" id="1_monster"]
 
 [node name="MonsterManager" type="Node"]
 script = ExtResource("1_monster")
