@@ -15,8 +15,8 @@ public partial class HeroManager : Node
 	
 	private Godot.Collections.Dictionary<string, HeroInstance> _ownedHeroes;
 	private Godot.Collections.Dictionary<int, HeroConfig> _heroConfigs;
-	private SoulLinkSystem _soulLinkSystem;
-	private SpecialTraitProcessor _traitProcessor;
+	[Export] public SoulLinkSystem SoulLinkSystem { get; private set; }
+	[Export] public SpecialTraitProcessor TraitProcessor { get; private set; }
 	private RaritySystem _raritySystem;
 	
 	public override void _Ready()
@@ -29,9 +29,6 @@ public partial class HeroManager : Node
 		_ownedHeroes = new Godot.Collections.Dictionary<string, HeroInstance>();
 		_heroConfigs = new Godot.Collections.Dictionary<int, HeroConfig>();
 		
-		// 获取子系统
-		_soulLinkSystem = GetNode<SoulLinkSystem>("SoulLinkSystem");
-		_traitProcessor = GetNode<SpecialTraitProcessor>("SpecialTraitProcessor");
 		_raritySystem = RaritySystem.Instance;
 		
 		LoadHeroDatabase();

@@ -1,0 +1,155 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8y7qkqxsabxv"]
+
+[ext_resource type="Script" uid="uid://bbfoy1rn7c8g8" path="res://Scripts/Tower/Test/TowerTestScene.cs" id="1_2k3v4"]
+[ext_resource type="PackedScene" uid="uid://bxqvn8y7qkqxr" path="res://Scenes/Tower/TowerUI.tscn" id="2_3k4v5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3"]
+font_size = 14
+
+[node name="TowerTestScene" type="Control" node_paths=PackedStringArray("TowerUI", "DebugPanel", "GenerateLinearMapButton", "DebugInfoLabel", "DebugModeCheckBox")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2k3v4")
+TowerUI = NodePath("MainContainer/TowerUIContainer/TowerUI")
+DebugPanel = NodePath("MainContainer/DebugInfoPanel/DebugInfoContainer")
+GenerateLinearMapButton = NodePath("MainContainer/ControlPanel/ControlContainer/ButtonContainer/GenerateMapButton")
+DebugInfoLabel = NodePath("MainContainer/DebugInfoPanel/DebugInfoContainer/DebugScrollContainer/DebugTextLabel")
+DebugModeCheckBox = NodePath("MainContainer/TitlePanel/TitleContainer/DebugModeCheckBox")
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitlePanel" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TitleContainer" type="HBoxContainer" parent="MainContainer/TitlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="MainContainer/TitlePanel/TitleContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "爬塔系统测试场景"
+label_settings = SubResource("LabelSettings_1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugModeCheckBox" type="CheckBox" parent="MainContainer/TitlePanel/TitleContainer"]
+layout_mode = 2
+button_pressed = true
+text = "调试模式"
+
+[node name="TowerUIContainer" type="Control" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TowerUI" parent="MainContainer/TowerUIContainer" instance=ExtResource("2_3k4v5")]
+layout_mode = 1
+
+[node name="ControlPanel" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ControlContainer" type="VBoxContainer" parent="MainContainer/ControlPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MainContainer/ControlPanel/ControlContainer"]
+layout_mode = 2
+
+[node name="GenerateMapButton" type="Button" parent="MainContainer/ControlPanel/ControlContainer/ButtonContainer"]
+layout_mode = 2
+text = "生成地图"
+
+[node name="ClearMapButton" type="Button" parent="MainContainer/ControlPanel/ControlContainer/ButtonContainer"]
+layout_mode = 2
+text = "清空地图"
+
+[node name="TestAllButton" type="Button" parent="MainContainer/ControlPanel/ControlContainer/ButtonContainer"]
+layout_mode = 2
+text = "测试所有功能"
+
+[node name="Spacer" type="Control" parent="MainContainer/ControlPanel/ControlContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExitButton" type="Button" parent="MainContainer/ControlPanel/ControlContainer/ButtonContainer"]
+layout_mode = 2
+text = "退出测试"
+
+[node name="StatusContainer" type="HBoxContainer" parent="MainContainer/ControlPanel/ControlContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MainContainer/ControlPanel/ControlContainer/StatusContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "状态: 就绪"
+label_settings = SubResource("LabelSettings_2")
+
+[node name="DebugInfoPanel" type="Panel" parent="MainContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="DebugInfoContainer" type="VBoxContainer" parent="MainContainer/DebugInfoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DebugTitle" type="Label" parent="MainContainer/DebugInfoPanel/DebugInfoContainer"]
+layout_mode = 2
+text = "调试信息"
+label_settings = SubResource("LabelSettings_2")
+horizontal_alignment = 1
+
+[node name="DebugScrollContainer" type="ScrollContainer" parent="MainContainer/DebugInfoPanel/DebugInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DebugTextLabel" type="Label" parent="MainContainer/DebugInfoPanel/DebugInfoContainer/DebugScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "调试信息将在这里显示..."
+label_settings = SubResource("LabelSettings_3")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

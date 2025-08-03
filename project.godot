@@ -17,28 +17,24 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-# GameData - 游戏核心数据，必须最先加载
 GameData="*res://Scripts/Core/data/GameData.cs"
-
-# Database类 - 配置数据库，在Manager之前加载
 CardDatabase="*res://Scripts/Core/CardDatabase.cs"
 BuffDatabase="*res://Scripts/Buffs/BuffDatabase.cs"
 HeroDatabase="*res://Scripts/Heroes/HeroDatabase.cs"
 RelicDatabase="*res://Scripts/Relics/RelicDatabase.cs"
-
-# Manager类 - 业务逻辑管理器，最后加载
 GameManager="*res://Scenes/Manager/GameManager.tscn"
 AudioManager="*res://Scenes/Manager/AudioManager.tscn"
 InputManager="*res://Scenes/Manager/InputManager.tscn"
+SkillTrackManager="*res://Scenes/Manager/SkillTrackManager.tscn"
 UIManager="*res://Scenes/Manager/UIManager.tscn"
 ConfigManager="*res://Scenes/Manager/ConfigManager.tscn"
 WordManager="*res://Scenes/Manager/WordManager.tscn"
-SkillTrackManager="*res://Scenes/Manager/SkillTrackManager.tscn"
 DeckManager="*res://Scenes/Manager/DeckManager.tscn"
 BuffManager="*res://Scenes/Manager/BuffManager.tscn"
 RelicManager="*res://Scenes/Manager/RelicManager.tscn"
 LevelManager="*res://Scenes/Manager/LevelManager.tscn"
 HeroManager="*res://Scenes/Manager/HeroManager.tscn"
+TowerManager="*res://Scenes/Manager/TowerManager.tscn"
 
 [dotnet]
 

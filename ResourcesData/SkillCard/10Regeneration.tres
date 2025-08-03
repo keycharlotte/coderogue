@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://cqhqjqjqjqjqj"]
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://0n0dmo8fcr70"]
 
 [ext_resource type="Script" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
 [ext_resource type="Script" path="res://Scripts/Skills/data/SkillEffect.cs" id="2_effect"]
@@ -7,48 +7,48 @@
 [ext_resource type="Resource" path="res://ResourcesData/CardTag/xihuan.tres" id="5_tag1"]
 [ext_resource type="Resource" path="res://ResourcesData/CardTag/jichu.tres" id="6_tag2"]
 
-[sub_resource type="Resource" id="Resource_heal_effect"]
+[sub_resource type="Resource" id="Resource_regen_effect"]
 script = ExtResource("2_effect")
 Type = 1
 TargetProperty = "Health"
-Value = 60.0
-Duration = 0.0
-Parameters = {}
+Value = 5.0
+Duration = 20.0
+Parameters = {"heal_over_time": true, "interval": 1.0}
 
 [sub_resource type="Resource" id="Resource_level1"]
 script = ExtResource("3_leveldata")
 Level = 1
-ChargeCost = 100
-EffectValues = Array[float]([60.0])
-LevelDescription = "基础治疗，恢复60点生命值"
+ChargeCost = 120
+EffectValues = Array[float]([5.0, 20.0])
+LevelDescription = "再生术，每秒恢复5点生命值持续20秒"
 
 [sub_resource type="Resource" id="Resource_level2"]
 script = ExtResource("3_leveldata")
 Level = 2
-ChargeCost = 90
-EffectValues = Array[float]([80.0])
-LevelDescription = "强化治疗，恢复80点生命值，消耗减少"
+ChargeCost = 110
+EffectValues = Array[float]([7.0, 25.0])
+LevelDescription = "强化再生，每秒恢复7点生命值持续25秒"
 
 [sub_resource type="Resource" id="Resource_level3"]
 script = ExtResource("3_leveldata")
 Level = 3
-ChargeCost = 80
-EffectValues = Array[float]([100.0])
-LevelDescription = "精通治疗，恢复100点生命值，消耗进一步减少"
+ChargeCost = 100
+EffectValues = Array[float]([10.0, 30.0])
+LevelDescription = "精通再生，每秒恢复10点生命值持续30秒"
 
 [resource]
 script = ExtResource("1_crrrm")
-Id = 4
-CardName = "治疗术"
-Description = "恢复生命值，治愈伤痛"
+Id = 10
+CardName = "再生术"
+Description = "持续恢复生命值，提供长期治疗效果"
 CardType = 1
-Rarity = 0
-Cost = 100
+Rarity = 1
+Cost = 120
 Level = 1
 IconPath = "res://Art/AssetsTextures/123.png"
-RarityColor = Color(1, 1, 1, 1)
+RarityColor = Color(0, 1, 0, 1)
 ColorRequirements = Array[int]([])
 Tags = Array[Resource]([ExtResource("5_tag1"), ExtResource("6_tag2")])
 SkillType = 1
-Effects = Array[Resource]([SubResource("Resource_heal_effect")])
+Effects = Array[Resource]([SubResource("Resource_regen_effect")])
 LevelData = Array[Resource]([SubResource("Resource_level1"), SubResource("Resource_level2"), SubResource("Resource_level3")])

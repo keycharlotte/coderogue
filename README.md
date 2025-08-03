@@ -1,4 +1,4 @@
-﻿<!-- STATS_BADGES_START -->
+<!-- STATS_BADGES_START -->
 ![Classes](https://img.shields.io/badge/Classes-127-blue?style=flat-square)
 ![Lines of Code](https://img.shields.io/badge/Lines_of_Code-18256-green?style=flat-square)
 ![C# Files](https://img.shields.io/badge/C%23_Files-132-orange?style=flat-square)
@@ -42,9 +42,9 @@
 
 详细使用说明请参考 [可视化指南](VISUALIZATION_GUIDE.md)。
 
-# CodeRogue
+# CodeRogue: 赛博修仙
 
-一个基于Godot 4.4和C#开发的Roguelike游戏项目。
+一个基于Godot 4.4和C#开发的赛博修仙Roguelike游戏项目。融合传统修仙文化与赛博朋克科技，打造独特的阴阳五行修炼卡牌体验。
 
 ## 项目结构
 CodeRogue/
@@ -77,12 +77,13 @@ CodeRogue/
 
 ## 核心特性
 
-- 模块化架构设计
-- 组件化系统
-- AI友好的代码结构
-- 完整的游戏状态管理
-- 可扩展的敌人AI系统
-- 自动化项目统计和可视化
+- **阴阳五行修炼体系**：基于金木水火土五行相生相克的修炼卡牌系统
+- **赛博修仙世界观**：传统修仙文化与未来科技的完美融合
+- **职业修炼系统**：剑修、法修、体修、丹修、阵修五大修炼职业
+- **51层修仙高塔**：从凡俗层到天机层的终极挑战
+- **灵力与科技融合**：传统灵力修炼与赛博科技改造并存
+- **模块化架构设计**：清晰的代码结构，便于扩展和维护
+- **AI友好的代码结构**：完整的注释文档和标准设计模式
 
 ## 开始开发
 

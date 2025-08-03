@@ -1,0 +1,208 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxqvn8y7qkqxr"]
+
+[ext_resource type="Script" uid="uid://cw5f3q1r0dgxe" path="res://Scripts/Tower/UI/TowerUI.cs" id="1_1k2v3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1"]
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_2"]
+font_size = 14
+
+[node name="TowerUI" type="Control" node_paths=PackedStringArray("MapContainer", "NodeInfoPanel", "FloorInfoPanel", "ProgressPanel", "MapScrollContainer", "RegenerateMapButton", "FloorSelector", "CurrentFloorLabel", "FloorTypeLabel", "FloorProgressBar", "NodeDescriptionLabel", "NodeTypeLabel", "NodeStatusLabel", "NodeConnectionsList", "EnterNodeButton", "MapViewport")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1k2v3")
+MapContainer = NodePath("MainContainer/MapSection/MapDisplayPanel/MapScrollContainer/MapViewport")
+NodeInfoPanel = NodePath("MainContainer/InfoSection/NodeInfoPanel")
+FloorInfoPanel = NodePath("MainContainer/MapSection/FloorInfoPanel")
+ProgressPanel = NodePath("MainContainer/InfoSection/ProgressPanel")
+MapScrollContainer = NodePath("MainContainer/MapSection/MapDisplayPanel/MapScrollContainer")
+RegenerateMapButton = NodePath("MainContainer/MapSection/ControlPanel/RegenerateMapButton")
+FloorSelector = NodePath("MainContainer/MapSection/ControlPanel/FloorSelector")
+CurrentFloorLabel = NodePath("MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer/FloorInfoLeft/CurrentFloorLabel")
+FloorTypeLabel = NodePath("MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer/FloorInfoLeft/FloorTypeLabel")
+FloorProgressBar = NodePath("MainContainer/InfoSection/ProgressPanel/ProgressContainer/ProgressStats/FloorProgressBar")
+NodeDescriptionLabel = NodePath("MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/NodeDescriptionLabel")
+NodeTypeLabel = NodePath("MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/NodeTypeLabel")
+NodeStatusLabel = NodePath("MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/NodeStatusLabel")
+NodeConnectionsList = NodePath("MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/NodeConnectionsList")
+EnterNodeButton = NodePath("MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/ActionContainer/EnterNodeButton")
+MapViewport = NodePath("MainContainer/MapSection/MapDisplayPanel/MapScrollContainer/MapViewport")
+
+[node name="MainContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 800
+
+[node name="MapSection" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ControlPanel" type="HBoxContainer" parent="MainContainer/MapSection"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FloorSelector" type="OptionButton" parent="MainContainer/MapSection/ControlPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RegenerateMapButton" type="Button" parent="MainContainer/MapSection/ControlPanel"]
+layout_mode = 2
+text = "重新生成地图"
+
+[node name="FloorInfoPanel" type="Panel" parent="MainContainer/MapSection"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FloorInfoContainer" type="HBoxContainer" parent="MainContainer/MapSection/FloorInfoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FloorInfoLeft" type="VBoxContainer" parent="MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CurrentFloorLabel" type="Label" parent="MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer/FloorInfoLeft"]
+layout_mode = 2
+text = "第1层"
+label_settings = SubResource("LabelSettings_1")
+
+[node name="FloorTypeLabel" type="Label" parent="MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer/FloorInfoLeft"]
+layout_mode = 2
+text = "凡俗层"
+
+[node name="FloorInfoRight" type="VBoxContainer" parent="MainContainer/MapSection/FloorInfoPanel/FloorInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MapDisplayPanel" type="Panel" parent="MainContainer/MapSection"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MapScrollContainer" type="ScrollContainer" parent="MainContainer/MapSection/MapDisplayPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapViewport" type="Control" parent="MainContainer/MapSection/MapDisplayPanel/MapScrollContainer"]
+custom_minimum_size = Vector2(1000, 1000)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InfoSection" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NodeInfoPanel" type="Panel" parent="MainContainer/InfoSection"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NodeInfoContainer" type="VBoxContainer" parent="MainContainer/InfoSection/NodeInfoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NodeInfoTitle" type="Label" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+text = "节点信息"
+label_settings = SubResource("LabelSettings_1")
+horizontal_alignment = 1
+
+[node name="NodeTypeLabel" type="Label" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+text = "节点类型: 未选择"
+
+[node name="NodeStatusLabel" type="Label" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+text = "状态: 未选择"
+
+[node name="NodeDescriptionLabel" type="RichTextLabel" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "描述: 请选择一个节点查看详细信息"
+fit_content = true
+
+[node name="ConnectionsTitle" type="Label" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+text = "连接节点:"
+label_settings = SubResource("LabelSettings_2")
+
+[node name="NodeConnectionsList" type="VBoxContainer" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionContainer" type="HBoxContainer" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="EnterNodeButton" type="Button" parent="MainContainer/InfoSection/NodeInfoPanel/NodeInfoContainer/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "进入节点"
+
+[node name="ProgressPanel" type="Panel" parent="MainContainer/InfoSection"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ProgressContainer" type="VBoxContainer" parent="MainContainer/InfoSection/ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressTitle" type="Label" parent="MainContainer/InfoSection/ProgressPanel/ProgressContainer"]
+layout_mode = 2
+text = "进度统计"
+label_settings = SubResource("LabelSettings_1")
+horizontal_alignment = 1
+
+[node name="ProgressStats" type="VBoxContainer" parent="MainContainer/InfoSection/ProgressPanel/ProgressContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FloorProgressBar" type="ProgressBar" parent="MainContainer/InfoSection/ProgressPanel/ProgressContainer/ProgressStats"]
+layout_mode = 2
+show_percentage = false
+
+[node name="ProgressStatsLabel" type="Label" parent="MainContainer/InfoSection/ProgressPanel/ProgressContainer/ProgressStats"]
+layout_mode = 2
+text = "楼层进度: 0/0"
+horizontal_alignment = 1

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://cqhqjqjqjqjqj"]
+[gd_resource type="Resource" script_class="SkillCard" load_steps=11 format=3 uid="uid://bqhqjqjqjqjqj"]
 
 [ext_resource type="Script" path="res://Scripts/Skills/SkillCard.cs" id="1_crrrm"]
 [ext_resource type="Script" path="res://Scripts/Skills/data/SkillEffect.cs" id="2_effect"]
@@ -7,48 +7,56 @@
 [ext_resource type="Resource" path="res://ResourcesData/CardTag/xihuan.tres" id="5_tag1"]
 [ext_resource type="Resource" path="res://ResourcesData/CardTag/jichu.tres" id="6_tag2"]
 
-[sub_resource type="Resource" id="Resource_heal_effect"]
+[sub_resource type="Resource" id="Resource_ice_damage"]
 script = ExtResource("2_effect")
-Type = 1
+Type = 0
 TargetProperty = "Health"
-Value = 60.0
+Value = 80.0
 Duration = 0.0
+Parameters = {}
+
+[sub_resource type="Resource" id="Resource_ice_slow"]
+script = ExtResource("2_effect")
+Type = 3
+TargetProperty = "Speed"
+Value = 0.5
+Duration = 3.0
 Parameters = {}
 
 [sub_resource type="Resource" id="Resource_level1"]
 script = ExtResource("3_leveldata")
 Level = 1
-ChargeCost = 100
-EffectValues = Array[float]([60.0])
-LevelDescription = "基础治疗，恢复60点生命值"
+ChargeCost = 120
+EffectValues = Array[float]([80.0, 0.5])
+LevelDescription = "冰霜箭矢，造成80点伤害并减速50%持续3秒"
 
 [sub_resource type="Resource" id="Resource_level2"]
 script = ExtResource("3_leveldata")
 Level = 2
-ChargeCost = 90
-EffectValues = Array[float]([80.0])
-LevelDescription = "强化治疗，恢复80点生命值，消耗减少"
+ChargeCost = 110
+EffectValues = Array[float]([100.0, 0.4])
+LevelDescription = "强化冰霜箭矢，造成100点伤害并减速60%持续3秒"
 
 [sub_resource type="Resource" id="Resource_level3"]
 script = ExtResource("3_leveldata")
 Level = 3
-ChargeCost = 80
-EffectValues = Array[float]([100.0])
-LevelDescription = "精通治疗，恢复100点生命值，消耗进一步减少"
+ChargeCost = 100
+EffectValues = Array[float]([120.0, 0.3])
+LevelDescription = "精通冰霜箭矢，造成120点伤害并减速70%持续3秒"
 
 [resource]
 script = ExtResource("1_crrrm")
-Id = 4
-CardName = "治疗术"
-Description = "恢复生命值，治愈伤痛"
+Id = 3
+CardName = "冰霜箭"
+Description = "发射冰霜箭矢，造成伤害并减缓敌人移动速度"
 CardType = 1
 Rarity = 0
-Cost = 100
+Cost = 120
 Level = 1
 IconPath = "res://Art/AssetsTextures/123.png"
 RarityColor = Color(1, 1, 1, 1)
 ColorRequirements = Array[int]([])
 Tags = Array[Resource]([ExtResource("5_tag1"), ExtResource("6_tag2")])
-SkillType = 1
-Effects = Array[Resource]([SubResource("Resource_heal_effect")])
+SkillType = 0
+Effects = Array[Resource]([SubResource("Resource_ice_damage"), SubResource("Resource_ice_slow")])
 LevelData = Array[Resource]([SubResource("Resource_level1"), SubResource("Resource_level2"), SubResource("Resource_level3")])
