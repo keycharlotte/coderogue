@@ -22,6 +22,7 @@ CardDatabase="*res://Scripts/Core/CardDatabase.cs"
 BuffDatabase="*res://Scripts/Buffs/BuffDatabase.cs"
 HeroDatabase="*res://Scripts/Heroes/HeroDatabase.cs"
 RelicDatabase="*res://Scripts/Relics/RelicDatabase.cs"
+AchievementDatabase="*res://Scenes/Manager/AchievementDatabase.tscn"
 GameManager="*res://Scenes/Manager/GameManager.tscn"
 AudioManager="*res://Scenes/Manager/AudioManager.tscn"
 InputManager="*res://Scenes/Manager/InputManager.tscn"
@@ -35,6 +36,7 @@ RelicManager="*res://Scenes/Manager/RelicManager.tscn"
 LevelManager="*res://Scenes/Manager/LevelManager.tscn"
 HeroManager="*res://Scenes/Manager/HeroManager.tscn"
 TowerManager="*res://Scenes/Manager/TowerManager.tscn"
+AchievementManager="*res://Scenes/Manager/AchievementManager.tscn"
 
 [dotnet]
 
@@ -42,7 +44,7 @@ project/assembly_name="CodeRogue"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/resource_data_exporter/plugin.cfg")
+enabled=PackedStringArray("res://Addons/resource_data_exporter/plugin.cfg")
 
 [file_customization]
 

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://cv7oremove1qj"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://cv7oremove1qj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouyse"]
 content_margin_left = 12.0
@@ -95,29 +95,113 @@ content_margin_bottom = 12.0
 bg_color = Color(0.45, 0.45, 0.45, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76abw"]
-bg_color = Color(0.85, 0.85, 0.85, 1)
+bg_color = Color(0.925, 0.941, 0.945, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_bg"]
+bg_color = Color(0.741, 0.765, 0.780, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
+bg_color = Color(0.290, 0.565, 0.886, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scroll_bg"]
+bg_color = Color(0.925, 0.941, 0.945, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scroll_grabber"]
+bg_color = Color(0.290, 0.565, 0.886, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lineedit"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.741, 0.765, 0.780, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lineedit_focus"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.290, 0.565, 0.886, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_selected"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.290, 0.565, 0.886, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 0
+border_color = Color(0.290, 0.565, 0.886, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+
 [resource]
-Button/colors/font_color = Color(0.2, 0.2, 0.2, 1)
+Button/colors/font_color = Color(0.173, 0.243, 0.314, 1)
 Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_ouyse")
 Button/styles/normal = SubResource("StyleBoxFlat_5bphu")
 Button/styles/pressed = SubResource("StyleBoxFlat_ouyse")
-CheckBox/colors/font_color = Color(0.2, 0.2, 0.2, 1)
+CheckBox/colors/font_color = Color(0.173, 0.243, 0.314, 1)
 CheckBox/styles/normal = SubResource("StyleBoxFlat_wy24t")
 CheckBox/styles/pressed = SubResource("StyleBoxFlat_j4aja")
+ColorRect/colors/color = Color(0.925, 0.941, 0.945, 1)
+Control/colors/font_color = Color(0.173, 0.243, 0.314, 1)
 DarkPanel/styles/panel = SubResource("StyleBoxFlat_pk8un")
-GridContainer/constants/h_separation = 2
-GridContainer/constants/v_separation = 2
+GridContainer/constants/h_separation = 8
+GridContainer/constants/v_separation = 8
+HBoxContainer/constants/separation = 8
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_ja7d1")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ja7d1")
 HSlider/styles/slider = SubResource("StyleBoxFlat_10hko")
-Label/colors/font_color = Color(0.2, 0.2, 0.2, 1)
+HSeparator/constants/separation = 4
+HSeparator/styles/separator = SubResource("StyleBoxFlat_10hko")
+Label/colors/font_color = Color(0.173, 0.243, 0.314, 1)
+LineEdit/colors/font_color = Color(0.173, 0.243, 0.314, 1)
+LineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
+LineEdit/colors/selection_color = Color(0.290, 0.565, 0.886, 0.5)
+LineEdit/styles/focus = SubResource("StyleBoxFlat_lineedit_focus")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_lineedit")
 MenuButton/colors/font_color = Color(1, 1, 1, 1)
 MenuButton/colors/font_hover_color = Color(1, 1, 1, 1)
 MenuButton/colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -125,5 +209,24 @@ MenuButton/styles/hover = SubResource("StyleBoxFlat_pju87")
 MenuButton/styles/normal = SubResource("StyleBoxFlat_741b2")
 MenuButton/styles/pressed = SubResource("StyleBoxFlat_5vvqm")
 MenuLabel/colors/font_color = Color(1, 1, 1, 1)
+OptionButton/colors/font_color = Color(0.173, 0.243, 0.314, 1)
+OptionButton/colors/font_hover_color = Color(1, 1, 1, 1)
+OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+OptionButton/styles/hover = SubResource("StyleBoxFlat_ouyse")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_5bphu")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_ouyse")
 Panel/styles/panel = SubResource("StyleBoxFlat_76abw")
-TitleLabel/colors/font_color = Color(0.2, 0.2, 0.2, 1)
+ProgressBar/colors/font_color = Color(0.173, 0.243, 0.314, 1)
+ProgressBar/styles/background = SubResource("StyleBoxFlat_progress_bg")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_progress_fill")
+RichTextLabel/colors/default_color = Color(0.173, 0.243, 0.314, 1)
+ScrollContainer/styles/bg = SubResource("StyleBoxFlat_scroll_bg")
+TabContainer/colors/font_selected_color = Color(1, 1, 1, 1)
+TabContainer/colors/font_unselected_color = Color(0.173, 0.243, 0.314, 1)
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_tab_selected")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_5bphu")
+TextureRect/colors/modulate = Color(1, 1, 1, 1)
+TitleLabel/colors/font_color = Color(0.173, 0.243, 0.314, 1)
+VBoxContainer/constants/separation = 8
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = SubResource("StyleBoxFlat_10hko")
