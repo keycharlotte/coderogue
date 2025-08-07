@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CodeRogue.Heroes;
+using CodeRogue.Data;
+using CodeRogue.Utils;
 
 [GlobalClass]
 public partial class HeroManager : Node
@@ -37,7 +39,7 @@ public partial class HeroManager : Node
 	
 	private void LoadHeroDatabase()
 	{
-		var database = GetNode<HeroDatabase>("/root/HeroDatabase");
+		var database = NodeUtils.GetHeroDatabase(this);
 		if (database == null)
 		{
 			GD.PrintErr("HeroDatabase autoload not found!");
@@ -260,6 +262,21 @@ public partial class HeroManager : Node
 
 	public HeroInstance GetActiveHero()
 	{
-		throw new NotImplementedException();
+		// 获取当前激活的英雄
+		// 这里可以从GameData中获取当前选中的英雄ID
+		var gameData = NodeUtils.GetGameData(this);
+		if (gameData != null && !string.IsNullOrEmpty(gameData.CurrentHeroId))
+		{
+			return GetHeroInstance(gameData.CurrentHeroId);
+		}
+		
+		// 如果没有设置当前英雄，返回第一个拥有的英雄
+		var ownedHeroes = GetOwnedHeroes();
+		if (ownedHeroes.Count > 0)
+		{
+			return ownedHeroes[0];
+		}
+		
+		return null;
 	}
 }

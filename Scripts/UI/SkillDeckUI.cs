@@ -1,4 +1,8 @@
 using Godot;
+using CodeRogue.Core;
+using CodeRogue.Data;
+using CodeRogue.Utils;
+using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +36,7 @@ namespace CodeRogue.UI
 			// _shuffleButton.Pressed += OnShuffleButtonPressed;
 			
 			// 连接卡组管理器信号
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+	var deckManager = NodeUtils.GetDeckManager(this);
 		if (deckManager != null)
 		{
 			deckManager.DeckChanged += OnDeckChanged;
@@ -43,7 +47,7 @@ namespace CodeRogue.UI
 		
 		private void LoadCurrentDeck()
 	{
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		if (deckManager == null)
 		{
 			GD.PrintErr("DeckManager autoload is null, retrying later...");
@@ -167,7 +171,7 @@ namespace CodeRogue.UI
 		
 		private void OnCardRemoveRequested(SkillCard card)
 	{
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		deckManager?.RemoveCardFromDeck(card);
 	}
 		

@@ -1,6 +1,7 @@
 using Godot;
 using CodeRogue.Skills;
 using CodeRogue.UI;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Examples
 {
@@ -26,8 +27,8 @@ namespace CodeRogue.Examples
             _skillTrackUI = GetNode<SkillTrackUI>("../SkillTrackUI");
             
             // 获取管理器引用
-            _trackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
-            _deckManager = GetNode<DeckManager>("/root/DeckManager");
+            _trackManager = NodeUtils.GetSkillTrackManager(this);
+            _deckManager = NodeUtils.GetDeckManager(this);
             
             if (_skillTrackUI == null)
             {

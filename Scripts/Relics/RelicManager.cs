@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Linq;
+using CodeRogue.Utils;
 
 [GlobalClass]
 public partial class RelicManager : Node
@@ -27,7 +28,7 @@ public partial class RelicManager : Node
     
     private void InitializeSystem()
     {
-        _database = GetNode<RelicDatabase>("/root/RelicDatabase");
+        _database = NodeUtils.GetRelicDatabase(this);
         if (_database == null)
         {
             GD.PrintErr("RelicDatabase autoload not found!");
@@ -36,7 +37,7 @@ public partial class RelicManager : Node
         _dropSystem = new RelicDropSystem();
         
         // 连接BuffManager信号（如果需要）
-        var buffManager = GetNode<BuffManager>("/root/BuffManager");
+        var buffManager = NodeUtils.GetBuffManager(this);
         if (buffManager != null)
         {
             // 可以连接相关信号

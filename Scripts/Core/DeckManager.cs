@@ -1,4 +1,6 @@
 using Godot;
+using CodeRogue.Data;
+using CodeRogue.Utils;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
@@ -35,7 +37,7 @@ public partial class DeckManager : Node
     public override void _Ready()
     {
         // 获取依赖组件
-        _cardDatabase = GetNode<CardDatabase>("/root/CardDatabase");
+        _cardDatabase = NodeUtils.GetCardDatabase(this);
         
         if (_cardDatabase == null)
         {

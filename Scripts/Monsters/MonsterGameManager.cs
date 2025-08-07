@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Utils;
 
 /// <summary>
 /// 怪物游戏管理器
@@ -161,7 +162,7 @@ public partial class MonsterGameManager : Node
     private HeroInstance CreateDefaultSummoner()
     {
         // 创建默认召唤师英雄实例
-        var heroManager = GetNode<HeroManager>("/root/HeroManager");
+        var heroManager = NodeUtils.GetHeroManager(this);
         var summoner = heroManager.ObtainHero(1); // 假设ID为1的是默认召唤师
         
         // HeroInstance的属性通过Config访问，不需要直接设置

@@ -414,7 +414,7 @@ public partial class EnemyController : CharacterBody2D
 	/// </summary>
 	private void AssignRandomWord()
 	{
-		var wordManager = GetNode<WordManager>("/root/WordManager");
+		var wordManager = NodeUtils.GetWordManager(this);
 		if (wordManager != null)
 		{
 			CurrentWord = wordManager.GetRandomWord();

@@ -11,7 +11,7 @@ font_size = 20
 [sub_resource type="LabelSettings" id="LabelSettings_3"]
 font_size = 14
 
-[node name="TowerTestScene" type="Control" node_paths=PackedStringArray("TowerUI", "DebugPanel", "GenerateLinearMapButton", "DebugInfoLabel", "DebugModeCheckBox")]
+[node name="TowerTestScene" type="Control" node_paths=PackedStringArray("TowerUI", "DebugPanel", "GenerateTreeMapButton", "ResetProgressButton", "DebugInfoLabel", "DebugModeCheckBox")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,8 @@ grow_vertical = 2
 script = ExtResource("1_2k3v4")
 TowerUI = NodePath("MainContainer/TowerUIContainer/TowerUI")
 DebugPanel = NodePath("MainContainer/DebugInfoPanel/DebugInfoContainer")
-GenerateLinearMapButton = NodePath("MainContainer/ControlPanel/ControlContainer/ButtonContainer/GenerateMapButton")
+GenerateTreeMapButton = NodePath("MainContainer/ControlPanel/ControlContainer/ButtonContainer/GenerateMapButton")
+ResetProgressButton = NodePath("MainContainer/ControlPanel/ControlContainer/ButtonContainer/ClearMapButton")
 DebugInfoLabel = NodePath("MainContainer/DebugInfoPanel/DebugInfoContainer/DebugScrollContainer/DebugTextLabel")
 DebugModeCheckBox = NodePath("MainContainer/TitlePanel/TitleContainer/DebugModeCheckBox")
 

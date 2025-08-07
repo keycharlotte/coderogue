@@ -50,7 +50,29 @@ public partial class SkillTrackSystem : Node
 
     private void RotateSkillTrack()
     {
-        throw new NotImplementedException();
+        // 轮转技能轨道：移除已使用的技能，添加新技能
+        if (_skillTrack.Count > 0)
+        {
+            _skillTrack.Dequeue(); // 移除刚使用的技能
+        }
+        
+        // 更新下一个技能
+        _nextSkill = _skillTrack.Count > 0 ? _skillTrack.Peek() : null;
+        
+        // 如果轨道为空，可以从牌组中补充新技能
+        if (_skillTrack.Count < TrackSize)
+        {
+            // TODO: 从当前牌组中获取新技能
+            // var deckManager = GetNode<DeckManager>("/root/DeckManager");
+            // if (deckManager != null)
+            // {
+            //     var newSkill = deckManager.DrawSkillCard();
+            //     if (newSkill != null)
+            //     {
+            //         _skillTrack.Enqueue(newSkill);
+            //     }
+            // }
+        }
     }
 
     private void ExecuteSkillEffect(SkillCard skill)
@@ -74,17 +96,126 @@ public partial class SkillTrackSystem : Node
 
     private void ExecuteUtilitySkill(SkillCard skill)
     {
-        throw new NotImplementedException();
+        // 执行辅助类技能效果
+        foreach (var effect in skill.Effects)
+        {
+            switch (effect.Type)
+            {
+                case SkillEffectType.Heal:
+                    // 治疗玩家
+                    var player = GetTree().GetFirstNodeInGroup("player");
+                    if (player != null && player.HasMethod("Heal"))
+                    {
+                        player.Call("Heal", effect.Value);
+                    }
+                    break;
+                case SkillEffectType.Shield:
+                    // 为玩家添加护盾
+                    var playerShield = GetTree().GetFirstNodeInGroup("player");
+                    if (playerShield != null && playerShield.HasMethod("AddShield"))
+                    {
+                        playerShield.Call("AddShield", effect.Value, effect.Duration);
+                    }
+                    break;
+                case SkillEffectType.Buff:
+                    // 应用增益效果
+                    var buffManager = GetNode<BuffManager>("/root/BuffManager");
+                    if (buffManager != null)
+                    {
+                        var playerBuff = GetTree().GetFirstNodeInGroup("player");
+                        if (playerBuff != null)
+                        {
+                            buffManager.ApplyBuff(effect.BuffId, playerBuff);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     private void ExecuteDefenseSkill(SkillCard skill)
     {
-        throw new NotImplementedException();
+        // 执行防御类技能效果
+        foreach (var effect in skill.Effects)
+        {
+            switch (effect.Type)
+            {
+                case SkillEffectType.Shield:
+                    // 为玩家添加护盾
+                    var player = GetTree().GetFirstNodeInGroup("player");
+                    if (player != null && player.HasMethod("AddShield"))
+                    {
+                        player.Call("AddShield", effect.Value, effect.Duration);
+                    }
+                    break;
+                case SkillEffectType.Damage:
+                    // 反击伤害
+                    var enemies = GetTree().GetNodesInGroup("enemies");
+                    foreach (Node enemy in enemies)
+                    {
+                        if (enemy.HasMethod("TakeDamage"))
+                        {
+                            enemy.Call("TakeDamage", effect.Value);
+                        }
+                    }
+                    break;
+                case SkillEffectType.Buff:
+                    // 防御增益
+                    var buffManager = GetNode<BuffManager>("/root/BuffManager");
+                    if (buffManager != null)
+                    {
+                        var playerBuff = GetTree().GetFirstNodeInGroup("player");
+                        if (playerBuff != null)
+                        {
+                            buffManager.ApplyBuff(effect.BuffId, playerBuff);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     private void ExecuteAttackSkill(SkillCard skill)
     {
-        throw new NotImplementedException();
+        // 执行攻击类技能效果
+        foreach (var effect in skill.Effects)
+        {
+            switch (effect.Type)
+            {
+                case SkillEffectType.Damage:
+                    // 对敌人造成伤害
+                    var enemies = GetTree().GetNodesInGroup("enemies");
+                    foreach (Node enemy in enemies)
+                    {
+                        if (enemy.HasMethod("TakeDamage"))
+                        {
+                            enemy.Call("TakeDamage", effect.Value);
+                        }
+                    }
+                    break;
+                case SkillEffectType.Buff:
+                    // 对敌人施加负面效果
+                    var buffManager = GetNode<BuffManager>("/root/BuffManager");
+                    if (buffManager != null)
+                    {
+                        var enemyTargets = GetTree().GetNodesInGroup("enemies");
+                        foreach (Node enemy in enemyTargets)
+                        {
+                            buffManager.ApplyBuff(effect.BuffId, enemy);
+                        }
+                    }
+                    break;
+                case SkillEffectType.TypingModifier:
+                    // 影响打字体验
+                    var typingSystem = GetNode<TypingCombatSystem>("/root/TypingCombatSystem");
+                    if (typingSystem != null)
+                    {
+                        // 根据效果类型应用不同的打字修改器
+                        // typingSystem.ApplyModifier(effect);
+                    }
+                    break;
+            }
+        }
     }
 
     private void ExecuteTypingEnhancement(SkillCard skill)

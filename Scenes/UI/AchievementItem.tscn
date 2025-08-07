@@ -1,0 +1,128 @@
+[gd_scene load_steps=2 format=3 uid="uid://e5f6g7h89012"]
+
+[ext_resource type="Script" path="res://Scripts/Achievements/AchievementItemUI.cs" id="1_4d5e6f"]
+
+[node name="AchievementItem" type="Control"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 120.0
+script = ExtResource("1_4d5e6f")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MainContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="IconContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="AchievementIcon" type="TextureRect" parent="MainContainer/IconContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 64)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stretch_mode = 5
+
+[node name="RarityIndicator" type="ColorRect" parent="MainContainer/IconContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 4)
+size_flags_horizontal = 4
+color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="ContentContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainContainer/ContentContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "成就标题"
+vertical_alignment = 1
+
+[node name="StatusContainer" type="HBoxContainer" parent="MainContainer/ContentContainer/HeaderContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MainContainer/ContentContainer/HeaderContainer/StatusContainer"]
+layout_mode = 2
+text = "状态"
+vertical_alignment = 1
+
+[node name="CompletionTimeLabel" type="Label" parent="MainContainer/ContentContainer/HeaderContainer/StatusContainer"]
+layout_mode = 2
+text = "完成时间"
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+text = "成就描述"
+autowrap_mode = 3
+
+[node name="ProgressContainer" type="VBoxContainer" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+
+[node name="ProgressInfoContainer" type="HBoxContainer" parent="MainContainer/ContentContainer/ProgressContainer"]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="MainContainer/ContentContainer/ProgressContainer/ProgressInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "进度: 0/100"
+vertical_alignment = 1
+
+[node name="ProgressPercentLabel" type="Label" parent="MainContainer/ContentContainer/ProgressContainer/ProgressInfoContainer"]
+layout_mode = 2
+text = "0.0%"
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="MainContainer/ContentContainer/ProgressContainer"]
+layout_mode = 2
+max_value = 100.0
+step = 0.1
+show_percentage = false
+
+[node name="RewardContainer" type="HBoxContainer" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+
+[node name="RewardLabel" type="Label" parent="MainContainer/ContentContainer/RewardContainer"]
+layout_mode = 2
+text = "奖励: "
+vertical_alignment = 1
+
+[node name="RewardIconsContainer" type="HBoxContainer" parent="MainContainer/ContentContainer/RewardContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActionContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+
+[node name="ClaimButton" type="Button" parent="MainContainer/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "领取奖励"
+
+[node name="ViewDetailButton" type="Button" parent="MainContainer/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "查看详情"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[connection signal="pressed" from="MainContainer/ActionContainer/ClaimButton" to="." method="_on_claim_button_pressed"]
+[connection signal="pressed" from="MainContainer/ActionContainer/ViewDetailButton" to="." method="_on_view_detail_button_pressed"]

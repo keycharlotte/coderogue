@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CodeRogue.Player;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Level
 {
@@ -139,8 +140,8 @@ namespace CodeRogue.Level
 			// 只开始刷怪流程
 			StartNextWave();
 			EmitSignal(SignalName.LevelStarted, CurrentLevel);
-			var gameManager = GetNode<GameManager>("/root/GameManager");
-		gameManager?.TriggerStartLevel(CurrentLevel);
+			var gameManager = NodeUtils.GetGameManager(this);
+			gameManager?.TriggerStartLevel(CurrentLevel);
 			GD.Print($"Level {CurrentLevel} started - Wave spawning begins");
 		}
 	}
@@ -416,8 +417,8 @@ namespace CodeRogue.Level
 				_player = null;
 			}
 			
-			var gameManager = GetNode<GameManager>("/root/GameManager");
-		gameManager?.TriggerQuitLevel(CurrentLevel);
+			var gameManager = NodeUtils.GetGameManager(this);
+			gameManager?.TriggerQuitLevel(CurrentLevel);
 			GD.Print($"Level {CurrentLevel} stopped");
 		}
 	}

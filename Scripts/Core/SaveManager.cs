@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Godot;
 using CodeRogue.Data;
 using Godot.Collections;
+using CodeRogue.Utils;
 using GodotFileAccess = Godot.FileAccess;
 
 namespace CodeRogue.Core
@@ -66,7 +67,7 @@ namespace CodeRogue.Core
             }
             
             // 获取GameData引用
-            _gameData = GetNode<GameData>("/root/GameData");
+            _gameData = NodeUtils.GetGameData(this);
             if (_gameData == null)
             {
                 GD.PrintErr("SaveManager: 无法找到GameData单例");

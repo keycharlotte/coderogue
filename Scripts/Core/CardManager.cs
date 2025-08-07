@@ -1,4 +1,6 @@
 using Godot;
+using CodeRogue.Data;
+using CodeRogue.Utils;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ public partial class CardManager : Node
     public override void _Ready()
     {
         // 获取CardDatabase实例
-        _cardDatabase = GetNode<CardDatabase>("/root/CardDatabase");
+        _cardDatabase = NodeUtils.GetCardDatabase(this);
         if (_cardDatabase == null)
         {
             GD.PrintErr("CardDatabase not found! Make sure it's added as an autoload.");

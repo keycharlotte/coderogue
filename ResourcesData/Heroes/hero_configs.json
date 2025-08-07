@@ -1,0 +1,91 @@
+{
+  "heroes": [
+    {
+      "id": 1,
+      "name": "艾莉娅",
+      "description": "一位年轻的法师，擅长火焰魔法",
+      "rarity": 1,
+      "class": 0,
+      "avatarPath": "res://Assets/Heroes/Avatars/aria_avatar.png",
+      "modelPath": "res://Assets/Heroes/Models/aria_model.tscn",
+      "baseStats": {
+        "health": 80,
+        "attack": 25,
+        "defense": 8,
+        "critRate": 0.08,
+        "critDamage": 1.6
+      },
+      "growthStats": {
+        "health": 12,
+        "attack": 4,
+        "defense": 2,
+        "critRate": 0.01,
+        "critDamage": 0.05
+      },
+      "maxColorSlots": 6,
+      "primaryColor": 0,
+      "typingDamageBase": 18.0,
+      "typingSpeedBonus": 0.06,
+      "typingAccuracyBonus": 0.04,
+      "typingDecayResistance": 0.12
+    },
+    {
+      "id": 2,
+      "name": "雷克斯",
+      "description": "强壮的战士，以近战攻击见长",
+      "rarity": 0,
+      "class": 1,
+      "avatarPath": "res://Assets/Heroes/Avatars/rex_avatar.png",
+      "modelPath": "res://Assets/Heroes/Models/rex_model.tscn",
+      "baseStats": {
+        "health": 120,
+        "attack": 30,
+        "defense": 15,
+        "critRate": 0.05,
+        "critDamage": 1.4
+      },
+      "growthStats": {
+        "health": 18,
+        "attack": 5,
+        "defense": 3,
+        "critRate": 0.005,
+        "critDamage": 0.03
+      },
+      "maxColorSlots": 5,
+      "primaryColor": 1,
+      "typingDamageBase": 20.0,
+      "typingSpeedBonus": 0.04,
+      "typingAccuracyBonus": 0.02,
+      "typingDecayResistance": 0.08
+    },
+    {
+      "id": 3,
+      "name": "露娜",
+      "description": "神秘的治疗师，掌握生命魔法",
+      "rarity": 2,
+      "class": 2,
+      "avatarPath": "res://Assets/Heroes/Avatars/luna_avatar.png",
+      "modelPath": "res://Assets/Heroes/Models/luna_model.tscn",
+      "baseStats": {
+        "health": 90,
+        "attack": 15,
+        "defense": 12,
+        "critRate": 0.06,
+        "critDamage": 1.3
+      },
+      "growthStats": {
+        "health": 14,
+        "attack": 2,
+        "defense": 3,
+        "critRate": 0.008,
+        "critDamage": 0.04
+      },
+      "maxColorSlots": 7,
+      "primaryColor": 2,
+      "typingDamageBase": 12.0,
+      "typingSpeedBonus": 0.08,
+      "typingAccuracyBonus": 0.06,
+      "typingDecayResistance": 0.15
+    }
+  ]
+}

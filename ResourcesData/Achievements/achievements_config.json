@@ -1,0 +1,316 @@
+{
+  "achievements": [
+    {
+      "id": "first_victory",
+      "title": "初次胜利",
+      "description": "赢得你的第一场战斗",
+      "category": "Combat",
+      "type": "OneTime",
+      "rarity": "Common",
+      "iconPath": "res://Icons/Achievements/first_victory.png",
+      "targetValue": 1,
+      "isHidden": false,
+      "prerequisites": [],
+      "conditions": [
+        {
+          "id": "win_battle",
+          "eventType": "BattleWon",
+          "parameterName": "result",
+          "parameterValue": "victory",
+          "comparisonType": "Equal",
+          "description": "赢得战斗",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {}
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 100,
+          "itemId": "",
+          "description": "获得100经验值"
+        },
+        {
+          "type": "Gold",
+          "amount": 50,
+          "itemId": "",
+          "description": "获得50金币"
+        }
+      ],
+      "tags": ["beginner", "combat"],
+      "metadata": {
+        "difficulty": "easy",
+        "estimatedTime": "5分钟"
+      }
+    },
+    {
+      "id": "card_collector",
+      "title": "卡牌收集家",
+      "description": "收集10张不同的卡牌",
+      "category": "Collection",
+      "type": "Incremental",
+      "rarity": "Uncommon",
+      "iconPath": "res://Icons/Achievements/card_collector.png",
+      "targetValue": 10,
+      "isHidden": false,
+      "prerequisites": [],
+      "conditions": [
+        {
+          "id": "collect_card",
+          "eventType": "CardObtained",
+          "parameterName": "cardId",
+          "parameterValue": "",
+          "comparisonType": "Exists",
+          "description": "获得卡牌",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {
+            "unique": "true"
+          }
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Card",
+          "amount": 1,
+          "itemId": "rare_card_pack",
+          "description": "获得稀有卡包"
+        }
+      ],
+      "tags": ["collection", "cards"],
+      "metadata": {
+        "difficulty": "medium",
+        "estimatedTime": "30分钟"
+      }
+    },
+    {
+      "id": "speed_runner",
+      "title": "速通者",
+      "description": "在5分钟内完成一场战斗",
+      "category": "Challenge",
+      "type": "OneTime",
+      "rarity": "Rare",
+      "iconPath": "res://Icons/Achievements/speed_runner.png",
+      "targetValue": 1,
+      "isHidden": false,
+      "prerequisites": ["first_victory"],
+      "conditions": [
+        {
+          "id": "fast_battle",
+          "eventType": "BattleWon",
+          "parameterName": "duration",
+          "parameterValue": "300",
+          "comparisonType": "LessOrEqual",
+          "description": "在5分钟内赢得战斗",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {
+            "battleType": "normal"
+          }
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Title",
+          "amount": 1,
+          "itemId": "speed_runner_title",
+          "description": "获得'速通者'称号"
+        },
+        {
+          "type": "Experience",
+          "amount": 500,
+          "itemId": "",
+          "description": "获得500经验值"
+        }
+      ],
+      "tags": ["challenge", "speed", "combat"],
+      "metadata": {
+        "difficulty": "hard",
+        "estimatedTime": "多次尝试"
+      }
+    },
+    {
+      "id": "relic_master",
+      "title": "遗物大师",
+      "description": "同时拥有5个遗物",
+      "category": "Collection",
+      "type": "OneTime",
+      "rarity": "Epic",
+      "iconPath": "res://Icons/Achievements/relic_master.png",
+      "targetValue": 1,
+      "isHidden": false,
+      "prerequisites": [],
+      "conditions": [
+        {
+          "id": "relic_count",
+          "eventType": "RelicObtained",
+          "parameterName": "totalCount",
+          "parameterValue": "5",
+          "comparisonType": "GreaterOrEqual",
+          "description": "拥有5个或更多遗物",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {}
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Relic",
+          "amount": 1,
+          "itemId": "legendary_relic",
+          "description": "获得传说遗物"
+        },
+        {
+          "type": "Gold",
+          "amount": 1000,
+          "itemId": "",
+          "description": "获得1000金币"
+        }
+      ],
+      "tags": ["collection", "relics", "endgame"],
+      "metadata": {
+        "difficulty": "very_hard",
+        "estimatedTime": "数小时"
+      }
+    },
+    {
+      "id": "perfect_run",
+      "title": "完美通关",
+      "description": "在不失去生命值的情况下完成一次完整的游戏流程",
+      "category": "Challenge",
+      "type": "OneTime",
+      "rarity": "Legendary",
+      "iconPath": "res://Icons/Achievements/perfect_run.png",
+      "targetValue": 1,
+      "isHidden": true,
+      "prerequisites": ["first_victory", "speed_runner"],
+      "conditions": [
+        {
+          "id": "no_damage_run",
+          "eventType": "GameCompleted",
+          "parameterName": "healthLost",
+          "parameterValue": "0",
+          "comparisonType": "Equal",
+          "description": "完成游戏且未失去生命值",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {
+            "difficulty": "normal_or_higher"
+          }
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Title",
+          "amount": 1,
+          "itemId": "perfect_master_title",
+          "description": "获得'完美大师'称号"
+        },
+        {
+          "type": "Achievement",
+          "amount": 1,
+          "itemId": "secret_achievement_unlock",
+          "description": "解锁隐藏成就"
+        },
+        {
+          "type": "Experience",
+          "amount": 5000,
+          "itemId": "",
+          "description": "获得5000经验值"
+        }
+      ],
+      "tags": ["legendary", "challenge", "perfect", "hidden"],
+      "metadata": {
+        "difficulty": "legendary",
+        "estimatedTime": "极高难度挑战"
+      }
+    },
+    {
+      "id": "battle_veteran",
+      "title": "战斗老兵",
+      "description": "赢得100场战斗",
+      "category": "Combat",
+      "type": "Incremental",
+      "rarity": "Rare",
+      "iconPath": "res://Icons/Achievements/battle_veteran.png",
+      "targetValue": 100,
+      "isHidden": false,
+      "prerequisites": ["first_victory"],
+      "conditions": [
+        {
+          "id": "win_battles",
+          "eventType": "BattleWon",
+          "parameterName": "result",
+          "parameterValue": "victory",
+          "comparisonType": "Equal",
+          "description": "赢得战斗",
+          "isOptional": false,
+          "weight": 1.0,
+          "filters": {}
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Title",
+          "amount": 1,
+          "itemId": "veteran_title",
+          "description": "获得'老兵'称号"
+        },
+        {
+          "type": "Card",
+          "amount": 3,
+          "itemId": "veteran_card_pack",
+          "description": "获得老兵卡包"
+        }
+      ],
+      "tags": ["combat", "veteran", "milestone"],
+      "metadata": {
+        "difficulty": "medium",
+        "estimatedTime": "数小时"
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "Combat",
+      "name": "战斗",
+      "description": "与战斗相关的成就",
+      "iconPath": "res://Icons/Categories/combat.png"
+    },
+    {
+      "id": "Collection",
+      "name": "收集",
+      "description": "收集物品相关的成就",
+      "iconPath": "res://Icons/Categories/collection.png"
+    },
+    {
+      "id": "Challenge",
+      "name": "挑战",
+      "description": "特殊挑战相关的成就",
+      "iconPath": "res://Icons/Categories/challenge.png"
+    },
+    {
+      "id": "Exploration",
+      "name": "探索",
+      "description": "探索游戏世界相关的成就",
+      "iconPath": "res://Icons/Categories/exploration.png"
+    },
+    {
+      "id": "Social",
+      "name": "社交",
+      "description": "社交互动相关的成就",
+      "iconPath": "res://Icons/Categories/social.png"
+    }
+  ],
+  "settings": {
+    "enableNotifications": true,
+    "enableSounds": true,
+    "enableAnimations": true,
+    "autoSaveInterval": 30,
+    "maxNotificationHistory": 100,
+    "defaultNotificationDuration": 5.0,
+    "enableProgressTracking": true,
+    "enableStatistics": true
+  }
+}

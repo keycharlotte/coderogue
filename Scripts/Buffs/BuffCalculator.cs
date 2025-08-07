@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using CodeRogue.Buffs;
+using CodeRogue.Utils;
 public partial class BuffCalculator : RefCounted
 {
     public static float CalculateProperty(Node target, string property)
     {
-        var buffManager = target.GetNode<BuffManager>("/root/BuffManager");
+        var buffManager = NodeUtils.GetBuffManager(target);
         var buffs = buffManager?.GetTargetBuffs(target) ?? new Array<BuffInstance>();
         float baseValue = GetBasePropertyValue(target, property);
         float finalValue = baseValue;

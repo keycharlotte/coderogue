@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Godot;
 using CodeRogue.Data;
+using CodeRogue.Utils;
 using GodotFileAccess = Godot.FileAccess;
 
 namespace CodeRogue.Core
@@ -18,8 +19,8 @@ namespace CodeRogue.Core
         public override void _Ready()
         {
             // 获取依赖的组件
-            _config = GetNode<SaveSystemConfig>("/root/SaveSystemConfig");
-            _events = GetNode<SaveSystemEvents>("/root/SaveSystemEvents");
+            _config = NodeUtils.GetSaveSystemConfig(this);
+            _events = NodeUtils.GetSaveSystemEvents(this);
             
             if (_config == null || _events == null)
             {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
+using CodeRogue.Data;
 
 [GlobalClass]
 public partial class HeroDatabase : Node
@@ -17,9 +18,117 @@ public partial class HeroDatabase : Node
     
     private void LoadHeroConfigs()
     {
-        // TODO: 从资源文件加载英雄配置
-        // 这里先创建示例配置
-        CreateExampleHeroes();
+        // 尝试从JSON文件加载英雄配置
+        string configPath = "res://ResourcesData/Heroes/hero_configs.json";
+        
+        if (FileAccess.FileExists(configPath))
+        {
+            LoadFromJsonFile(configPath);
+        }
+        else
+        {
+            GD.PrintErr($"英雄配置文件不存在: {configPath}，使用示例配置");
+            CreateExampleHeroes();
+        }
+    }
+    
+    private void LoadFromJsonFile(string filePath)
+    {
+        using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+        if (file == null)
+        {
+            GD.PrintErr($"无法打开英雄配置文件: {filePath}");
+            CreateExampleHeroes();
+            return;
+        }
+        
+        string jsonContent = file.GetAsText();
+        var json = new Json();
+        var parseResult = json.Parse(jsonContent);
+        
+        if (parseResult != Error.Ok)
+        {
+            GD.PrintErr($"解析英雄配置JSON失败: {json.GetErrorMessage()}");
+            CreateExampleHeroes();
+            return;
+        }
+        
+        var jsonData = json.Data.AsGodotDictionary();
+        if (jsonData.ContainsKey("heroes"))
+        {
+            var heroesArray = jsonData["heroes"].AsGodotArray();
+            foreach (var heroData in heroesArray)
+            {
+                var heroDict = heroData.AsGodotDictionary();
+                var heroConfig = ParseHeroConfig(heroDict);
+                if (heroConfig != null)
+                {
+                    AddHero(heroConfig);
+                }
+            }
+            
+            GD.Print($"成功加载 {_allHeroes.Count} 个英雄配置");
+        }
+        else
+        {
+            GD.PrintErr("JSON文件中未找到heroes数组");
+            CreateExampleHeroes();
+        }
+    }
+    
+    private HeroConfig ParseHeroConfig(Godot.Collections.Dictionary heroDict)
+    {
+        try
+        {
+            var hero = new HeroConfig();
+            hero.Id = heroDict.GetValueOrDefault("id", 0).AsInt32();
+            hero.Name = heroDict.GetValueOrDefault("name", "").AsString();
+            hero.Description = heroDict.GetValueOrDefault("description", "").AsString();
+            hero.Rarity = (HeroRarity)heroDict.GetValueOrDefault("rarity", 0).AsInt32();
+            hero.Class = (HeroClass)heroDict.GetValueOrDefault("class", 0).AsInt32();
+            hero.AvatarPath = heroDict.GetValueOrDefault("avatarPath", "").AsString();
+            hero.ModelPath = heroDict.GetValueOrDefault("modelPath", "").AsString();
+            
+            // 解析基础属性
+            if (heroDict.ContainsKey("baseStats"))
+            {
+                var statsDict = heroDict["baseStats"].AsGodotDictionary();
+                hero.BaseStats = ParseHeroStats(statsDict);
+            }
+            
+            // 解析成长属性
+            if (heroDict.ContainsKey("growthStats"))
+            {
+                var growthDict = heroDict["growthStats"].AsGodotDictionary();
+                hero.GrowthStats = ParseHeroStats(growthDict);
+            }
+            
+            // 解析召唤师配置
+            hero.MaxColorSlots = heroDict.GetValueOrDefault("maxColorSlots", 6).AsInt32();
+            hero.PrimaryColor = (MagicColor)heroDict.GetValueOrDefault("primaryColor", 0).AsInt32();
+            hero.TypingDamageBase = heroDict.GetValueOrDefault("typingDamageBase", 15f).AsSingle();
+            hero.TypingSpeedBonus = heroDict.GetValueOrDefault("typingSpeedBonus", 0.05f).AsSingle();
+            hero.TypingAccuracyBonus = heroDict.GetValueOrDefault("typingAccuracyBonus", 0.03f).AsSingle();
+            hero.TypingDecayResistance = heroDict.GetValueOrDefault("typingDecayResistance", 0.1f).AsSingle();
+            
+            return hero;
+        }
+        catch (System.Exception ex)
+        {
+            GD.PrintErr($"解析英雄配置失败: {ex.Message}");
+            return null;
+        }
+    }
+    
+    private HeroStats ParseHeroStats(Godot.Collections.Dictionary statsDict)
+    {
+        var stats = new HeroStats();
+        stats.Health = statsDict.GetValueOrDefault("health", 100).AsInt32();
+        stats.Attack = statsDict.GetValueOrDefault("attack", 20).AsInt32();
+        stats.Defense = statsDict.GetValueOrDefault("defense", 10).AsInt32();
+        stats.CritRate = statsDict.GetValueOrDefault("critRate", 0.05f).AsSingle();
+        stats.CritDamage = statsDict.GetValueOrDefault("critDamage", 1.5f).AsSingle();
+        return stats;
     }
     
     private void CreateExampleHeroes()

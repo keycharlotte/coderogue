@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 
 namespace CodeRogue.UI
 {
@@ -16,7 +17,7 @@ namespace CodeRogue.UI
 			SetupUI();
 			
 			// 连接输入管理器信号
-			var inputManager = GetNode<InputManager>("/root/InputManager");
+			var inputManager = NodeUtils.GetInputManager(this);
 		if (inputManager != null)
 		{
 			inputManager.InputChanged += OnInputChanged;
@@ -42,7 +43,7 @@ namespace CodeRogue.UI
 		
 		public override void _ExitTree()
 		{
-			var inputManager = GetNode<InputManager>("/root/InputManager");
+			var inputManager = NodeUtils.GetInputManager(this);
 		if (inputManager != null)
 		{
 			inputManager.InputChanged -= OnInputChanged;

@@ -1,0 +1,196 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8x2m4y9n7k6p"]
+
+[ext_resource type="Script" path="res://Scripts/Rebirth/UI/RebirthResultsUI.cs" id="1_5k9vx"]
+[ext_resource type="Theme" uid="uid://bqxm7y8n6l3r" path="res://Themes/DefaultTheme.tres" id="2_8m2zy"]
+
+[node name="RebirthResultsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2_8m2zy")
+script = ExtResource("1_5k9vx")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.1, 0.95)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+
+[node name="Title" type="Label" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "投胎轮回"
+horizontal_alignment = 1
+
+[node name="GameResultContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ResultTitle" type="Label" parent="MainContainer/GameResultContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "游戏结果"
+horizontal_alignment = 1
+
+[node name="ResultDetails" type="HBoxContainer" parent="MainContainer/GameResultContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LeftColumn" type="VBoxContainer" parent="MainContainer/GameResultContainer/ResultDetails"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FloorLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/LeftColumn"]
+layout_mode = 2
+text = "到达层数: 0"
+
+[node name="EnemyLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/LeftColumn"]
+layout_mode = 2
+text = "击败敌人: 0"
+
+[node name="TimeLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/LeftColumn"]
+layout_mode = 2
+text = "游戏时长: 0分钟"
+
+[node name="RightColumn" type="VBoxContainer" parent="MainContainer/GameResultContainer/ResultDetails"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HeroLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/RightColumn"]
+layout_mode = 2
+text = "使用英雄: 未知"
+
+[node name="VictoryLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/RightColumn"]
+layout_mode = 2
+text = "游戏结果: 失败"
+
+[node name="EfficiencyLabel" type="Label" parent="MainContainer/GameResultContainer/ResultDetails/RightColumn"]
+layout_mode = 2
+text = "效率评分: 0.0"
+
+[node name="Separator1" type="HSeparator" parent="MainContainer"]
+layout_mode = 2
+
+[node name="NoveltyContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="NoveltyTitle" type="Label" parent="MainContainer/NoveltyContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "新颖度分析"
+horizontal_alignment = 1
+
+[node name="NoveltyDetails" type="VBoxContainer" parent="MainContainer/NoveltyContainer"]
+layout_mode = 2
+
+[node name="CombinationLabel" type="Label" parent="MainContainer/NoveltyContainer/NoveltyDetails"]
+layout_mode = 2
+text = "组合评估: 未知"
+horizontal_alignment = 1
+
+[node name="NoveltyLevelLabel" type="Label" parent="MainContainer/NoveltyContainer/NoveltyDetails"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "新颖度等级: 普通"
+horizontal_alignment = 1
+
+[node name="MultiplierLabel" type="Label" parent="MainContainer/NoveltyContainer/NoveltyDetails"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "新颖度倍率: 1.0x"
+horizontal_alignment = 1
+
+[node name="NoveltyDescription" type="Label" parent="MainContainer/NoveltyContainer/NoveltyDetails"]
+layout_mode = 2
+text = "这是一个常见的组合，没有特殊奖励。"
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="Separator2" type="HSeparator" parent="MainContainer"]
+layout_mode = 2
+
+[node name="CurrencyContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CurrencyTitle" type="Label" parent="MainContainer/CurrencyContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "货币奖励"
+horizontal_alignment = 1
+
+[node name="CurrencyBreakdown" type="VBoxContainer" parent="MainContainer/CurrencyContainer"]
+layout_mode = 2
+
+[node name="BaseCurrencyLabel" type="Label" parent="MainContainer/CurrencyContainer/CurrencyBreakdown"]
+layout_mode = 2
+text = "基础货币: 0"
+horizontal_alignment = 1
+
+[node name="NoveltyBonusLabel" type="Label" parent="MainContainer/CurrencyContainer/CurrencyBreakdown"]
+layout_mode = 2
+text = "新颖度奖励: +0"
+horizontal_alignment = 1
+
+[node name="TotalCurrencyLabel" type="Label" parent="MainContainer/CurrencyContainer/CurrencyBreakdown"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+text = "总获得: 0 投胎币"
+horizontal_alignment = 1
+
+[node name="Separator3" type="HSeparator" parent="MainContainer"]
+layout_mode = 2
+
+[node name="ExperienceContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ExperienceLabel" type="Label" parent="MainContainer/ExperienceContainer"]
+layout_mode = 2
+text = "获得经验: 0"
+horizontal_alignment = 1
+
+[node name="LevelUpLabel" type="Label" parent="MainContainer/ExperienceContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.2, 1)
+text = ""
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ShopButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "前往商店"
+
+[node name="ContinueButton" type="Button" parent="MainContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "继续游戏"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"default": SubResource("AnimationLibrary_1a2b3")
+}
+
+[connection signal="pressed" from="MainContainer/ButtonContainer/ShopButton" to="." method="_on_shop_button_pressed"]
+[connection signal="pressed" from="MainContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
