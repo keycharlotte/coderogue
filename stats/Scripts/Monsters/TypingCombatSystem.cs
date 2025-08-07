@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using CodeRogue.Core;
 using CodeRogue.Monsters;
+using CodeRogue.Utils;
 
 /// <summary>
 /// 打字战斗系统
@@ -62,7 +63,7 @@ public partial class TypingCombatSystem : Node
         _combatStartTime = (float)Time.GetUnixTimeFromSystem();
         
         // 获取召唤系统引用
-        _summonSystem = GetNode<SummonSystem>("/root/SummonSystem");
+        _summonSystem = NodeUtils.GetManager<SummonSystem>(this, "SummonSystem");
         if (_summonSystem == null)
         {
             GD.PrintErr("SummonSystem not found! TypingCombatSystem requires SummonSystem.");

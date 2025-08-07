@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 
 namespace CodeRogue.UI
 {
@@ -63,7 +64,7 @@ namespace CodeRogue.UI
         private void OnRestartPressed()
         {
             // 重新开始游戏
-            var gameManager = GetNode<GameManager>("/root/GameManager");
+            var gameManager = NodeUtils.GetGameManager(this);
             gameManager?.RestartGame();
             HideGameOver();
         }
@@ -71,7 +72,7 @@ namespace CodeRogue.UI
         private void OnMainMenuPressed()
         {
             // 返回主菜单
-            var gameManager = GetNode<GameManager>("/root/GameManager");
+            var gameManager = NodeUtils.GetGameManager(this);
             gameManager?.ReturnToMainMenu();
             HideGameOver();
         }

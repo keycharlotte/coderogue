@@ -1,5 +1,6 @@
 using CodeRogue.Core;
 using Godot;
+using CodeRogue.Utils;
 
 public partial class EnemyView : Node2D
 {
@@ -82,7 +83,7 @@ public partial class EnemyView : Node2D
 	
 	private void AssignRandomWord()
 	{
-		var wordManager = GetNode<WordManager>("/root/WordManager");
+		var wordManager = NodeUtils.GetWordManager(this);
 			if (wordManager != null)
 			{
 				CurrentWord = wordManager.GetRandomWord();

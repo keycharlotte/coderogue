@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3d4e5f67890"]
+
+[ext_resource type="Script" path="res://Scripts/Achievements/AchievementDatabase.cs" id="1_2b3c4d"]
+
+[node name="AchievementDatabase" type="Node"]
+script = ExtResource("1_2b3c4d")
+ConfigFilePath = "res://ResourcesData/Achievements/achievements_config.json"
+EnableCache = true
+AutoReload = false

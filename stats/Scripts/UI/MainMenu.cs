@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Core;
+using CodeRogue.Utils;
 using CodeRogue.Data;
 using CodeRogue.Utils;
 using System.Linq;
@@ -123,7 +124,7 @@ namespace CodeRogue.UI
             var gameData = new GameData();
             gameData.ResetToDefaults();
             // 切换到游戏场景
-            var gameManager = GetNode<GameManager>("/root/GameManager");
+            var gameManager = NodeUtils.GetGameManager(this);
             gameManager?.StartGame();
             // GetTree().ChangeSceneToFile("res://Scenes/Level/BaseLevel.tscn");
         }

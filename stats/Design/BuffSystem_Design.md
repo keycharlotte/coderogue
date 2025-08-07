@@ -603,7 +603,7 @@ public partial class BuffDatabaseEditor : EditorPlugin
     public override void _EnterTree()
     {
         // 创建编辑器界面
-        _dockContainer = GD.Load<PackedScene>("res://addons/buff_system/BuffEditor.tscn").Instantiate<Control>();
+        _dockContainer = GD.Load<PackedScene>("res://Addons/buff_system/BuffEditor.tscn").Instantiate<Control>();
         AddControlToDock(DockSlot.LeftBr, _dockContainer);
     }
     

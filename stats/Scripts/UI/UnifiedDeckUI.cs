@@ -1,6 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Core;
+using CodeRogue.Data;
+using CodeRogue.Utils;
+using Godot.Collections;
 
 namespace CodeRogue.UI
 {
@@ -50,7 +54,7 @@ namespace CodeRogue.UI
 		
 		private void LoadDeckManager()
 		{
-			_deckManager = GetNode<DeckManager>("/root/DeckManager");
+			_deckManager = NodeUtils.GetDeckManager(this);
 			if (_deckManager != null)
 			{
 				_deckManager.DeckChanged += OnDeckChanged;

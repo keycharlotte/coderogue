@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxvkqwer12345"]
+
+[ext_resource type="Script" path="res://Scripts/Achievements/AchievementManager.cs" id="1_1a2b3c"]
+
+[node name="AchievementManager" type="Node"]
+script = ExtResource("1_1a2b3c")
+
+[node name="AutoSaveTimer" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="AchievementTracker" type="Node" parent="."]
+script = ExtResource("res://Scripts/Achievements/AchievementTracker.cs")
+
+[node name="AchievementRewardSystem" type="Node" parent="."]
+script = ExtResource("res://Scripts/Achievements/AchievementRewardSystem.cs")
+
+[node name="AchievementNotificationSystem" type="Node" parent="."]
+script = ExtResource("res://Scripts/Achievements/AchievementNotificationSystem.cs")
+MaxActiveNotifications = 3
+DefaultDisplayDuration = 5.0
+NotificationSpacing = 10.0
+EnableSounds = true
+EnableAnimations = true
+AutoHideNotifications = true
+
+[node name="NotificationAudioPlayer" type="AudioStreamPlayer" parent="AchievementNotificationSystem"]
+volume_db = -10.0
+
+[connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]

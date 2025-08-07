@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 using CodeRogue.Data;
+using CodeRogue.Tower;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Tower.UI
 {
@@ -69,7 +71,7 @@ namespace CodeRogue.Tower.UI
             _connectionLines = new Dictionary<string, Line2D>();
             
             // 获取TowerManager引用
-            _towerManager = GetNode<TowerManager>("/root/TowerManager");
+            _towerManager = NodeUtils.GetTowerManager(this);
             if (_towerManager == null)
             {
                 GD.PrintErr("[TowerUI] 找不到TowerManager");
@@ -106,7 +108,7 @@ namespace CodeRogue.Tower.UI
             }
             
             // 可以从GameData获取更多玩家信息
-            var gameData = GetNode<GameData>("/root/GameData");
+            var gameData = NodeUtils.GetGameData(this);
             if (gameData != null)
             {
                 playerState["PlayerLevel"] = gameData.PlayerLevel;

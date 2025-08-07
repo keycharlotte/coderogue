@@ -35,6 +35,9 @@ namespace CodeRogue.Data
 		[Export]
 		public bool FullScreen { get; set; } = false;
 		
+		[Export]
+		public string CurrentHeroId { get; set; } = "";
+		
 		public override void _Ready()
 		{
 			// 自动加载游戏数据
@@ -52,6 +55,7 @@ namespace CodeRogue.Data
 			SfxVolume = 1.0f;
 			MusicVolume = 1.0f;
 			FullScreen = false;
+			CurrentHeroId = "";
 		}
 		
 		public void SaveGameData()
@@ -66,7 +70,8 @@ namespace CodeRogue.Data
 				["MasterVolume"] = MasterVolume,
 				["SfxVolume"] = SfxVolume,
 				["MusicVolume"] = MusicVolume,
-				["FullScreen"] = FullScreen
+				["FullScreen"] = FullScreen,
+				["CurrentHeroId"] = CurrentHeroId
 			};
 			
 			var saveFile = FileAccess.Open("user://savegame.save", FileAccess.ModeFlags.Write);
@@ -105,6 +110,7 @@ namespace CodeRogue.Data
 					SfxVolume = saveData.GetValueOrDefault("SfxVolume", 1.0f).AsSingle();
 					MusicVolume = saveData.GetValueOrDefault("MusicVolume", 1.0f).AsSingle();
 					FullScreen = saveData.GetValueOrDefault("FullScreen", false).AsBool();
+					CurrentHeroId = saveData.GetValueOrDefault("CurrentHeroId", "").AsString();
 				}
 			}
 		}

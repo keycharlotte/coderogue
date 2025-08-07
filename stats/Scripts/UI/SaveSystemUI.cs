@@ -2,6 +2,7 @@ using System;
 using Godot;
 using CodeRogue.Core;
 using CodeRogue.Data;
+using CodeRogue.Utils;
 using Godot.Collections;
 
 namespace CodeRogue.UI
@@ -83,7 +84,7 @@ namespace CodeRogue.UI
         /// </summary>
         private void GetSaveManager()
         {
-            _saveManager = GetNode<SaveManager>("/root/SaveManager");
+            _saveManager = NodeUtils.GetSaveManager(this);
             if (_saveManager == null)
             {
                 GD.PrintErr("SaveSystemUI: 无法找到SaveManager");

@@ -49,7 +49,8 @@ public enum SpecialTraitTrigger
     OnCooldown,     // 冷却时间
     OnCharge,       // 充能触发
     OnStack,        // 叠加触发
-    Random          // 随机触发
+    Random,         // 随机触发
+    OnCombatStart   // 战斗开始时
 }
 
 public enum TraitEffectType

@@ -1,0 +1,271 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4e5f6g78901"]
+
+[ext_resource type="Script" path="res://Scripts/Achievements/AchievementUI.cs" id="1_3c4d5e"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/AchievementItem.tscn" id="2_4d5e6f"]
+
+[node name="AchievementUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_3c4d5e")
+AchievementItemPrefab = ExtResource("2_4d5e6f")
+AutoRefresh = true
+RefreshInterval = 1.0
+EnableAnimations = true
+ShowProgressBars = true
+ShowStatistics = true
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+
+[node name="HeaderPanel" type="Panel" parent="MainContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContainer/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="TitleLabel" type="Label" parent="MainContainer/HeaderPanel/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "成就系统"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatisticsPanel" type="Panel" parent="MainContainer/HeaderPanel/HeaderContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 0)
+
+[node name="StatisticsContainer" type="VBoxContainer" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = -10.0
+offset_bottom = -5.0
+
+[node name="OverallProgressLabel" type="Label" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel/StatisticsContainer"]
+layout_mode = 2
+text = "总进度: 0.0%"
+horizontal_alignment = 1
+
+[node name="OverallProgressBar" type="ProgressBar" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel/StatisticsContainer"]
+layout_mode = 2
+max_value = 100.0
+step = 0.1
+show_percentage = false
+
+[node name="StatsHBox" type="HBoxContainer" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel/StatisticsContainer"]
+layout_mode = 2
+
+[node name="TotalAchievementsLabel" type="Label" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel/StatisticsContainer/StatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "总成就: 0"
+horizontal_alignment = 1
+
+[node name="CompletedAchievementsLabel" type="Label" parent="MainContainer/HeaderPanel/HeaderContainer/StatisticsPanel/StatisticsContainer/StatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "已完成: 0"
+horizontal_alignment = 1
+
+[node name="FilterPanel" type="Panel" parent="MainContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+
+[node name="FilterContainer" type="HBoxContainer" parent="MainContainer/FilterPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="SearchPanel" type="Panel" parent="MainContainer/FilterPanel/FilterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 0)
+
+[node name="SearchContainer" type="VBoxContainer" parent="MainContainer/FilterPanel/FilterContainer/SearchPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+
+[node name="SearchLabel" type="Label" parent="MainContainer/FilterPanel/FilterContainer/SearchPanel/SearchContainer"]
+layout_mode = 2
+text = "搜索:"
+
+[node name="SearchLineEdit" type="LineEdit" parent="MainContainer/FilterPanel/FilterContainer/SearchPanel/SearchContainer"]
+layout_mode = 2
+placeholder_text = "输入成就名称或描述..."
+
+[node name="CategoryPanel" type="Panel" parent="MainContainer/FilterPanel/FilterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+
+[node name="CategoryContainer" type="VBoxContainer" parent="MainContainer/FilterPanel/FilterContainer/CategoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+
+[node name="CategoryLabel" type="Label" parent="MainContainer/FilterPanel/FilterContainer/CategoryPanel/CategoryContainer"]
+layout_mode = 2
+text = "分类:"
+
+[node name="CategoryOptionButton" type="OptionButton" parent="MainContainer/FilterPanel/FilterContainer/CategoryPanel/CategoryContainer"]
+layout_mode = 2
+
+[node name="SortPanel" type="Panel" parent="MainContainer/FilterPanel/FilterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+
+[node name="SortContainer" type="VBoxContainer" parent="MainContainer/FilterPanel/FilterContainer/SortPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+
+[node name="SortLabel" type="Label" parent="MainContainer/FilterPanel/FilterContainer/SortPanel/SortContainer"]
+layout_mode = 2
+text = "排序:"
+
+[node name="SortOptionButton" type="OptionButton" parent="MainContainer/FilterPanel/FilterContainer/SortPanel/SortContainer"]
+layout_mode = 2
+
+[node name="StatusFilterPanel" type="Panel" parent="MainContainer/FilterPanel/FilterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusFilterContainer" type="VBoxContainer" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+
+[node name="StatusLabel" type="Label" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel/StatusFilterContainer"]
+layout_mode = 2
+text = "状态过滤:"
+
+[node name="StatusHBox" type="HBoxContainer" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel/StatusFilterContainer"]
+layout_mode = 2
+
+[node name="CompletedFilterCheckBox" type="CheckBox" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel/StatusFilterContainer/StatusHBox"]
+layout_mode = 2
+button_pressed = true
+text = "已完成"
+
+[node name="UnlockedFilterCheckBox" type="CheckBox" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel/StatusFilterContainer/StatusHBox"]
+layout_mode = 2
+button_pressed = true
+text = "已解锁"
+
+[node name="LockedFilterCheckBox" type="CheckBox" parent="MainContainer/FilterPanel/FilterContainer/StatusFilterPanel/StatusFilterContainer/StatusHBox"]
+layout_mode = 2
+button_pressed = true
+text = "已锁定"
+
+[node name="ContentContainer" type="HSplitContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 600
+
+[node name="AchievementListPanel" type="Panel" parent="MainContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AchievementListContainer" type="VBoxContainer" parent="MainContainer/ContentContainer/AchievementListPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="ListTitleLabel" type="Label" parent="MainContainer/ContentContainer/AchievementListPanel/AchievementListContainer"]
+layout_mode = 2
+text = "成就列表"
+horizontal_alignment = 1
+
+[node name="AchievementScrollContainer" type="ScrollContainer" parent="MainContainer/ContentContainer/AchievementListPanel/AchievementListContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AchievementListContainer" type="VBoxContainer" parent="MainContainer/ContentContainer/AchievementListPanel/AchievementListContainer/AchievementScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AchievementDetailPanel" type="Panel" parent="MainContainer/ContentContainer"]
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(400, 0)
+
+[node name="DetailContainer" type="VBoxContainer" parent="MainContainer/ContentContainer/AchievementDetailPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="DetailTitleLabel" type="Label" parent="MainContainer/ContentContainer/AchievementDetailPanel/DetailContainer"]
+layout_mode = 2
+text = "成就详情"
+horizontal_alignment = 1
+
+[node name="DetailScrollContainer" type="ScrollContainer" parent="MainContainer/ContentContainer/AchievementDetailPanel/DetailContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DetailContentContainer" type="VBoxContainer" parent="MainContainer/ContentContainer/AchievementDetailPanel/DetailContainer/DetailScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

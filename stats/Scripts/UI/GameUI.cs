@@ -1,6 +1,7 @@
 using Godot;
 using CodeRogue.Core;
 using CodeRogue.Player;
+using CodeRogue.Utils;
 using System;
 
 namespace CodeRogue.UI
@@ -50,7 +51,7 @@ namespace CodeRogue.UI
 
 		private void OnDeckButtonPressed()
 	{
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		deckManager?.OpenDeckUI();
 	}
 
@@ -101,10 +102,10 @@ namespace CodeRogue.UI
 		}
 		
 		private void OnPauseButtonPressed()
-		{
-			var gameManager = GetNode<GameManager>("/root/GameManager");
+	{
+		var gameManager = NodeUtils.GetGameManager(this);
 		gameManager?.PauseGame();
-		}
+	}
 		
 		public override void _Input(InputEvent @event)
 		{

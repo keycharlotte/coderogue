@@ -1,158 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeRogue Project - Statistics Dashboard</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .container {
-            max-width: 800px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
-            text-align: center;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 40px;
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
-        
-        .header p {
-            margin: 15px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.2em;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .nav-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .nav-link {
-            display: block;
-            padding: 20px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #495057;
-            transition: all 0.3s;
-        }
-        
-        .nav-link:hover {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-            transform: translateY(-2px);
-        }
-        
-        .nav-link h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.3em;
-        }
-        
-        .nav-link p {
-            margin: 0;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        
-        .status {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🎮 CodeRogue Project</h1>
-            <p>Statistics Dashboard & Project Analytics</p>
-        </div>
-        
-        <div class="content">
-            <div class="status">
-                ✅ GitHub Pages is now active! Last updated: <span id="lastUpdate"></span>
-            </div>
-            
-            <h2>📊 Available Resources</h2>
-            <p>Explore the project statistics and development trends through our interactive dashboard.</p>
-            
-            <div class="nav-links">
-                <a href="stats_visualization.html" class="nav-link">
-                    <h3>📈 Statistics Visualization</h3>
-                    <p>Interactive charts showing project development trends over time</p>
-                </a>
-                
-                <a href="navigation.html" class="nav-link">
-                    <h3>🧭 Navigation Hub</h3>
-                    <p>Complete navigation to all project resources and documentation</p>
-                </a>
-                
-                <a href="VISUALIZATION_GUIDE.md" class="nav-link">
-                    <h3>📖 Usage Guide</h3>
-                    <p>Learn how to use the visualization tools and interpret the data</p>
-                </a>
-                
-                <a href="historical_stats.json" class="nav-link">
-                    <h3>📋 Raw Data</h3>
-                    <p>Access the raw historical statistics data in JSON format</p>
-                </a>
-            </div>
-            
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d;">
-                <p><strong>Repository:</strong> <a href="https://github.com/keycharlotte/coderogue" target="_blank">keycharlotte/coderogue</a></p>
-                <p><strong>GitHub Pages URL:</strong> <a href="https://keycharlotte.github.io/coderogue/" target="_blank">https://keycharlotte.github.io/coderogue/</a></p>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Set last update time
-        document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
-        
-        // Test if we can access the stats file
-        fetch('historical_stats.json')
-            .then(response => {
-                if (response.ok) {
-                    console.log('✅ Historical stats file is accessible');
-                } else {
-                    console.log('⚠️ Historical stats file not found');
-                }
-            })
-            .catch(error => {
-                console.log('⚠️ Error accessing historical stats:', error);
-            });
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My React App</title>
+    <script type="module">
+      if (import.meta.hot?.on) {
+        import.meta.hot.on('vite:error', (error) => {
+          if (error.err) {
+            console.error([error.err.message, error.err.frame].filter(Boolean).join('\n'));
+          }
+        });
+      }
     </script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

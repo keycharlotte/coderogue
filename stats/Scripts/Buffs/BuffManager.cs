@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 using CodeRogue.Buffs;
+using CodeRogue.Utils;
 
 [GlobalClass]
 public partial class BuffManager : Node
@@ -22,7 +23,7 @@ public partial class BuffManager : Node
 	
 	private void InitializeSystem()
 	{
-		_database = GetNode<BuffDatabase>("/root/BuffDatabase");
+		_database = NodeUtils.GetBuffDatabase(this);
 		if (_database == null)
 		{
 			GD.PrintErr("BuffDatabase autoload not found!");

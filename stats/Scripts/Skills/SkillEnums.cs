@@ -28,6 +28,20 @@ public enum SkillEffectType
 }
 
 /// <summary>
+/// 技能目标类型
+/// </summary>
+public enum SkillTargetType
+{
+    Self,           // 自己
+    Player,         // 玩家
+    Enemy,          // 敌人
+    AllEnemies,     // 所有敌人
+    Ally,           // 盟友
+    AllAllies,      // 所有盟友
+    All             // 所有目标
+}
+
+/// <summary>
 /// 临时轨道销毁条件
 /// </summary>
 public enum TemporaryTrackDestroyCondition

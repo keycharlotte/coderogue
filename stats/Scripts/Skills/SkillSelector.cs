@@ -1,7 +1,9 @@
 using Godot;
 using Godot.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeRogue.Utils;
 using Random = System.Random;
 
 [GlobalClass]
@@ -23,7 +25,7 @@ public partial class SkillSelector : Node
 	public override void _Ready()
 	{
 		_instance = this;
-		_database = GetNode<CardDatabase>("/root/CardDatabase");
+		_database = NodeUtils.GetCardDatabase(this);
 		if (_database == null)
 		{
 			GD.PrintErr("CardDatabase autoload not found!");
@@ -54,7 +56,7 @@ public partial class SkillSelector : Node
 	private List<SkillCard> GenerateSkillOptions(int playerLevel)
 	{
 		var options = new List<SkillCard>();
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		var currentDeck = deckManager?.GetCurrentDeck();
 		var ownedSkills = currentDeck?.Cards?.OfType<SkillCard>().ToList() ?? new List<SkillCard>();
 		
@@ -153,7 +155,7 @@ public partial class SkillSelector : Node
 	
 	private void AdjustWeightsByBuildTendency(Godot.Collections.Dictionary<CardRarity, float> weights)
 	{
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck?.Cards == null) return;
 		
@@ -172,7 +174,7 @@ public partial class SkillSelector : Node
 	
 	public void SelectSkill(SkillCard selectedSkill)
 	{
-		var deckManager = GetNode<DeckManager>("/root/DeckManager");
+		var deckManager = NodeUtils.GetDeckManager(this);
 		var currentDeck = deckManager?.GetCurrentDeck();
 		if (currentDeck == null) return;
 		
@@ -192,8 +194,8 @@ public partial class SkillSelector : Node
 		}
 		
 		// 更新技能轨道
-		var skillTrackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
-			skillTrackManager?.SetDeck(currentDeck);
+		var skillTrackManager = NodeUtils.GetSkillTrackManager(this);
+		skillTrackManager?.SetDeck(currentDeck);
 	}
 }
 

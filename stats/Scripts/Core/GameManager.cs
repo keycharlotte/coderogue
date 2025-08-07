@@ -97,8 +97,8 @@ namespace CodeRogue.Core
 		/// </summary>
 		private void ActivateLevelManager()
 		{
-			// 通过AutoLoad路径获取LevelManager实例
-			_levelManager = GetNode<LevelManager>("/root/LevelManager");
+			// 通过NodeUtils获取LevelManager实例
+			_levelManager = NodeUtils.GetLevelManager(this);
 			
 			if (_levelManager != null)
 			{

@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://d9x3m5y0n8k7q"]
+
+[ext_resource type="Script" path="res://Scripts/Rebirth/RebirthManager.cs" id="1_6k0vx"]
+[ext_resource type="Script" path="res://Scripts/Rebirth/NoveltyCalculator.cs" id="2_7m1zy"]
+[ext_resource type="Script" path="res://Scripts/Rebirth/CurrencyConverter.cs" id="3_8n2ab"]
+[ext_resource type="Script" path="res://Scripts/Rebirth/RebirthShopManager.cs" id="4_9o3bc"]
+[ext_resource type="PackedScene" uid="uid://bvxqm8y7n5k2p" path="res://Scenes/UI/RebirthShop.tscn" id="5_0p4cd"]
+
+[node name="RebirthSystem" type="Node"]
+script = ExtResource("1_6k0vx")
+
+[node name="NoveltyCalculator" type="Node" parent="."]
+script = ExtResource("2_7m1zy")
+
+[node name="CurrencyConverter" type="Node" parent="."]
+script = ExtResource("3_8n2ab")
+
+[node name="RebirthShopManager" type="Node" parent="."]
+script = ExtResource("4_9o3bc")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="RebirthShop" parent="UI" instance=ExtResource("5_0p4cd")]
+visible = false

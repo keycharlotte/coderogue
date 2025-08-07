@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using CodeRogue.Data;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Core
 {
@@ -25,9 +26,9 @@ namespace CodeRogue.Core
         public override void _Ready()
         {
             // 获取依赖的组件
-            _saveManager = GetNode<SaveManager>("/root/SaveManager");
-            _config = GetNode<SaveSystemConfig>("/root/SaveSystemConfig");
-            _events = GetNode<SaveSystemEvents>("/root/SaveSystemEvents");
+            _saveManager = NodeUtils.GetSaveManager(this);
+            _config = NodeUtils.GetSaveSystemConfig(this);
+            _events = NodeUtils.GetSaveSystemEvents(this);
             
             if (_saveManager == null || _config == null || _events == null)
             {

@@ -1,0 +1,223 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvxqm8y7n5k2p"]
+
+[ext_resource type="Script" path="res://Scripts/Rebirth/UI/RebirthShopUI.cs" id="1_0k8vx"]
+[ext_resource type="Theme" uid="uid://bqxm7y8n6l3r" path="res://Themes/DefaultTheme.tres" id="2_1m9zy"]
+[ext_resource type="PackedScene" uid="uid://c4x9m2y7n8k5q" path="res://Scenes/UI/Components/ShopItemCard.tscn" id="3_2n0ab"]
+
+[node name="RebirthShop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2_1m9zy")
+script = ExtResource("1_0k8vx")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 0.95)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = -50.0
+
+[node name="Header" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="MainContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "地府投胎商店"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="MainContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "关闭"
+
+[node name="PlayerInfo" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CurrencyContainer" type="HBoxContainer" parent="MainContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CurrencyIcon" type="TextureRect" parent="MainContainer/PlayerInfo/CurrencyContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+custom_minimum_size = Vector2(32, 32)
+stretch_mode = 5
+
+[node name="CurrencyLabel" type="Label" parent="MainContainer/PlayerInfo/CurrencyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "投胎币: 0"
+vertical_alignment = 1
+
+[node name="PlayerLevel" type="Label" parent="MainContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 18
+text = "等级: 1"
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="全部" type="ScrollContainer" parent="MainContainer/TabContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="AllItemsGrid" type="GridContainer" parent="MainContainer/TabContainer/全部"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="永久升级" type="ScrollContainer" parent="MainContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="UpgradesGrid" type="GridContainer" parent="MainContainer/TabContainer/永久升级"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="解锁内容" type="ScrollContainer" parent="MainContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="UnlocksGrid" type="GridContainer" parent="MainContainer/TabContainer/解锁内容"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="临时增益" type="ScrollContainer" parent="MainContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="BoostsGrid" type="GridContainer" parent="MainContainer/TabContainer/临时增益"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="特殊商品" type="ScrollContainer" parent="MainContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SpecialGrid" type="GridContainer" parent="MainContainer/TabContainer/特殊商品"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="BottomPanel" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="RefreshButton" type="Button" parent="MainContainer/BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "刷新商店"
+
+[node name="Spacer" type="Control" parent="MainContainer/BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatisticsButton" type="Button" parent="MainContainer/BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "统计信息"
+
+[node name="PurchaseDialog" type="AcceptDialog" parent="."]
+size = Vector2i(400, 300)
+title = "确认购买"
+
+[node name="PurchaseContent" type="VBoxContainer" parent="PurchaseDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 249.0
+
+[node name="ItemIcon" type="TextureRect" parent="PurchaseDialog/PurchaseContent"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(64, 64)
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="PurchaseDialog/PurchaseContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "商品名称"
+horizontal_alignment = 1
+
+[node name="ItemDescription" type="Label" parent="PurchaseDialog/PurchaseContent"]
+layout_mode = 2
+text = "商品描述"
+autowrap_mode = 3
+
+[node name="PriceInfo" type="HBoxContainer" parent="PurchaseDialog/PurchaseContent"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PriceLabel" type="Label" parent="PurchaseDialog/PurchaseContent/PriceInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "价格: 0"
+
+[node name="CurrencyAfter" type="Label" parent="PurchaseDialog/PurchaseContent/PriceInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "剩余: 0"
+
+[node name="ConfirmButton" type="Button" parent="PurchaseDialog/PurchaseContent"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "确认购买"
+
+[node name="StatisticsDialog" type="AcceptDialog" parent="."]
+size = Vector2i(500, 400)
+title = "统计信息"
+
+[node name="StatisticsContent" type="VBoxContainer" parent="StatisticsDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 492.0
+offset_bottom = 349.0
+
+[node name="StatisticsLabel" type="RichTextLabel" parent="StatisticsDialog/StatisticsContent"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][b]玩家统计[/b][/center]\n\n[b]基础信息[/b]\n等级: 1\n经验值: 0\n\n[b]游戏统计[/b]\n总游戏次数: 0\n胜利次数: 0\n胜率: 0%\n\n[b]货币统计[/b]\n总获得: 0\n总花费: 0\n当前拥有: 0"
+
+[connection signal="pressed" from="MainContainer/Header/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="MainContainer/BottomPanel/RefreshButton" to="." method="_on_refresh_button_pressed"]
+[connection signal="pressed" from="MainContainer/BottomPanel/StatisticsButton" to="." method="_on_statistics_button_pressed"]
+[connection signal="pressed" from="PurchaseDialog/PurchaseContent/ConfirmButton" to="." method="_on_confirm_purchase_pressed"]

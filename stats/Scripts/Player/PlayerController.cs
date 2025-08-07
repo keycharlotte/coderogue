@@ -2,6 +2,7 @@ using Godot;
 using CodeRogue.Core;
 using CodeRogue.Data;
 using CodeRogue.Components;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Player
 {
@@ -169,8 +170,8 @@ namespace CodeRogue.Player
         {
             _model.IsAlive = false;
             EmitSignal(SignalName.PlayerDied);
-            var gameManager = GetNode<GameManager>("/root/GameManager");
-        gameManager?.GameOver();
+            var gameManager = NodeUtils.GetGameManager(this);
+		gameManager?.GameOver();
             
             // 播放死亡动画
             // if (_animatedSprite != null)

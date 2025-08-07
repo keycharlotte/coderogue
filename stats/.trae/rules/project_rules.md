@@ -1,5 +1,42 @@
 # CodeRogue 项目开发规则
 
+## 0. Godot优先开发理念
+
+### 0.1 核心原则
+- **Godot引擎规则优先**：在Godot中开发C#代码时，必须始终以Godot引擎的规则为准，而不是按照传统的C#/.NET开发方式来思考
+- **引擎适配原则**：所有代码设计和实现都应该优先考虑与Godot引擎的兼容性和最佳实践
+- **避免传统思维**：摒弃纯C#/.NET的开发习惯，拥抱Godot的开发哲学和技术栈
+
+### 0.2 类型系统优先级
+- **Variant系统兼容性**：优先考虑Godot的Variant系统兼容性，避免使用无法序列化的C#特性
+- **Godot集合类型**：强制使用`Godot.Collections`命名空间下的集合类型，而非`System.Collections`
+- **接口限制认知**：认识到Godot Variant系统对C#接口的限制，优先使用抽象基类或委托模式
+- **类型转换谨慎**：在进行类型转换时，始终考虑Godot的序列化和反序列化需求
+
+### 0.3 架构设计理念
+- **Node树优先**：架构设计遵循Godot的Node树和场景系统，而不是传统的OOP层次结构
+- **场景驱动设计**：优先使用.tscn场景文件定义结构，代码仅负责逻辑实现
+- **AutoLoad单例**：使用Godot的AutoLoad机制管理全局状态，而不是传统的单例模式
+- **信号事件系统**：优先使用Godot的信号系统进行组件间通信
+
+### 0.4 数据管理原则
+- **Godot序列化优先**：数据序列化使用Godot.Collections而非System.Collections
+- **Resource系统利用**：充分利用Godot的Resource系统进行配置和数据管理
+- **Variant兼容设计**：所有数据结构设计都应考虑Variant系统的兼容性要求
+- **JSON与Resource结合**：根据需求选择JSON或.tres格式，但都要符合Godot的加载机制
+
+### 0.5 资源管理理念
+- **AutoLoad机制**：资源管理遵循Godot的Resource和AutoLoad机制
+- **场景预配置**：优先在场景文件中预配置资源引用，减少代码中的动态创建
+- **节点生命周期**：遵循Godot的节点生命周期管理，正确使用_Ready()、_Process()等方法
+- **内存管理意识**：理解Godot的内存管理机制，避免不必要的对象创建和引用持有
+
+### 0.6 开发思维转换
+- **从C#到Godot C#**：将开发思维从"如何用C#实现"转换为"如何在Godot中用C#实现"
+- **引擎特性优先**：优先使用Godot提供的特性和工具，而不是重新发明轮子
+- **社区最佳实践**：关注Godot社区的最佳实践，而不是通用的C#开发模式
+- **性能考量**：始终考虑Godot引擎的性能特点，优化代码以适应游戏开发需求
+
 ## 1. 开发环境配置
 
 ### 1.1 基础环境
@@ -207,6 +244,114 @@
 - **常见错误修复**：将所有`Color.White`替换为`Colors.White`，`Color.Black`替换为`Colors.Black`等
 - **自定义颜色**：自定义颜色仍使用`new Color(r, g, b, a)`构造函数
 - **编译错误**：使用`Color.White`会导致"Color未包含White的定义"编译错误
+
+### 6.4 Godot Variant兼容性规则
+
+#### 6.4.1 问题根本原因
+- **Variant系统限制**：Godot的Variant系统无法直接序列化和反序列化C#接口类型
+- **泛型Dictionary序列化问题**：`Dictionary<TKey, IInterface>`在Godot中无法正确处理
+- **Export属性冲突**：带有`[Export]`标记的Dictionary如果包含接口类型，会在编辑器中报错
+- **类型转换错误**：非泛型`Godot.Collections.Dictionary`与泛型`Dictionary<string, Variant>`之间的隐式转换问题
+
+#### 6.4.2 禁止使用的模式
+- **严禁在Dictionary中使用接口类型**：
+  ```csharp
+  // 错误示例：会导致Variant兼容性错误
+  private Dictionary<NotificationType, INotificationHandler> _handlers;
+  private Dictionary<RewardType, IRewardHandler> _rewardHandlers;
+  ```
+- **避免非泛型Dictionary赋值**：
+  ```csharp
+  // 错误示例：类型转换错误
+  Dictionary<string, Variant> data = someVariant.AsGodotDictionary();
+  ```
+
+#### 6.4.3 推荐解决方案
+
+##### 方案1：抽象基类替代接口（推荐）
+```csharp
+// 正确示例：使用抽象基类
+public abstract partial class NotificationHandlerBase : RefCounted
+{
+    public abstract void ConfigureNotificationUI(Control notificationUI, AchievementNotification notification);
+}
+
+// 具体实现
+public partial class AchievementCompletedHandler : NotificationHandlerBase
+{
+    public override void ConfigureNotificationUI(Control notificationUI, AchievementNotification notification)
+    {
+        // 实现逻辑
+    }
+}
+
+// 使用抽象基类的Dictionary
+private Dictionary<NotificationType, NotificationHandlerBase> _notificationHandlers;
+```
+
+##### 方案2：工厂模式 + 枚举映射
+```csharp
+public static class NotificationHandlerFactory
+{
+    public static NotificationHandlerBase CreateHandler(NotificationType type)
+    {
+        return type switch
+        {
+            NotificationType.AchievementCompleted => new AchievementCompletedHandler(),
+            NotificationType.AchievementUnlocked => new AchievementUnlockedHandler(),
+            _ => throw new ArgumentException($"未支持的通知类型: {type}")
+        };
+    }
+}
+```
+
+##### 方案3：委托模式（轻量级解决方案）
+```csharp
+// 使用委托替代接口
+public delegate void NotificationConfigureDelegate(Control notificationUI, AchievementNotification notification);
+public delegate RewardResult RewardGrantDelegate(string achievementId, RewardConfig reward);
+
+// Dictionary使用委托
+private Dictionary<NotificationType, NotificationConfigureDelegate> _notificationConfigurers;
+private Dictionary<RewardType, RewardGrantDelegate> _rewardGranters;
+```
+
+#### 6.4.4 类型转换最佳实践
+- **显式类型转换**：当需要将非泛型Dictionary转换为泛型Dictionary时，使用显式转换
+  ```csharp
+  // 正确示例：显式转换
+  var rawDict = data["parameters"].AsGodotDictionary();
+  var typedDict = new Dictionary<string, Variant>();
+  foreach (var kvp in rawDict)
+  {
+      typedDict[kvp.Key.AsString()] = kvp.Value;
+  }
+  ```
+- **空值检查**：始终对Variant转换结果进行空值检查
+  ```csharp
+  // 正确示例：空值检查
+  var statusVariant = progressData["status"];
+  if (statusVariant.VariantType != Variant.Type.Nil)
+  {
+      var statusString = statusVariant.AsString();
+      if (!string.IsNullOrEmpty(statusString))
+      {
+          Enum.TryParse<AchievementStatus>(statusString, out var status);
+      }
+  }
+  ```
+
+#### 6.4.5 开发规避规则
+- **设计阶段规避**：在系统设计阶段就避免使用接口类型作为Dictionary的值类型
+- **代码审查要点**：重点检查Dictionary类型声明，确保不包含接口类型
+- **编译验证**：每次代码修改后必须进行编译验证，及时发现Variant兼容性问题
+- **迁移策略**：对于现有的接口Dictionary，采用渐进式迁移，优先迁移核心模块
+
+#### 6.4.6 长期维护建议
+- **架构一致性**：在整个项目中保持一致的类型设计模式
+- **文档更新**：及时更新相关文档，确保团队成员了解最新的设计规范
+- **定期检查**：定期检查代码库，确保没有新的Variant兼容性问题引入
+- **工具支持**：考虑开发自动化工具来检测和预防Variant兼容性问题
 
 ## 7. 开发流程规则
 

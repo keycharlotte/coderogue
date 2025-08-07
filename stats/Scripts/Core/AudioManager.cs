@@ -1,5 +1,6 @@
 using Godot;
 using CodeRogue.Data;
+using CodeRogue.Utils;
 
 namespace CodeRogue.Core
 {
@@ -42,7 +43,7 @@ namespace CodeRogue.Core
 
 		private void LoadAudioSettings()
 		{
-			var GameData = GetNode<GameData>("/root/GameData");
+			var GameData = NodeUtils.GetGameData(this);
 			// 从游戏数据加载音量设置
 			MasterVolume = GameData.MasterVolume;
 			MusicVolume = GameData.MusicVolume;
@@ -118,7 +119,7 @@ namespace CodeRogue.Core
 
 		private void SaveAudioSettings()
 		{
-			var GameData = GetNode<GameData>("/root/GameData");
+			var GameData = NodeUtils.GetGameData(this);
 
 			GameData.MasterVolume = MasterVolume;
 			GameData.MusicVolume = MusicVolume;

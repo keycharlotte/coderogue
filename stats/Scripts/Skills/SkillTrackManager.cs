@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CodeRogue.Skills;
+using CodeRogue.Data;
+using CodeRogue.Buffs;
+using CodeRogue.Utils;
+using Godot.Collections;
 
 [GlobalClass]
 public partial class SkillTrackManager : Node
@@ -11,6 +15,7 @@ public partial class SkillTrackManager : Node
 	[Signal] public delegate void SkillActivatedEventHandler(SkillCard skill, int trackIndex);
 	[Signal] public delegate void ChargeUpdatedEventHandler(int trackIndex, float currentCharge, float maxCharge);
 	[Signal] public delegate void SkillEquippedEventHandler(int trackIndex, SkillCard skill);
+	[Signal] public delegate void TrackClearedEventHandler(int trackIndex);
 	[Signal] public delegate void TemporaryTrackAddedEventHandler(int trackIndex, SkillCard skill);
 	[Signal] public delegate void TemporaryTrackRemovedEventHandler(int trackIndex);
 
@@ -21,10 +26,11 @@ public partial class SkillTrackManager : Node
 	private CardDatabase _database;
 	private List<SkillTrack> _tracks;
 	private UnifiedDeck _currentDeck;
+	private bool _isCharging = false;
 
 	public override void _Ready()
 	{
-		_database = GetNode<CardDatabase>("/root/CardDatabase");
+		_database = NodeUtils.GetCardDatabase(this);
 		if (_database == null)
 		{
 			GD.PrintErr("CardDatabase autoload not found!");
@@ -217,7 +223,12 @@ public partial class SkillTrackManager : Node
 
 	private void ExecuteHealEffect(SkillEffect effect)
 	{
-		throw new NotImplementedException();
+		// 治疗玩家
+		var player = GetTree().GetFirstNodeInGroup("player");
+		if (player != null && player.HasMethod("Heal"))
+		{
+			player.Call("Heal", effect.Value);
+		}
 	}
 
 	private void ExecuteTemporaryTrackEffect(SkillEffect effect)
@@ -234,12 +245,39 @@ public partial class SkillTrackManager : Node
 
 		private void ExecuteShieldEffect(SkillEffect effect)
 		{
-			throw new NotImplementedException();
+			// 为玩家添加护盾
+			var player = GetTree().GetFirstNodeInGroup("player");
+			if (player != null && player.HasMethod("AddShield"))
+			{
+				player.Call("AddShield", effect.Value, effect.Duration);
+			}
 		}
 
 		private void ExecuteBuffEffect(SkillEffect effect)
 		{
-			throw new NotImplementedException();
+			// 应用Buff效果
+			var buffManager = NodeUtils.GetBuffManager(this);
+			if (buffManager != null)
+			{
+				// 根据效果目标应用Buff
+				switch (effect.TargetType)
+				{
+					case SkillTargetType.Player:
+						var player = GetTree().GetFirstNodeInGroup("player");
+						if (player != null)
+						{
+							buffManager.ApplyBuff(effect.BuffId, player);
+						}
+						break;
+					case SkillTargetType.AllEnemies:
+						var enemies = GetTree().GetNodesInGroup("enemies");
+						foreach (Node enemy in enemies)
+						{
+							buffManager.ApplyBuff(effect.BuffId, enemy);
+						}
+						break;
+				}
+			}
 		}
 
 		private void ExecuteDamageEffect(SkillEffect effect)
@@ -296,24 +334,81 @@ public partial class SkillTrackManager : Node
 		public SkillTrack GetTrack(int index) => index >= 0 && index < _tracks.Count ? _tracks[index] : null;
 
 		internal void TryActivateSkill()
+	{
+		// 尝试激活当前充能完成的技能
+		for (int i = 0; i < _tracks.Count; i++)
 		{
-			throw new NotImplementedException();
+			var track = _tracks[i];
+			if (track.State == TrackState.Ready && track.EquippedSkill != null)
+			{
+				// 执行技能效果
+				ExecuteSkillEffect(track.EquippedSkill);
+				
+				// 重置轨道状态
+				track.CurrentCharge = 0f;
+				track.State = TrackState.Charging;
+				
+				// 发送信号
+				EmitSignal(SignalName.SkillActivated, i, track.EquippedSkill);
+				
+				// 自动装备下一个技能
+				AutoEquipNextSkill(i);
+				break;
+			}
 		}
+	}
 
 		internal bool CanActivateAnySkill()
+	{
+		// 检查是否有任何技能可以激活
+		for (int i = 0; i < _tracks.Count; i++)
 		{
-			throw new NotImplementedException();
+			var track = _tracks[i];
+			if (track.State == TrackState.Ready && track.EquippedSkill != null)
+			{
+				return true;
+			}
 		}
+		return false;
+	}
 
-		internal void ClearTrack(int i)
-		{
-			throw new NotImplementedException();
-		}
+		internal void ClearTrack(int trackIndex)
+	{
+		// 清空指定轨道
+		if (trackIndex < 0 || trackIndex >= _tracks.Count) return;
+		
+		var track = _tracks[trackIndex];
+		track.EquippedSkill = null;
+		track.CurrentCharge = 0f;
+		track.State = TrackState.Empty;
+		
+		// 发送信号
+		EmitSignal(SignalName.TrackCleared, trackIndex);
+	}
 
 		internal void StartCharging()
+	{
+		// 开始所有轨道的充能过程
+		_isCharging = true;
+		
+		for (int i = 0; i < _tracks.Count; i++)
 		{
-			throw new NotImplementedException();
+			var track = _tracks[i];
+			if (track.State == TrackState.Empty && track.EquippedSkill == null)
+			{
+				// 自动装备技能
+				AutoEquipNextSkill(i);
+			}
+			
+			if (track.State == TrackState.Charging)
+			{
+				// 开始充能
+				track.State = TrackState.Charging;
+			}
 		}
+		
+		GD.Print("技能轨道系统开始充能");
+	}
 
 		// 临时轨道底层支持方法
 		public int AddTemporaryTrack(SkillCard skill, TemporaryTrackDestroyCondition destroyCondition, float duration = 0f, string createdByBuffId = "")

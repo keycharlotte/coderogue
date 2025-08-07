@@ -64,8 +64,8 @@ namespace CodeRogue.UI
         
         private void OnResumeButtonPressed()
         {
-            var gameManager = GetNode<GameManager>("/root/GameManager");
-        gameManager?.ResumeGame();
+            var gameManager = NodeUtils.GetGameManager(this);
+            gameManager?.ResumeGame();
         }
         
         private void OnSettingsButtonPressed()
@@ -76,14 +76,14 @@ namespace CodeRogue.UI
         
         private void OnMainMenuButtonPressed()
         {
-            var gameManager = GetNode<GameManager>("/root/GameManager");
-        gameManager?.ReturnToMenu();
+            var gameManager = NodeUtils.GetGameManager(this);
+            gameManager?.ReturnToMenu();
         }
         
         private void OnQuitButtonPressed()
         {
-            var gameManager = GetNode<GameManager>("/root/GameManager");
-        gameManager?.QuitGame();
+            var gameManager = NodeUtils.GetGameManager(this);
+            gameManager?.QuitGame();
         }
         
         public override void _Input(InputEvent @event)

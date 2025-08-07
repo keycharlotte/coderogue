@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using CodeRogue.Skills;
+using CodeRogue.Utils;
 
 namespace CodeRogue.UI
 {
@@ -29,7 +30,7 @@ namespace CodeRogue.UI
 		private void InitializeUI()
 		{
 			_trackSlots = new List<TrackSlotUI>();
-			_trackManager = GetNode<SkillTrackManager>("/root/SkillTrackManager");
+			_trackManager = NodeUtils.GetSkillTrackManager(this);
 			
 			if (_trackManager == null)
 			{
@@ -38,7 +39,7 @@ namespace CodeRogue.UI
 			}
 			
 			// 尝试连接到DeckManager以监听卡组变化
-			var deckManager = GetNode<DeckManager>("/root/DeckManager");
+			var deckManager = NodeUtils.GetDeckManager(this);
 			if (deckManager != null)
 			{
 				// 如果DeckManager有卡组变化信号，可以在这里连接
